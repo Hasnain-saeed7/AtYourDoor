@@ -1,0 +1,119 @@
+generator client {
+  provider = "prisma-client-js"
+}
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+enum Role {
+  CUSTOMER
+  WORKER
+  ADMIN
+}
+
+enum BookingStatus {
+  PENDING
+  ACCEPTED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum VerificationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  password      String
+  phone         String?
+  role          Role      @default(CUSTOMER)
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  worker        Worker?
+  bookings      Booking[] @relation("CustomerBookings")
+  reviews       Review[]  @relation("CustomerReviews")
+}
+
+model Category {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  icon        String
+  description String
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+
+  workers     Worker[]
+  bookings    Booking[]
+}
+
+model Worker {
+  id                 String             @id @default(cuid())
+  userId             String             @unique
+  categoryId         String
+  bio                String?
+  experience         String?
+  cnicNumber         String             @unique
+  cnicImage          String?
+  skillProof         String?
+  profileImage       String?
+  city               String
+  area               String
+  latitude           Float?
+  longitude          Float?
+  hourlyRate         Float
+  isAvailable        Boolean            @default(true)
+  verificationStatus VerificationStatus @default(PENDING)
+  averageRating      Float              @default(0)
+  totalJobs          Int                @default(0)
+  totalEarnings      Float              @default(0)
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+
+  user      User      @relation(fields: [userId], references: [id])
+  category  Category  @relation(fields: [categoryId], references: [id])
+  bookings  Booking[]
+  reviews   Review[]
+}
+
+model Booking {
+  id           String        @id @default(cuid())
+  customerId   String
+  workerId     String
+  categoryId   String
+  description  String
+  address      String
+  city         String
+  scheduledAt  DateTime
+  status       BookingStatus @default(PENDING)
+  totalAmount  Float?
+  isPaid       Boolean       @default(false)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  customer  User     @relation("CustomerBookings", fields: [customerId], references: [id])
+  worker    Worker   @relation(fields: [workerId], references: [id])
+  category  Category @relation(fields: [categoryId], references: [id])
+  review    Review?
+}
+
+model Review {
+  id         String   @id @default(cuid())
+  bookingId  String   @unique
+  customerId String
+  workerId   String
+  rating     Int
+  comment    String?
+  createdAt  DateTime @default(now())
+
+  booking   Booking @relation(fields: [bookingId], references: [id])
+  customer  User    @relation("CustomerReviews", fields: [customerId], references: [id])
+  worker    Worker  @relation(fields: [workerId], references: [id])
+}
