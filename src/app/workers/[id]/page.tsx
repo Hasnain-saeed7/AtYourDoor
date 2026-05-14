@@ -12,6 +12,7 @@ export default async function WorkerProfilePage({
 }) {
   const resolvedParams = await params
   const session = await getServerSession(authOptions)
+  const bookingPath = `/workers/${resolvedParams.id}`
   const worker = await prisma.worker.findUnique({
     where: { id: resolvedParams.id },
     include: {
@@ -39,11 +40,11 @@ export default async function WorkerProfilePage({
             </div>
             <span className="text-gray-900 font-bold text-xl">TrustHire</span>
           </Link>
-          <Link href="/browse" className="text-gray-500 hover:text-gray-900 text-sm font-medium flex items-center gap-1">
+          <Link href="/workers" className="text-gray-500 hover:text-gray-900 text-sm font-medium flex items-center gap-1">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
-            Back to Browse
+            Back to Workers
           </Link>
         </div>
       </nav>
@@ -195,7 +196,7 @@ export default async function WorkerProfilePage({
                   {!session ? (
                     <div className="text-center py-4">
                       <p className="text-gray-500 text-sm mb-4">Sign in to book this worker</p>
-                      <Link href="/login" className="w-full inline-block bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-xl transition-all text-center">
+                      <Link href={`/login?callbackUrl=${encodeURIComponent(bookingPath)}`} className="w-full inline-block bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-xl transition-all text-center">
                         Sign In to Book
                       </Link>
                     </div>

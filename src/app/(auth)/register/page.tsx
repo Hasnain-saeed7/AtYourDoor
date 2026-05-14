@@ -1,11 +1,13 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 
 export default function RegisterPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const callbackUrl = searchParams.get('callbackUrl') || ''
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -34,7 +36,8 @@ export default function RegisterPage() {
       return
     }
 
-    router.push('/login')
+    const loginUrl = callbackUrl ? `/login?callbackUrl=${encodeURIComponent(callbackUrl)}` : '/login'
+    router.push(loginUrl)
   }
 
   return (

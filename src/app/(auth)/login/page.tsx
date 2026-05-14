@@ -2,11 +2,13 @@
 
 import { useState } from 'react'
 import { signIn } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 
 export default function LoginPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const callbackUrl = searchParams.get('callbackUrl') || '/'
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -23,6 +25,7 @@ export default function LoginPage() {
       email,
       password,
       redirect: false,
+      callbackUrl,
     })
 
     if (result?.error) {
@@ -31,7 +34,8 @@ export default function LoginPage() {
       return
     }
 
-    router.push('/dashboard')
+    const redirectTo = result?.url || callbackUrl
+    router.push(redirectTo)
     router.refresh()
   }
 

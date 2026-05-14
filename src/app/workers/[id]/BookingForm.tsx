@@ -46,7 +46,7 @@ export default function BookingForm({
     }
 
     setSuccess(true)
-    setTimeout(() => router.push('/dashboard'), 2000)
+    setTimeout(() => router.push('/workers'), 2000)
   }
 
   if (success) {
@@ -58,7 +58,7 @@ export default function BookingForm({
           </svg>
         </div>
         <h3 className="font-bold text-gray-900 mb-1">Booking Confirmed!</h3>
-        <p className="text-gray-500 text-sm">Redirecting to your dashboard...</p>
+        <p className="text-gray-500 text-sm">Redirecting to workers...</p>
       </div>
     )
   }

@@ -19,7 +19,7 @@ export default async function AdminDashboardPage(props: any) {
     where: { email: session.user.email! },
   })
 
-  if (!user || user.role !== 'ADMIN') redirect('/dashboard')
+  if (!user || user.role !== 'ADMIN') redirect('/login')
 
   const [
     totalUsers,
@@ -56,7 +56,7 @@ export default async function AdminDashboardPage(props: any) {
         verificationStatus: { not: 'REJECTED' },
         ...(q ? { user: { name: { contains: q, mode: 'insensitive' } } } : {})
       },
-      include: { user: { select: { name: true, email: true, image: true } }, category: true },
+      include: { user: { select: { name: true, email: true, image: true, phone: true } }, category: true },
       orderBy: { createdAt: 'desc' },
     }),
     prisma.user.findMany({
@@ -135,7 +135,7 @@ export default async function AdminDashboardPage(props: any) {
             { label: 'Pending Verifications', value: pendingWorkers.length.toLocaleString(), badge: pendingWorkers.length.toLocaleString(), icon: <Search className="w-6 h-6" />, color: 'from-rose-500 to-rose-600', light: 'bg-rose-50 text-rose-700', link: '?view=verifications' },
           ].map((stat) => (
             <Link key={stat.label} href={stat.link} className="bg-white rounded-[28px] border border-gray-100 p-5 shadow-sm overflow-hidden relative block hover:border-gray-300 transition-colors">
-              <div className={`absolute top-0 right-0 w-24 h-24 bg-gradient-to-br ${stat.color} opacity-10 rounded-full translate-x-8 -translate-y-8`} />
+              <div className={`absolute top-0 right-0 w-24 h-24 bg-linear-to-br ${stat.color} opacity-10 rounded-full translate-x-8 -translate-y-8`} />
               <div className="flex items-center justify-between mb-4">
                 <div className={`w-11 h-11 rounded-2xl flex items-center justify-center ${stat.light}`}>
                   {stat.icon}
@@ -185,10 +185,10 @@ export default async function AdminDashboardPage(props: any) {
                           <img 
                             src={worker.profileImage} 
                             alt={worker.user.name} 
-                            className="w-12 h-12 rounded-xl object-cover flex-shrink-0 shadow-md border border-gray-100" 
+                            className="w-12 h-12 rounded-xl object-cover shrink-0 shadow-md border border-gray-100" 
                           />
                         ) : (
-                          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center flex-shrink-0 shadow-md shadow-purple-100">
+                          <div className="w-12 h-12 rounded-xl bg-linear-to-br from-purple-400 to-purple-600 flex items-center justify-center shrink-0 shadow-md shadow-purple-100">
                             <span className="text-white font-black text-lg">
                               {worker.user.name.charAt(0).toUpperCase()}
                             </span>
@@ -270,9 +270,9 @@ export default async function AdminDashboardPage(props: any) {
                         <td className="px-6 py-4">
                           <div className="flex items-center gap-3">
                             {booking.customer.image ? (
-                              <img src={booking.customer.image} alt={booking.customer.name} className="w-8 h-8 rounded-full flex-shrink-0 object-cover border border-gray-100" />
+                              <img src={booking.customer.image} alt={booking.customer.name} className="w-8 h-8 rounded-full shrink-0 object-cover border border-gray-100" />
                             ) : (
-                              <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                              <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center shrink-0">
                                 <span className="text-blue-700 font-bold text-xs">
                                   {booking.customer.name.charAt(0).toUpperCase()}
                                 </span>
@@ -284,9 +284,9 @@ export default async function AdminDashboardPage(props: any) {
                         <td className="px-6 py-4">
                           <div className="flex items-center gap-3">
                             {booking.worker.profileImage ? (
-                              <img src={booking.worker.profileImage} alt={booking.worker.user.name} className="w-8 h-8 rounded-full flex-shrink-0 object-cover border border-gray-100" />
+                              <img src={booking.worker.profileImage} alt={booking.worker.user.name} className="w-8 h-8 rounded-full shrink-0 object-cover border border-gray-100" />
                             ) : (
-                              <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                              <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center shrink-0">
                                 <span className="text-green-700 font-bold text-xs">
                                   {booking.worker.user.name.charAt(0).toUpperCase()}
                                 </span>
@@ -357,9 +357,9 @@ export default async function AdminDashboardPage(props: any) {
                   <div key={u.id} className="p-5 hover:bg-gray-50/50 transition-colors flex items-center justify-between gap-4 flex-wrap">
                     <div className="flex items-center gap-4">
                       {u.image ? (
-                        <img src={u.image} alt={u.name} className="w-12 h-12 rounded-full flex-shrink-0 object-cover border border-gray-100 shadow-sm" />
+                        <img src={u.image} alt={u.name} className="w-12 h-12 rounded-full shrink-0 object-cover border border-gray-100 shadow-sm" />
                       ) : (
-                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-sky-400 to-sky-600 flex items-center justify-center shadow-sm">
+                        <div className="w-12 h-12 rounded-full bg-linear-to-br from-sky-400 to-sky-600 flex items-center justify-center shadow-sm">
                           <span className="text-white font-bold text-lg">
                             {u.name.charAt(0).toUpperCase()}
                           </span>
@@ -410,9 +410,9 @@ export default async function AdminDashboardPage(props: any) {
                   <div key={worker.id} className="p-5 hover:bg-gray-50/50 transition-colors flex items-center justify-between gap-4 flex-wrap">
                     <div className="flex items-center gap-4">
                       {worker.profileImage ? (
-                        <img src={worker.profileImage} alt={worker.user.name} className="w-12 h-12 rounded-xl flex-shrink-0 object-cover border border-gray-100 shadow-sm" />
+                        <img src={worker.profileImage} alt={worker.user.name} className="w-12 h-12 rounded-xl shrink-0 object-cover border border-gray-100 shadow-sm" />
                       ) : (
-                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center shadow-sm">
+                        <div className="w-12 h-12 rounded-xl bg-linear-to-br from-emerald-400 to-emerald-600 flex items-center justify-center shadow-sm">
                           <span className="text-white font-bold text-lg">
                             {worker.user.name.charAt(0).toUpperCase()}
                           </span>
@@ -466,9 +466,9 @@ export default async function AdminDashboardPage(props: any) {
                   <div key={u.id} className="p-5 hover:bg-gray-50/50 transition-colors flex items-center justify-between gap-4 flex-wrap">
                     <div className="flex items-center gap-4">
                       {u.image ? (
-                        <img src={u.image} alt={u.name} className="w-12 h-12 rounded-full flex-shrink-0 object-cover border border-gray-100 shadow-sm" />
+                        <img src={u.image} alt={u.name} className="w-12 h-12 rounded-full shrink-0 object-cover border border-gray-100 shadow-sm" />
                       ) : (
-                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center shadow-sm">
+                        <div className="w-12 h-12 rounded-full bg-linear-to-br from-blue-400 to-blue-600 flex items-center justify-center shadow-sm">
                           <span className="text-white font-bold text-lg">
                             {u.name.charAt(0).toUpperCase()}
                           </span>
@@ -524,9 +524,9 @@ export default async function AdminDashboardPage(props: any) {
                   <div key={worker.id} className="p-5 hover:bg-gray-50/50 transition-colors flex items-center justify-between gap-4 flex-wrap">
                     <div className="flex items-center gap-4">
                       {worker.profileImage ? (
-                        <img src={worker.profileImage} alt={worker.user.name} className="w-12 h-12 rounded-xl flex-shrink-0 object-cover border border-gray-100 shadow-sm" />
+                        <img src={worker.profileImage} alt={worker.user.name} className="w-12 h-12 rounded-xl shrink-0 object-cover border border-gray-100 shadow-sm" />
                       ) : (
-                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center shadow-sm">
+                        <div className="w-12 h-12 rounded-xl bg-linear-to-br from-green-400 to-emerald-600 flex items-center justify-center shadow-sm">
                           <span className="text-white font-bold text-lg">
                             {worker.user.name.charAt(0).toUpperCase()}
                           </span>
@@ -544,7 +544,7 @@ export default async function AdminDashboardPage(props: any) {
                           </span>
                         </div>
                         <p className="text-gray-400 text-sm mt-0.5">
-                          {worker.category.name} · {worker.city} · {worker.user.email} {worker.user.phone ? `· ${worker.user.phone}` : ''}
+                          {worker.category.name} · {worker.city} · {worker.user.email}
                         </p>
                       </div>
                     </div>

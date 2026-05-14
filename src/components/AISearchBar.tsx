@@ -172,7 +172,7 @@ export default function AISearchBar() {
                 </div>
               </div>
               <button
-                onClick={() => router.push(`/browse?category=${result.category}`)}
+                onClick={() => router.push(`/workers?category=${result.category}`)}
                 className="bg-green-600 hover:bg-green-700 text-white text-sm font-bold px-5 py-2.5 rounded-xl transition-all hover:-translate-y-0.5 shadow-lg shadow-green-100 flex items-center gap-2 flex-shrink-0"
               >
                 See All
@@ -240,7 +240,7 @@ export default function AISearchBar() {
             <div className="p-6 text-center">
               <p className="text-gray-400 text-sm">No available workers found right now</p>
               <button
-                onClick={() => router.push(`/browse?category=${result.category}`)}
+                onClick={() => router.push(`/workers?category=${result.category}`)}
                 className="mt-3 text-green-600 font-semibold text-sm hover:underline"
               >
                 Browse all {result.category}s →

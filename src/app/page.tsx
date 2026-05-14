@@ -1,8 +1,13 @@
 import AISearchBar from '@/components/AISearchBar'
-import Link from 'next/link'   
+import Link from 'next/link'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/lib/auth'
+import SignOutButton from '@/components/signOutButton'
 
+export default async function HomePage() {
+  const session = await getServerSession(authOptions)
+  const displayName = session?.user?.name?.split(' ')[0] || 'Account'
 
-export default function HomePage() {
   return (
     <div className="min-h-screen bg-white">
 
@@ -15,18 +20,51 @@ export default function HomePage() {
             </div>
             <span className="text-gray-900 font-bold text-xl">TrustHire</span>
           </div>
-          <div className="hidden md:flex items-center gap-8">
-            <a href="#services" className="text-gray-500 hover:text-gray-900 text-sm font-medium transition-colors">Services</a>
-            <a href="#how" className="text-gray-500 hover:text-gray-900 text-sm font-medium transition-colors">How it works</a>
-            <a href="#workers" className="text-gray-500 hover:text-gray-900 text-sm font-medium transition-colors">For Workers</a>
+          <div className="hidden md:flex items-center gap-3">
+            <Link
+              href="/workers"
+              className="text-sm font-semibold px-4 py-2 rounded-full bg-emerald-600 text-white shadow-sm hover:bg-emerald-700 transition-colors"
+            >
+              Find Workers
+            </Link>
+            <a
+              href="#services"
+              className="text-sm font-semibold px-4 py-2 rounded-full bg-blue-50 text-blue-700 border border-blue-100 hover:bg-blue-100 transition-colors"
+            >
+              Services
+            </a>
+            <a
+              href="#how"
+              className="text-sm font-semibold px-4 py-2 rounded-full bg-amber-50 text-amber-700 border border-amber-100 hover:bg-amber-100 transition-colors"
+            >
+              How it works
+            </a>
+            <a
+              href="#workers"
+              className="text-sm font-semibold px-4 py-2 rounded-full bg-violet-50 text-violet-700 border border-violet-100 hover:bg-violet-100 transition-colors"
+            >
+              For Workers
+            </a>
           </div>
           <div className="flex items-center gap-3">
-            <Link href="/login" className="text-gray-600 hover:text-gray-900 text-sm font-medium px-4 py-2 transition-colors">
-              Sign in
-            </Link>
-            <Link href="/register" className="bg-green-600 hover:bg-green-700 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-all shadow-lg shadow-green-100 hover:shadow-green-200 hover:-translate-y-0.5">
-              Get Started
-            </Link>
+            {session ? (
+              <>
+                <div className="flex items-center gap-2 bg-white/80 border border-gray-200 px-4 py-2 rounded-full text-sm font-semibold text-gray-700 shadow-sm">
+                  <span className="w-2 h-2 bg-green-500 rounded-full" />
+                  {displayName}
+                </div>
+                <SignOutButton className="bg-gray-900 text-white hover:text-white hover:bg-gray-800 hover:border-transparent rounded-full px-4 py-2" />
+              </>
+            ) : (
+              <>
+                <Link href="/login" className="text-gray-600 hover:text-gray-900 text-sm font-medium px-4 py-2 transition-colors">
+                  Sign in
+                </Link>
+                <Link href="/register" className="bg-green-600 hover:bg-green-700 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-all shadow-lg shadow-green-100 hover:shadow-green-200 hover:-translate-y-0.5">
+                  Get Started
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </nav>
@@ -55,8 +93,8 @@ export default function HomePage() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 mb-16">
-              <Link href="/register" className="inline-flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold px-8 py-4 rounded-2xl transition-all shadow-xl shadow-green-200 hover:shadow-green-300 hover:-translate-y-1 text-lg">
-                Book a Worker Now
+              <Link href="/workers" className="inline-flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold px-8 py-4 rounded-2xl transition-all shadow-xl shadow-green-200 hover:shadow-green-300 hover:-translate-y-1 text-lg">
+                Find a Worker Now
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>

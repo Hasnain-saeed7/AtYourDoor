@@ -3,7 +3,7 @@ import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import SignOutButton from '@/components/SignOutButton'
+import SignOutButton from '@/components/signOutButton'
 import WorkerBookingActions from '@/components/worker/WorkerBookingActions'
 import { 
   Hourglass, XCircle, ClipboardList, CheckCircle2, Trophy, Banknote, Wrench, Target, HardHat, Clock
@@ -11,14 +11,14 @@ import {
 
 export default async function WorkerDashboardPage() {
   const session = await getServerSession(authOptions)
-  if (!session) redirect('/login')
+  if (!session) redirect('/workers/login')
 
   const user = await prisma.user.findUnique({
     where: { email: session.user.email! },
     include: { worker: { include: { category: true } } },
   })
 
-  if (!user || user.role !== 'WORKER') redirect('/dashboard')
+  if (!user || user.role !== 'WORKER') redirect('/workers/login')
 
   const worker = user.worker
   if (!worker) redirect('/workers/register')
@@ -112,7 +112,7 @@ export default async function WorkerDashboardPage() {
                 className="w-20 h-20 rounded-full object-cover border-4 border-white shadow-md relative z-10" 
               />
             ) : (
-              <div className="w-20 h-20 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center shadow-md border-4 border-white">
+              <div className="w-20 h-20 rounded-full bg-linear-to-br from-green-400 to-green-600 flex items-center justify-center shadow-md border-4 border-white">
                 <span className="text-white font-bold text-2xl">{user.name.charAt(0).toUpperCase()}</span>
               </div>
             )}
@@ -238,7 +238,7 @@ function BookingCard({ booking, showActions }: { booking: any; showActions: bool
     <div className="p-6 hover:bg-gray-50/50 transition-colors">
       <div className="flex items-start justify-between gap-4 flex-wrap">
         <div className="flex items-start gap-4">
-          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center flex-shrink-0 shadow-md shadow-blue-100">
+          <div className="w-12 h-12 rounded-xl bg-linear-to-br from-blue-400 to-blue-600 flex items-center justify-center shrink-0 shadow-md shadow-blue-100">
             <span className="text-white font-bold text-lg">
               {booking.customer.name.charAt(0).toUpperCase()}
             </span>
