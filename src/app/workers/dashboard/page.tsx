@@ -3,7 +3,7 @@ import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import SignOutButton from '@/components/signOutButton'
+import SignOutButton from '@/components/SignOutButton'
 import WorkerBookingActions from '@/components/worker/WorkerBookingActions'
 import { 
   Hourglass, XCircle, ClipboardList, CheckCircle2, Trophy, Banknote, Wrench, Target, HardHat, Clock
@@ -288,9 +288,5 @@ function BookingCard({ booking, showActions }: { booking: any; showActions: bool
     </div>
   )
 }
-
-
-
-
 
 
