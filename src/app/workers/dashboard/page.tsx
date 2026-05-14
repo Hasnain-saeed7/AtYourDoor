@@ -5,6 +5,9 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import SignOutButton from '@/components/signOutButton'
 import WorkerBookingActions from '@/components/worker/WorkerBookingActions'
+import { 
+  Hourglass, XCircle, ClipboardList, CheckCircle2, Trophy, Banknote, Wrench, Target, HardHat, Clock
+} from 'lucide-react'
 
 export default async function WorkerDashboardPage() {
   const session = await getServerSession(authOptions)
@@ -25,7 +28,7 @@ export default async function WorkerDashboardPage() {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
         <div className="bg-white rounded-2xl border border-gray-100 p-10 max-w-md w-full text-center shadow-sm">
           <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <span className="text-3xl">⏳</span>
+            <Hourglass className="w-8 h-8 text-yellow-600" />
           </div>
           <h2 className="text-xl font-bold text-gray-900 mb-2">Verification Pending</h2>
           <p className="text-gray-500 leading-relaxed">
@@ -41,7 +44,7 @@ export default async function WorkerDashboardPage() {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
         <div className="bg-white rounded-2xl border border-gray-100 p-10 max-w-md w-full text-center shadow-sm">
           <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <span className="text-3xl">❌</span>
+            <XCircle className="w-8 h-8 text-red-600" />
           </div>
           <h2 className="text-xl font-bold text-gray-900 mb-2">Application Rejected</h2>
           <p className="text-gray-500 leading-relaxed">
@@ -101,16 +104,28 @@ export default async function WorkerDashboardPage() {
 
         {/* Header */}
         <div className="flex items-start justify-between mb-8 flex-wrap gap-4">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900">
-              Welcome, {user.name.split(' ')[0]} 👷
-            </h1>
-            <p className="text-gray-500 mt-1 flex items-center gap-2">
-              <span>{worker.category.icon}</span>
-              <span>{worker.category.name}</span>
-              <span className="text-gray-300">•</span>
-              <span>{worker.city}, {worker.area}</span>
-            </p>
+          <div className="flex items-center gap-5">
+            {worker.profileImage ? (
+              <img 
+                src={worker.profileImage} 
+                alt={user.name} 
+                className="w-20 h-20 rounded-full object-cover border-4 border-white shadow-md relative z-10" 
+              />
+            ) : (
+              <div className="w-20 h-20 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center shadow-md border-4 border-white">
+                <span className="text-white font-bold text-2xl">{user.name.charAt(0).toUpperCase()}</span>
+              </div>
+            )}
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
+                Welcome, {user.name.split(' ')[0]} <HardHat className="w-8 h-8 text-yellow-500" />
+              </h1>
+              <p className="text-gray-500 mt-1 flex items-center gap-2">
+                <span>{worker.category.name}</span>
+                <span className="text-gray-300">•</span>
+                <span>{worker.city}, {worker.area}</span>
+              </p>
+            </div>
           </div>
           <div className="bg-white rounded-2xl border border-gray-100 px-5 py-3 shadow-sm">
             <p className="text-xs text-gray-400 mb-0.5">Your Rate</p>
@@ -124,15 +139,15 @@ export default async function WorkerDashboardPage() {
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
           {[
-            { label: 'Total Jobs', value: stats.total, icon: '📋', color: 'bg-blue-50 text-blue-700' },
-            { label: 'Pending', value: stats.pending, icon: '⏳', color: 'bg-yellow-50 text-yellow-700' },
-            { label: 'Accepted', value: stats.accepted, icon: '✅', color: 'bg-green-50 text-green-700' },
-            { label: 'Completed', value: stats.completed, icon: '🏆', color: 'bg-purple-50 text-purple-700' },
-            { label: 'Earnings', value: `Rs. ${stats.earnings.toLocaleString()}`, icon: '💰', color: 'bg-emerald-50 text-emerald-700' },
+            { label: 'Total Jobs', value: stats.total, icon: <ClipboardList className="w-6 h-6" />, color: 'bg-blue-50 text-blue-700' },
+            { label: 'Pending', value: stats.pending, icon: <Clock className="w-6 h-6" />, color: 'bg-yellow-50 text-yellow-700' },
+            { label: 'Accepted', value: stats.accepted, icon: <CheckCircle2 className="w-6 h-6" />, color: 'bg-green-50 text-green-700' },
+            { label: 'Completed', value: stats.completed, icon: <Trophy className="w-6 h-6" />, color: 'bg-purple-50 text-purple-700' },
+            { label: 'Earnings', value: `Rs. ${stats.earnings.toLocaleString()}`, icon: <Banknote className="w-6 h-6" />, color: 'bg-emerald-50 text-emerald-700' },
           ].map((stat) => (
             <div key={stat.label} className="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm">
               <div className="flex items-center justify-between mb-3">
-                <span className="text-2xl">{stat.icon}</span>
+                <div className={stat.color.split(' ')[1]}>{stat.icon}</div>
                 <span className={`text-xs font-semibold px-2 py-1 rounded-full ${stat.color}`}>
                   {stat.value}
                 </span>
@@ -148,7 +163,7 @@ export default async function WorkerDashboardPage() {
           <div className="bg-white rounded-2xl border border-yellow-100 overflow-hidden mb-6 shadow-sm">
             <div className="p-6 border-b border-yellow-50 bg-yellow-50/50 flex items-center gap-3">
               <div className="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center">
-                <span className="text-lg">⏳</span>
+                <Clock className="w-5 h-5 text-yellow-600" />
               </div>
               <div>
                 <h2 className="font-bold text-gray-900">New Job Requests</h2>
@@ -168,7 +183,7 @@ export default async function WorkerDashboardPage() {
           <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden mb-6 shadow-sm">
             <div className="p-6 border-b border-gray-50 flex items-center gap-3">
               <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
-                <span className="text-lg">🔧</span>
+                <Wrench className="w-5 h-5 text-purple-600" />
               </div>
               <h2 className="font-bold text-gray-900">Active Jobs</h2>
             </div>
@@ -184,13 +199,13 @@ export default async function WorkerDashboardPage() {
         <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm">
           <div className="p-6 border-b border-gray-50 flex items-center gap-3">
             <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
-              <span className="text-lg">📋</span>
+              <ClipboardList className="w-5 h-5 text-gray-600" />
             </div>
             <h2 className="font-bold text-gray-900">Job History</h2>
           </div>
           {pastBookings.length === 0 ? (
             <div className="text-center py-16">
-              <p className="text-4xl mb-3">🎯</p>
+              <Target className="w-12 h-12 text-gray-300 mx-auto mb-3" />
               <h3 className="font-bold text-gray-900 mb-1">No completed jobs yet</h3>
               <p className="text-gray-500 text-sm">Accept your first job request to get started</p>
             </div>
@@ -273,3 +288,9 @@ function BookingCard({ booking, showActions }: { booking: any; showActions: bool
     </div>
   )
 }
+
+
+
+
+
+

@@ -164,7 +164,7 @@ export default function LoginPage() {
             </p>
             <p className="text-center text-gray-500 text-sm mt-2">
               Are you a worker?{' '}
-              <Link href="/worker/register" className="text-green-600 font-semibold hover:text-green-700">
+              <Link href="/workers/register" className="text-green-600 font-semibold hover:text-green-700">
                 Join as Worker
               </Link>
             </p>

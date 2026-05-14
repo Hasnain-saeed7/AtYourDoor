@@ -5,7 +5,7 @@ export async function POST(req: NextRequest) {
   try {
     const {
       userId, categoryName, bio, experience,
-      cnicNumber, cnicImage, city, area, hourlyRate,
+      cnicNumber, cnicImage, profileImage, city, area, hourlyRate,
     } = await req.json()
 
     const category = await prisma.category.findUnique({
@@ -24,6 +24,7 @@ export async function POST(req: NextRequest) {
         experience,
         cnicNumber,
         cnicImage: cnicImage || 'pending',
+        profileImage: profileImage || null,
         city,
         area,
         hourlyRate,

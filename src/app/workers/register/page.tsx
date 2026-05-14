@@ -1,15 +1,20 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { setOptions, importLibrary } from '@googlemaps/js-api-loader'
+import { 
+  Wrench, Zap, Hammer, Sparkles, Scissors, 
+  Banknote, Target, Star, ShieldCheck, User, MapPin 
+} from 'lucide-react'
 
 const CATEGORIES = [
-  { id: 'plumber', name: 'Plumber', icon: '🔧', desc: 'Pipes, taps & leaks' },
-  { id: 'electrician', name: 'Electrician', icon: '⚡', desc: 'Wiring & repairs' },
-  { id: 'carpenter', name: 'Carpenter', icon: '🪚', desc: 'Furniture & woodwork' },
-  { id: 'cleaner', name: 'Cleaner', icon: '🧹', desc: 'Deep cleaning' },
-  { id: 'tailor', name: 'Tailor', icon: '🧵', desc: 'Stitching at home' },
+  { id: 'plumber', name: 'Plumber', icon: <Wrench className="w-6 h-6" />, desc: 'Pipes, taps & leaks' },
+  { id: 'electrician', name: 'Electrician', icon: <Zap className="w-6 h-6" />, desc: 'Wiring & repairs' },
+  { id: 'carpenter', name: 'Carpenter', icon: <Hammer className="w-6 h-6" />, desc: 'Furniture & woodwork' },
+  { id: 'cleaner', name: 'Cleaner', icon: <Sparkles className="w-6 h-6" />, desc: 'Deep cleaning' },
+  { id: 'tailor', name: 'Tailor', icon: <Scissors className="w-6 h-6" />, desc: 'Stitching at home' },
 ]
 
 const CITIES = ['Karachi', 'Lahore', 'Islamabad', 'Rawalpindi', 'Faisalabad', 'Multan', 'Peshawar', 'Quetta']
@@ -24,7 +29,64 @@ export default function WorkerRegisterPage() {
     name: '', email: '', password: '', phone: '',
     categoryId: '', bio: '', experience: '',
     cnicNumber: '', city: '', area: '', hourlyRate: '',
+    profileImage: '',
   })
+
+  // Location logic
+  const autocompleteRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    if (step === 3 && typeof window !== 'undefined') {
+      try {
+        setOptions({
+          apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "",
+          version: "weekly"
+        });
+
+        importLibrary("places").then(() => {
+          if (autocompleteRef.current) {
+            const autocomplete = new window.google.maps.places.Autocomplete(autocompleteRef.current, {
+              componentRestrictions: { country: "pk" },
+              fields: ["address_components", "name"],
+            })
+            autocomplete.addListener("place_changed", () => {
+              const place = autocomplete.getPlace()
+              updateForm('area', place.name || "")
+              const cityObj = place.address_components?.find(c => c.types.includes("locality") || c.types.includes("administrative_area_level_2"))
+              if (cityObj) {
+                updateForm('city', cityObj.long_name)
+              }
+            })
+          }
+        }).catch(e => console.log("Google Maps API skipped or not configured", e));
+      } catch (error) {
+        console.error("Initial Map Load Error", error);
+      }
+    }
+  }, [step])
+
+  const handleGetLocation = () => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(async (position) => {
+        const { latitude, longitude } = position.coords;
+        try {
+          const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
+          if (res.ok) {
+            const data = await res.json();
+            const address = data.address;
+            const city = address.city || address.town || address.state || "";
+            if (city) updateForm('city', city);
+            const area = address.suburb || address.neighbourhood || address.road || data.display_name;
+            updateForm('area', area);
+          }
+        } catch (err) {
+          console.error("Location error:", err);
+        }
+      })
+    } else {
+       setError("Geolocation is not supported by your browser")
+    }
+  }
 
   function updateForm(field: string, value: string) {
     setFormData((prev) => ({ ...prev, [field]: value }))
@@ -51,6 +113,9 @@ export default function WorkerRegisterPage() {
       if (!registerRes.ok) {
         setError(registerData.error || 'Registration failed')
         setLoading(false)
+        if (registerData.error?.includes('already')) {
+          setTimeout(() => router.push('/workers/login'), 2000)
+        }
         return
       }
 
@@ -64,6 +129,7 @@ export default function WorkerRegisterPage() {
           experience: formData.experience,
           cnicNumber: formData.cnicNumber,
           cnicImage: 'pending',
+          profileImage: formData.profileImage,
           city: formData.city,
           area: formData.area,
           hourlyRate: parseFloat(formData.hourlyRate),
@@ -77,7 +143,7 @@ export default function WorkerRegisterPage() {
         return
       }
 
-      router.push('/login?registered=worker')
+     router.push('/workers/login?registered=worker')
     } catch {
       setError('Something went wrong')
       setLoading(false)
@@ -116,14 +182,14 @@ export default function WorkerRegisterPage() {
 
           <div className="space-y-4">
             {[
-              { icon: '💰', title: 'Earn Rs. 80,000+/month', desc: 'Top workers on our platform' },
-              { icon: '📱', title: 'Jobs come to you', desc: 'No need to search for clients' },
-              { icon: '⭐', title: 'Build your reputation', desc: 'Reviews that grow your business' },
-              { icon: '🔒', title: 'Guaranteed payment', desc: 'Get paid after every job' },
+              { icon: <Banknote className="w-5 h-5" />, title: 'Earn Rs. 80,000+/month', desc: 'Top workers on our platform' },
+              { icon: <Target className="w-5 h-5" />, title: 'Jobs come to you', desc: 'No need to search for clients' },
+              { icon: <Star className="w-5 h-5" />, title: 'Build your reputation', desc: 'Reviews that grow your business' },
+              { icon: <ShieldCheck className="w-5 h-5" />, title: 'Guaranteed payment', desc: 'Get paid after every job' },
             ].map((item) => (
               <div key={item.title} className="flex items-center gap-4">
-                <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <span className="text-xl">{item.icon}</span>
+                <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center flex-shrink-0 text-green-400">
+                  {item.icon}
                 </div>
                 <div>
                   <p className="text-white font-semibold text-sm">{item.title}</p>
@@ -135,15 +201,7 @@ export default function WorkerRegisterPage() {
         </div>
 
         <div className="relative z-10">
-          <div className="flex items-center gap-3 bg-white/5 border border-white/10 rounded-xl p-4">
-            <div className="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center">
-              <span className="text-white font-bold">A</span>
-            </div>
-            <div>
-              <p className="text-white font-semibold text-sm">Ahmed the Plumber</p>
-              <p className="text-gray-400 text-xs">Earning Rs. 95,000/month · 4.9 ⭐</p>
-            </div>
-          </div>
+        
         </div>
       </div>
 
@@ -211,10 +269,11 @@ export default function WorkerRegisterPage() {
                   <input
                     type="tel"
                     value={formData.phone}
-                    onChange={(e) => updateForm('phone', e.target.value)}
+                    onChange={(e) => updateForm('phone', e.target.value.replace(/\D/g, '').slice(0, 11))}
                     className="w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-900 placeholder-gray-400"
                     placeholder="03001234567"
                   />
+                  <p className="text-xs text-gray-500 mt-1">Must be exactly 11 digits.</p>
                 </div>
                 <div className="col-span-2">
                   <label className="block text-sm font-semibold text-gray-700 mb-1.5">Password</label>
@@ -228,9 +287,14 @@ export default function WorkerRegisterPage() {
                 </div>
               </div>
               <button
+                type="button"
                 onClick={() => {
                   if (!formData.name || !formData.email || !formData.password || !formData.phone) {
                     setError('Please fill all fields')
+                    return
+                  }
+                  if (!/^\d{11}$/.test(formData.phone)) {
+                    setError('Phone number must be exactly 11 digits')
                     return
                   }
                   setError('')
@@ -314,37 +378,78 @@ export default function WorkerRegisterPage() {
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div className="col-span-2">
+                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">Profile Photo (From Gallery)</label>
+                  <label 
+                    htmlFor="profile-upload"
+                    className="w-full flex items-center justify-center p-6 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:border-green-500 hover:bg-green-50 transition-all"
+                  >
+                    {formData.profileImage ? (
+                      <div className="flex flex-col items-center">
+                        <img src={formData.profileImage} alt="Profile" className="w-20 h-20 rounded-full object-cover mb-2" />
+                        <span className="text-sm text-green-600 font-semibold">Ready! Click to change</span>
+                      </div>
+                    ) : (
+                      <div className="flex flex-col items-center">
+                        <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mb-2">
+                          <User className="w-6 h-6 text-gray-400" />
+                        </div>
+                        <span className="text-sm font-medium text-gray-600">Select photo from gallery</span>
+                      </div>
+                    )}
+                    <input 
+                      id="profile-upload" 
+                      type="file" 
+                      accept="image/*" 
+                      className="hidden" 
+                      onChange={(e) => {
+                        const file = e.target.files?.[0]
+                        if (file) {
+                          const reader = new FileReader()
+                          reader.onloadend = () => {
+                            updateForm('profileImage', reader.result as string)
+                          }
+                          reader.readAsDataURL(file)
+                        }
+                      }} 
+                    />
+                  </label>
+                </div>
+                <div className="col-span-2">
                   <label className="block text-sm font-semibold text-gray-700 mb-1.5">CNIC Number</label>
                   <input
                     type="text"
                     value={formData.cnicNumber}
-                    onChange={(e) => updateForm('cnicNumber', e.target.value)}
+                    onChange={(e) => updateForm('cnicNumber', e.target.value.replace(/\D/g, '').slice(0, 13))}
                     className="w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-900 placeholder-gray-400"
-                    placeholder="12345-1234567-1"
+                    placeholder="13 Digit CNIC (e.g. 4210112345671)"
                   />
+                  <p className="text-xs text-gray-500 mt-1">Must be exactly 13 digits.</p>
                 </div>
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">City</label>
-                  <select
-                    value={formData.city}
-                    onChange={(e) => updateForm('city', e.target.value)}
-                    className="w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-900"
-                  >
-                    <option value="">Select city</option>
-                    {CITIES.map((city) => (
-                      <option key={city} value={city}>{city}</option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">Area / Locality</label>
-                  <input
-                    type="text"
-                    value={formData.area}
-                    onChange={(e) => updateForm('area', e.target.value)}
-                    className="w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-900 placeholder-gray-400"
-                    placeholder="DHA, Gulshan..."
-                  />
+                <div className="col-span-2">
+                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">Real-time Location</label>
+                  <div className="flex gap-2">
+                    <input
+                      ref={autocompleteRef}
+                      type="text"
+                      value={formData.area}
+                      onChange={(e) => updateForm('area', e.target.value)}
+                      className="w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-900 placeholder-gray-400"
+                      placeholder="Search your area or Google Map location..."
+                    />
+                    <button
+                      type="button"
+                      onClick={handleGetLocation}
+                      className="px-4 py-3.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl transition-all border border-gray-200 flex items-center justify-center gap-2 font-semibold whitespace-nowrap shadow-sm hover:shadow"
+                    >
+                      <MapPin className="w-5 h-5" />
+                      Locate Me
+                    </button>
+                  </div>
+                  {formData.city && (
+                    <p className="text-sm font-medium text-green-600 mt-2">
+                      📍 Selected City: <span className="font-bold">{formData.city}</span>
+                    </p>
+                  )}
                 </div>
                 <div className="col-span-2">
                   <label className="block text-sm font-semibold text-gray-700 mb-1.5">Hourly Rate (Rs.)</label>
@@ -392,7 +497,17 @@ export default function WorkerRegisterPage() {
                   Back
                 </button>
                 <button
-                  onClick={handleSubmit}
+                  onClick={() => {
+                    if (formData.cnicNumber.length !== 13) {
+                      setError('CNIC must be exactly 13 digits')
+                      return
+                    }
+                    if (!formData.profileImage) {
+                      setError('Please upload a profile photo')
+                      return
+                    }
+                    handleSubmit()
+                  }}
                   disabled={loading}
                   className="flex-grow-[2] bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white font-bold py-4 rounded-xl transition-all hover:-translate-y-0.5 shadow-xl shadow-green-100 flex items-center justify-center gap-2"
                 >
@@ -429,7 +544,7 @@ export default function WorkerRegisterPage() {
 
           <p className="text-center text-gray-400 text-sm mt-6">
             Already have an account?{' '}
-            <Link href="/login" className="text-green-600 font-semibold hover:text-green-700">
+            <Link href="/workers/login" className="text-green-600 font-semibold hover:text-green-700">
               Sign in
             </Link>
           </p>

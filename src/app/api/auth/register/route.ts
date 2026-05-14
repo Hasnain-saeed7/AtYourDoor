@@ -24,6 +24,18 @@ export async function POST(req: NextRequest) {
       )
     }
 
+    if (phone) {
+      const existingPhoneUser = await prisma.user.findFirst({
+        where: { phone },
+      })
+      if (existingPhoneUser) {
+        return NextResponse.json(
+          { error: 'Phone number already registered' },
+          { status: 400 }
+        )
+      }
+    }
+
     const hashedPassword = await bcrypt.hash(password, 12)
 
     const user = await prisma.user.create({
