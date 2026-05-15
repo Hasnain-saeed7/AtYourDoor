@@ -4,6 +4,10 @@ import { authOptions } from '@/lib/auth'
 import { notFound, redirect } from 'next/navigation'
 import Link from 'next/link'
 import BookingForm from './BookingForm'
+import ReviewForm from './ReviewForm'
+import WorkerAvatar from '@/components/WorkerAvatar'
+import type { LucideIcon } from 'lucide-react'
+import { ArrowLeft, Briefcase, Hammer, MapPin, Scissors, Sparkles, Wrench, Zap } from 'lucide-react'
 
 export default async function WorkerProfilePage({
   params,
@@ -26,6 +30,22 @@ export default async function WorkerProfilePage({
     },
   })
 
+  const customer = session?.user?.email
+    ? await prisma.user.findUnique({ where: { email: session.user.email } })
+    : null
+
+  const eligibleBooking = customer
+    ? await prisma.booking.findFirst({
+        where: {
+          workerId: resolvedParams.id,
+          customerId: customer.id,
+          status: 'COMPLETED',
+          review: { is: null },
+        },
+        orderBy: { createdAt: 'desc' },
+      })
+    : null
+
   if (!worker || worker.verificationStatus !== 'APPROVED') notFound()
 
   return (
@@ -41,9 +61,7 @@ export default async function WorkerProfilePage({
             <span className="text-gray-900 font-bold text-xl">TrustHire</span>
           </Link>
           <Link href="/workers" className="text-gray-500 hover:text-gray-900 text-sm font-medium flex items-center gap-1">
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
+            <ArrowLeft className="w-4 h-4" aria-hidden="true" />
             Back to Workers
           </Link>
         </div>
@@ -59,10 +77,12 @@ export default async function WorkerProfilePage({
             <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
               <div className="bg-gradient-to-br from-green-600 to-emerald-700 p-8">
                 <div className="flex items-start gap-5">
-                  <div className="w-20 h-20 rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center flex-shrink-0 shadow-xl">
-                    <span className="text-white font-black text-3xl">
-                      {worker.user.name.charAt(0).toUpperCase()}
-                    </span>
+                  <div className="w-20 h-20 rounded-2xl overflow-hidden bg-white/20 backdrop-blur flex items-center justify-center flex-shrink-0 shadow-xl">
+                    <WorkerAvatar
+                      src={worker.profileImage || worker.user.image}
+                      alt={worker.user.name}
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center gap-3 flex-wrap">
@@ -73,7 +93,7 @@ export default async function WorkerProfilePage({
                       </div>
                     </div>
                     <div className="flex items-center gap-2 mt-1">
-                      <span className="text-2xl">{worker.category.icon}</span>
+                      <CategoryIcon name={worker.category.name} className="w-5 h-5 text-white" />
                       <span className="text-green-100 font-medium">{worker.category.name}</span>
                     </div>
                     <div className="flex items-center gap-4 mt-3 flex-wrap">
@@ -87,12 +107,9 @@ export default async function WorkerProfilePage({
                           {worker.averageRating > 0 ? worker.averageRating.toFixed(1) : 'New'}
                         </span>
                       </div>
-                      <span className="text-green-200 text-sm">{worker.totalJobs} jobs completed</span>
+
                       <span className="text-green-200 text-sm flex items-center gap-1">
-                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                        </svg>
+                        <MapPin className="w-4 h-4" aria-hidden="true" />
                         {worker.city}, {worker.area}
                       </span>
                     </div>
@@ -103,14 +120,14 @@ export default async function WorkerProfilePage({
               <div className="p-6 space-y-5">
                 {worker.bio && (
                   <div>
-                    <h3 className="font-bold text-gray-900 mb-2">About</h3>
+                    <h3 className="font-bold text-gray-900 mb-2">About :</h3>
                     <p className="text-gray-500 leading-relaxed">{worker.bio}</p>
                   </div>
                 )}
 
                 {worker.experience && (
                   <div>
-                    <h3 className="font-bold text-gray-900 mb-2">Experience</h3>
+                    <h3 className="font-bold text-gray-900 mb-2">Experience in Years :</h3>
                     <p className="text-gray-500 leading-relaxed">{worker.experience}</p>
                   </div>
                 )}
@@ -136,6 +153,13 @@ export default async function WorkerProfilePage({
                 Customer Reviews
                 <span className="text-gray-400 font-normal text-sm ml-2">({worker.reviews.length})</span>
               </h3>
+
+              {session?.user?.role === 'CUSTOMER' && eligibleBooking && (
+                <div className="mb-6 rounded-2xl border border-gray-100 bg-gray-50 p-4">
+                  <p className="text-sm font-semibold text-gray-900 mb-3">Leave a review</p>
+                  <ReviewForm workerId={worker.id} bookingId={eligibleBooking.id} />
+                </div>
+              )}
 
               {worker.reviews.length === 0 ? (
                 <div className="text-center py-10">
@@ -220,4 +244,19 @@ export default async function WorkerProfilePage({
       </div>
     </div>
   )
+}
+
+const CATEGORY_ICONS: Record<string, LucideIcon> = {
+  plumber: Wrench,
+  electrician: Zap,
+  carpenter: Hammer,
+  cleaner: Sparkles,
+  tailor: Scissors,
+}
+
+function CategoryIcon({ name, className }: { name: string; className?: string }) {
+  const key = name.toLowerCase()
+  const Icon = CATEGORY_ICONS[key] ?? Briefcase
+
+  return <Icon className={className ?? 'w-4 h-4'} aria-hidden="true" />
 }

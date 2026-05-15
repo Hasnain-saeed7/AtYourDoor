@@ -53,7 +53,7 @@ export default async function HomePage() {
                   <span className="w-2 h-2 bg-green-500 rounded-full" />
                   {displayName}
                 </div>
-                <SignOutButton className="bg-gray-900 text-white hover:text-white hover:bg-gray-800 hover:border-transparent rounded-full px-4 py-2" />
+                <SignOutButton className="bg-gray-900 text-white hover:text-white cursor:pointer hover:bg-gray-800 hover:border-transparent rounded-full px-4 py-2" />
               </>
             ) : (
               <>

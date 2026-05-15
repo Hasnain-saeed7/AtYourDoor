@@ -14,10 +14,32 @@ export async function PATCH(
     const { id } = await params
     const { status } = await req.json()
 
-    const booking = await prisma.booking.update({
+    const existingBooking = await prisma.booking.findUnique({
       where: { id },
-      data: { status },
+      select: { status: true, workerId: true },
     })
+
+    if (!existingBooking) {
+      return NextResponse.json({ error: 'Booking not found' }, { status: 404 })
+    }
+
+    const shouldIncrementJobs =
+      status === 'COMPLETED' && existingBooking.status !== 'COMPLETED'
+
+    const [booking] = await prisma.$transaction([
+      prisma.booking.update({
+        where: { id },
+        data: { status },
+      }),
+      ...(shouldIncrementJobs
+        ? [
+            prisma.worker.update({
+              where: { id: existingBooking.workerId },
+              data: { totalJobs: { increment: 1 } },
+            }),
+          ]
+        : []),
+    ])
 
     return NextResponse.json(booking)
   } catch (error) {
