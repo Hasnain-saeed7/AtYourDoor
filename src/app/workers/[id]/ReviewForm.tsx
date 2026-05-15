@@ -11,7 +11,6 @@ export default function ReviewForm({
   bookingId: string
 }) {
   const router = useRouter()
-  const [rating, setRating] = useState(5)
   const [comment, setComment] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -28,7 +27,6 @@ export default function ReviewForm({
       body: JSON.stringify({
         workerId,
         bookingId,
-        rating,
         comment: comment.trim() || null,
       }),
     })
@@ -56,21 +54,11 @@ export default function ReviewForm({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-3">
-      <div>
-        <p className="text-sm font-semibold text-gray-700 mb-2">Your rating</p>
-        <div className="flex items-center gap-1">
-          {[1, 2, 3, 4, 5].map((star) => (
-            <button
-              key={star}
-              type="button"
-              onClick={() => setRating(star)}
-              className={`text-xl ${star <= rating ? 'text-yellow-400' : 'text-gray-300'}`}
-              aria-label={`Rate ${star} star${star > 1 ? 's' : ''}`}
-            >
-              ★
-            </button>
-          ))}
-        </div>
+      <div className="rounded-xl border border-gray-100 bg-gray-50 px-4 py-3">
+        <p className="text-sm font-semibold text-gray-900">Rating is assigned automatically</p>
+        <p className="text-xs text-gray-500 mt-1">
+          Worker ratings are based on completed jobs and rank.
+        </p>
       </div>
 
       <div>

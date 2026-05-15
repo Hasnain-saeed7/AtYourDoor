@@ -6,6 +6,7 @@ import Link from 'next/link'
 import BookingForm from './BookingForm'
 import ReviewForm from './ReviewForm'
 import WorkerAvatar from '@/components/WorkerAvatar'
+import { getWorkerRank } from '@/lib/workerRank'
 import type { LucideIcon } from 'lucide-react'
 import { ArrowLeft, Briefcase, Hammer, MapPin, Scissors, Sparkles, Wrench, Zap } from 'lucide-react'
 
@@ -48,6 +49,12 @@ export default async function WorkerProfilePage({
 
   if (!worker || worker.verificationStatus !== 'APPROVED') notFound()
 
+  const completedJobs = await prisma.booking.count({
+    where: { workerId: worker.id, status: 'COMPLETED' },
+  })
+
+  const rank = getWorkerRank(completedJobs)
+
   return (
     <div className="min-h-screen bg-gray-50">
 
@@ -75,7 +82,7 @@ export default async function WorkerProfilePage({
 
             {/* Profile Card */}
             <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
-              <div className="bg-gradient-to-br from-green-600 to-emerald-700 p-8">
+              <div className="bg-amber-700 p-8">
                 <div className="flex items-start gap-5">
                   <div className="w-20 h-20 rounded-2xl overflow-hidden bg-white/20 backdrop-blur flex items-center justify-center flex-shrink-0 shadow-xl">
                     <WorkerAvatar
@@ -91,6 +98,11 @@ export default async function WorkerProfilePage({
                         <div className="w-2 h-2 bg-green-300 rounded-full" />
                         <span className="text-white text-xs font-medium">Verified</span>
                       </div>
+                      <div className="flex items-center gap-1.5 bg-white/20 rounded-full px-3 py-1">
+                        <span className="text-white text-xs font-semibold">
+                          {rank.emoji} {rank.label}
+                        </span>
+                      </div>
                     </div>
                     <div className="flex items-center gap-2 mt-1">
                       <CategoryIcon name={worker.category.name} className="w-5 h-5 text-white" />
@@ -98,13 +110,9 @@ export default async function WorkerProfilePage({
                     </div>
                     <div className="flex items-center gap-4 mt-3 flex-wrap">
                       <div className="flex items-center gap-1">
-                        {[1,2,3,4,5].map((star) => (
-                          <svg key={star} className={`w-4 h-4 ${star <= Math.round(worker.averageRating) ? 'text-yellow-300' : 'text-white/30'}`} fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                          </svg>
-                        ))}
+                       
                         <span className="text-white font-semibold ml-1 text-sm">
-                          {worker.averageRating > 0 ? worker.averageRating.toFixed(1) : 'New'}
+                          {rank.rating} 
                         </span>
                       </div>
 
@@ -134,8 +142,8 @@ export default async function WorkerProfilePage({
 
                 <div className="grid grid-cols-3 gap-4 pt-2">
                   {[
-                    { label: 'Jobs Done', value: worker.totalJobs },
-                    { label: 'Rating', value: worker.averageRating > 0 ? `${worker.averageRating.toFixed(1)} ★` : 'New' },
+                    { label: 'Jobs Done', value: completedJobs },
+                    { label: 'Rating', value: `${rank.rating} ` },
                     { label: 'Rate/hr', value: `Rs. ${worker.hourlyRate.toLocaleString()}` },
                   ].map((stat) => (
                     <div key={stat.label} className="bg-gray-50 rounded-xl p-4 text-center">
@@ -179,13 +187,6 @@ export default async function WorkerProfilePage({
                           </div>
                           <span className="font-semibold text-gray-900 text-sm">{review.customer.name}</span>
                         </div>
-                        <div className="flex items-center gap-0.5">
-                          {[1,2,3,4,5].map((star) => (
-                            <svg key={star} className={`w-3.5 h-3.5 ${star <= review.rating ? 'text-yellow-400' : 'text-gray-200'}`} fill="currentColor" viewBox="0 0 24 24">
-                              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                            </svg>
-                          ))}
-                        </div>
                       </div>
                       {review.comment && (
                         <p className="text-gray-500 text-sm leading-relaxed ml-11">{review.comment}</p>
@@ -204,11 +205,12 @@ export default async function WorkerProfilePage({
                 <div className="p-6 border-b border-gray-50">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-2xl font-bold text-gray-900">
+                      <p className="text-2xl font-bold mb-2 text-gray-900">
                         Rs. {worker.hourlyRate.toLocaleString()}
                         <span className="text-gray-400 font-normal text-base">/hr</span>
                       </p>
-                      <p className="text-green-600 text-sm font-medium mt-0.5">Pay after job is done</p>
+                     
+                      <p className="text-green-600 text-sm font-medium mt-0.5 ">Pay after job is done</p>
                     </div>
                     <div className={`px-3 py-1.5 rounded-full text-xs font-semibold ${worker.isAvailable ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-600'}`}>
                       {worker.isAvailable ? '● Available' : '● Unavailable'}

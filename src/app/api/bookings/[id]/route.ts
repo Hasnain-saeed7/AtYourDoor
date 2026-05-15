@@ -16,7 +16,12 @@ export async function PATCH(
 
     const existingBooking = await prisma.booking.findUnique({
       where: { id },
-      select: { status: true, workerId: true },
+      select: {
+        status: true,
+        workerId: true,
+        totalAmount: true,
+        worker: { select: { hourlyRate: true } },
+      },
     })
 
     if (!existingBooking) {
@@ -26,16 +31,31 @@ export async function PATCH(
     const shouldIncrementJobs =
       status === 'COMPLETED' && existingBooking.status !== 'COMPLETED'
 
+    const bookingAmount =
+      status === 'COMPLETED' && existingBooking.totalAmount == null
+        ? existingBooking.worker.hourlyRate
+        : existingBooking.totalAmount
+
     const [booking] = await prisma.$transaction([
       prisma.booking.update({
         where: { id },
-        data: { status },
+        data: {
+          status,
+          ...(status === 'COMPLETED' && bookingAmount != null
+            ? { totalAmount: bookingAmount, isPaid: true }
+            : {}),
+        },
       }),
       ...(shouldIncrementJobs
         ? [
             prisma.worker.update({
               where: { id: existingBooking.workerId },
-              data: { totalJobs: { increment: 1 } },
+              data: {
+                totalJobs: { increment: 1 },
+                ...(bookingAmount != null
+                  ? { totalEarnings: { increment: bookingAmount * 0.75 } }
+                  : {}),
+              },
             }),
           ]
         : []),

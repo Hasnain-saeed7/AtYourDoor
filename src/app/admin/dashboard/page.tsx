@@ -83,6 +83,7 @@ export default async function AdminDashboardPage(props: any) {
 
   const totalBookingAmount = bookingsAmountAgg._sum.totalAmount ?? 0
   const totalEarnings = totalBookingAmount * 0.25
+  const adminShareFromWorker = (workerTotalEarnings: number) => workerTotalEarnings / 3
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -426,7 +427,7 @@ export default async function AdminDashboardPage(props: any) {
                       </div>
                     </div>
                     <p className="text-sm font-bold text-gray-900">
-                      Rs. {worker.totalEarnings.toLocaleString()}
+                      Rs. {adminShareFromWorker(worker.totalEarnings).toLocaleString()}
                     </p>
                   </div>
                 ))

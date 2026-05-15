@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import SignOutButton from '@/components/signOutButton'
 import WorkerBookingActions from '@/components/worker/WorkerBookingActions'
+import { getWorkerRank } from '@/lib/workerRank'
 import { 
   Hourglass, XCircle, ClipboardList, CheckCircle2, Trophy, Banknote, Wrench, Target, HardHat, Clock
 } from 'lucide-react'
@@ -71,8 +72,10 @@ export default async function WorkerDashboardPage() {
     completed: bookings.filter((b) => b.status === 'COMPLETED').length,
     earnings: bookings
       .filter((b) => b.status === 'COMPLETED' && b.totalAmount)
-      .reduce((sum, b) => sum + (b.totalAmount || 0), 0),
+      .reduce((sum, b) => sum + (b.totalAmount || 0) * 0.75, 0),
   }
+
+  const rank = getWorkerRank(stats.completed)
 
   const pendingBookings = bookings.filter((b) => b.status === 'PENDING')
   const activeBookings = bookings.filter((b) => ['ACCEPTED', 'IN_PROGRESS'].includes(b.status))
@@ -125,6 +128,12 @@ export default async function WorkerDashboardPage() {
                 <span className="text-gray-300">•</span>
                 <span>{worker.city}, {worker.area}</span>
               </p>
+              <div className="mt-3 inline-flex items-center gap-2 rounded-full bg-gray-100 px-3 py-1.5">
+                <span className="text-sm font-semibold text-gray-900">
+                  {rank.emoji} {rank.label}
+                </span>
+                <span className="text-xs text-gray-500">{rank.rating} stars</span>
+              </div>
             </div>
           </div>
           <div className="bg-white rounded-2xl border border-gray-100 px-5 py-3 shadow-sm">

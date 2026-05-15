@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
+import { getWorkerRank } from '@/lib/workerRank'
 
 export async function POST(req: NextRequest) {
   try {
@@ -10,15 +11,10 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const { workerId, bookingId, rating, comment } = await req.json()
+    const { workerId, bookingId, comment } = await req.json()
 
-    if (!workerId || !bookingId || !rating) {
+    if (!workerId || !bookingId) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
-    }
-
-    const parsedRating = Number(rating)
-    if (Number.isNaN(parsedRating) || parsedRating < 1 || parsedRating > 5) {
-      return NextResponse.json({ error: 'Rating must be between 1 and 5' }, { status: 400 })
     }
 
     const user = await prisma.user.findUnique({
@@ -47,12 +43,18 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Review already submitted' }, { status: 400 })
     }
 
+    const completedJobs = await prisma.booking.count({
+      where: { workerId, status: 'COMPLETED' },
+    })
+
+    const rank = getWorkerRank(completedJobs)
+
     const review = await prisma.review.create({
       data: {
         bookingId,
         customerId: user.id,
         workerId,
-        rating: parsedRating,
+        rating: rank.rating,
         comment: comment || null,
       },
     })
