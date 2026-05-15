@@ -3,6 +3,9 @@ import Link from 'next/link'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import SignOutButton from '@/components/signOutButton'
+import WorkerAvatar from '@/components/WorkerAvatar'
+import type { LucideIcon } from 'lucide-react'
+import { Briefcase, Hammer, LayoutGrid, MapPin, Phone, Scissors, Sparkles, Wrench, Zap } from 'lucide-react'
 
 export default async function WorkersPage({
   searchParams,
@@ -136,7 +139,13 @@ export default async function WorkersPage({
                       : 'text-gray-600 hover:bg-gray-50'
                   }`}
                 >
-                  <span>🏠</span> All Services
+                  <LayoutGrid
+                    className={`w-4 h-4 ${
+                      !resolvedSearchParams.category ? 'text-green-700' : 'text-gray-500'
+                    }`}
+                    aria-hidden="true"
+                  />
+                  All Services
                 </Link>
                 {categories.map((cat) => (
                   <Link
@@ -148,7 +157,13 @@ export default async function WorkersPage({
                         : 'text-gray-600 hover:bg-gray-50'
                     }`}
                   >
-                    <span>{cat.icon}</span> {cat.name}
+                    <CategoryIcon
+                      name={cat.name}
+                      className={`w-4 h-4 ${
+                        resolvedSearchParams.category === cat.name ? 'text-green-700' : 'text-gray-500'
+                      }`}
+                    />
+                    {cat.name}
                   </Link>
                 ))}
               </div>
@@ -168,7 +183,10 @@ export default async function WorkersPage({
                     : 'bg-white text-gray-600 border-gray-200'
                 }`}
               >
-                All
+                <span className="inline-flex items-center gap-1.5">
+                  <LayoutGrid className="w-4 h-4" aria-hidden="true" />
+                  All
+                </span>
               </Link>
               {categories.map((cat) => (
                 <Link
@@ -180,7 +198,8 @@ export default async function WorkersPage({
                       : 'bg-white text-gray-600 border-gray-200'
                   }`}
                 >
-                  {cat.icon} {cat.name}
+                  <CategoryIcon name={cat.name} className="w-4 h-4" />
+                  {cat.name}
                 </Link>
               ))}
             </div>
@@ -227,11 +246,10 @@ function WorkerCard({ worker, sessionExists }: { worker: any; sessionExists: boo
       <div className="p-6 pb-4">
         <div className="flex items-start gap-4">
           <div className="w-14 h-14 rounded-2xl overflow-hidden flex-shrink-0 shadow-lg shadow-green-100 bg-green-100">
-            <img
-              src={worker.user.image || '/default-avatar.svg'}
+            <WorkerAvatar
+              src={worker.profileImage || worker.user.image}
               alt={worker.user.name}
               className="w-full h-full object-cover"
-              loading="lazy"
             />
           </div>
           <div className="flex-1 min-w-0">
@@ -246,7 +264,7 @@ function WorkerCard({ worker, sessionExists }: { worker: any; sessionExists: boo
               )}
             </div>
             <div className="flex items-center gap-1.5 mt-0.5">
-              <span className="text-lg">{worker.category.icon}</span>
+              <CategoryIcon name={worker.category.name} className="w-4 h-4 text-gray-500" />
               <span className="text-gray-500 text-sm">{worker.category.name}</span>
             </div>
           </div>
@@ -299,17 +317,12 @@ function WorkerCard({ worker, sessionExists }: { worker: any; sessionExists: boo
           </div>
           <div className="flex flex-wrap items-center gap-3 text-xs text-gray-500">
             <span className="flex items-center gap-1">
-              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
+              <MapPin className="w-3.5 h-3.5" aria-hidden="true" />
               {worker.city}
             </span>
             {worker.user.phone && (
               <span className="flex items-center gap-1">
-                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h2.28a1 1 0 01.948.684l1.498 4.492a1 1 0 01-.502 1.21l-1.7.85a11.042 11.042 0 005.516 5.516l.85-1.7a1 1 0 011.21-.502l4.492 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                </svg>
+                <Phone className="w-3.5 h-3.5" aria-hidden="true" />
                 {worker.user.phone}
               </span>
             )}
@@ -318,4 +331,19 @@ function WorkerCard({ worker, sessionExists }: { worker: any; sessionExists: boo
       </div>
     </div>
   )
+}
+
+const CATEGORY_ICONS: Record<string, LucideIcon> = {
+  plumber: Wrench,
+  electrician: Zap,
+  carpenter: Hammer,
+  cleaner: Sparkles,
+  tailor: Scissors,
+}
+
+function CategoryIcon({ name, className }: { name: string; className?: string }) {
+  const key = name.toLowerCase()
+  const Icon = CATEGORY_ICONS[key] ?? Briefcase
+
+  return <Icon className={className ?? 'w-4 h-4'} aria-hidden="true" />
 }

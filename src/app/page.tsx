@@ -23,7 +23,7 @@ export default async function HomePage() {
           <div className="hidden md:flex items-center gap-3">
             <Link
               href="/workers"
-              className="text-sm font-semibold px-4 py-2 rounded-full bg-emerald-600 text-white shadow-sm hover:bg-emerald-700 transition-colors"
+              className="text-sm font-semibold px-4 py-2 rounded-full bg-amber-600 text-white shadow-sm hover:bg-emerald-700 transition-colors"
             >
               Find Workers
             </Link>
