@@ -77,6 +77,49 @@ export default async function WorkerDashboardPage() {
 
   const rank = getWorkerRank(stats.completed)
 
+  const now = new Date()
+  const monthStart = new Date(now.getFullYear(), now.getMonth(), 1)
+  const monthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 1)
+  const topMonthlyBookings = await prisma.booking.groupBy({
+    by: ['workerId'],
+    where: {
+      status: 'COMPLETED',
+      createdAt: { gte: monthStart, lt: monthEnd },
+    },
+    _count: { workerId: true },
+    orderBy: { _count: { workerId: 'desc' } },
+    take: 3,
+  })
+
+  const topWorkerIds = topMonthlyBookings.map((entry) => entry.workerId)
+  const topMonthlyWorkers = topWorkerIds.length
+    ? await prisma.worker.findMany({
+        where: { id: { in: topWorkerIds } },
+        include: { user: { select: { name: true, image: true } }, category: true },
+      })
+    : []
+
+  const monthlyBonuses = [5000, 3000, 1500]
+  const topMonthlyLeaderboard = topMonthlyBookings
+    .map((entry, index) => {
+      const workerEntry = topMonthlyWorkers.find((workerItem) => workerItem.id === entry.workerId)
+      if (!workerEntry) return null
+      return {
+        worker: workerEntry,
+        completedJobs: entry._count.workerId,
+        bonus: monthlyBonuses[index],
+        position: index + 1,
+      }
+    })
+    .filter(
+      (entry): entry is {
+        worker: typeof topMonthlyWorkers[number]
+        completedJobs: number
+        bonus: number
+        position: number
+      } => Boolean(entry)
+    )
+
   const pendingBookings = bookings.filter((b) => b.status === 'PENDING')
   const activeBookings = bookings.filter((b) => ['ACCEPTED', 'IN_PROGRESS'].includes(b.status))
   const pastBookings = bookings.filter((b) => ['COMPLETED', 'CANCELLED'].includes(b.status))
@@ -132,7 +175,7 @@ export default async function WorkerDashboardPage() {
                 <span className="text-sm font-semibold text-gray-900">
                   {rank.emoji} {rank.label}
                 </span>
-                <span className="text-xs text-gray-500">{rank.rating} stars</span>
+                <span className="text-xs text-gray-500">{rank.ratingValue} stars</span>
               </div>
             </div>
           </div>
@@ -166,6 +209,40 @@ export default async function WorkerDashboardPage() {
             </div>
           ))}
         </div>
+
+        {topMonthlyLeaderboard.length > 0 && (
+          <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden mb-6 shadow-sm">
+            <div className="p-6 border-b border-gray-50 flex items-center gap-3">
+              <div className="w-8 h-8 bg-amber-100 rounded-full flex items-center justify-center">
+                <Trophy className="w-5 h-5 text-amber-600" />
+              </div>
+              <div>
+                <h2 className="font-bold text-gray-900">Top Workers of the Month</h2>
+                <p className="text-gray-500 text-sm">Cash bonuses funded by TrustHire</p>
+              </div>
+            </div>
+            <div className="divide-y divide-gray-50">
+              {topMonthlyLeaderboard.map((entry) => (
+                <div key={entry.worker.id} className="p-6 flex items-center justify-between gap-4 flex-wrap">
+                  <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 rounded-xl bg-amber-50 text-amber-700 font-bold flex items-center justify-center">
+                      #{entry.position}
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-900">{entry.worker.user.name}</p>
+                      <p className="text-xs text-gray-500">
+                        {entry.worker.category.name} · {entry.completedJobs} jobs
+                      </p>
+                    </div>
+                  </div>
+                  <div className="text-sm font-semibold text-emerald-700">
+                    Rs. {entry.bonus.toLocaleString()} bonus
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Pending Requests */}
         {pendingBookings.length > 0 && (

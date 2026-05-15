@@ -109,11 +109,11 @@ export default async function WorkerProfilePage({
                       <span className="text-green-100 font-medium">{worker.category.name}</span>
                     </div>
                     <div className="flex items-center gap-4 mt-3 flex-wrap">
-                      <div className="flex items-center gap-1">
-                       
-                        <span className="text-white font-semibold ml-1 text-sm">
-                          {rank.rating} 
+                      <div className="flex items-center gap-2">
+                        <span className="text-white font-semibold text-sm">
+                          {rank.ratingText}
                         </span>
+                        <span className="text-white/70 text-xs">{rank.ratingValue} stars</span>
                       </div>
 
                       <span className="text-green-200 text-sm flex items-center gap-1">
@@ -143,7 +143,7 @@ export default async function WorkerProfilePage({
                 <div className="grid grid-cols-3 gap-4 pt-2">
                   {[
                     { label: 'Jobs Done', value: completedJobs },
-                    { label: 'Rating', value: `${rank.rating} ` },
+                    { label: 'Rating', value: `${rank.ratingValue} ★` },
                     { label: 'Rate/hr', value: `Rs. ${worker.hourlyRate.toLocaleString()}` },
                   ].map((stat) => (
                     <div key={stat.label} className="bg-gray-50 rounded-xl p-4 text-center">
@@ -209,7 +209,9 @@ export default async function WorkerProfilePage({
                         Rs. {worker.hourlyRate.toLocaleString()}
                         <span className="text-gray-400 font-normal text-base">/hr</span>
                       </p>
-                     
+                      <p className="text-gray-600 text-xs font-semibold">
+                        {rank.emoji} {rank.label} · {rank.ratingValue} stars
+                      </p>
                       <p className="text-green-600 text-sm font-medium mt-0.5 ">Pay after job is done</p>
                     </div>
                     <div className={`px-3 py-1.5 rounded-full text-xs font-semibold ${worker.isAvailable ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-600'}`}>

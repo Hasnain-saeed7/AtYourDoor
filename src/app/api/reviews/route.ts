@@ -54,7 +54,7 @@ export async function POST(req: NextRequest) {
         bookingId,
         customerId: user.id,
         workerId,
-        rating: rank.rating,
+        rating: rank.ratingValue,
         comment: comment || null,
       },
     })

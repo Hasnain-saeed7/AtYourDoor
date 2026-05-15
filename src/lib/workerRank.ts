@@ -2,7 +2,8 @@ export type WorkerRank = {
   tier: 'bronze' | 'silver' | 'gold' | 'diamond'
   label: string
   emoji: string
-  rating: string 
+  ratingValue: number
+  ratingText: string
 }
 
 export function getWorkerRank(completedJobs: number): WorkerRank {
@@ -10,8 +11,9 @@ export function getWorkerRank(completedJobs: number): WorkerRank {
     return {
       tier: 'diamond',
       label: 'Diamond Worker',
-      emoji: '💠', // Sleek diamond badge icon
-      rating: '★★★★★',
+      emoji: '💎',
+      ratingValue: 5,
+      ratingText: '★★★★★',
     }
   }
 
@@ -19,8 +21,9 @@ export function getWorkerRank(completedJobs: number): WorkerRank {
     return {
       tier: 'gold',
       label: 'Gold Worker',
-      emoji: '⭐', // Clean gold star badge
-      rating: '★★★★',
+      emoji: '🥇',
+      ratingValue: 4,
+      ratingText: '★★★★',
     }
   }
 
@@ -28,15 +31,17 @@ export function getWorkerRank(completedJobs: number): WorkerRank {
     return {
       tier: 'silver',
       label: 'Silver Worker',
-      emoji: '✨', // Clean silver/sparkle badge
-      rating: '★★★',
+      emoji: '🥈',
+      ratingValue: 3,
+      ratingText: '★★★',
     }
   }
 
   return {
     tier: 'bronze',
     label: 'Bronze Worker',
-    emoji: '🔸', // Clean bronze/orange badge
-    rating: '★★',
+    emoji: '🥉',
+    ratingValue: 2,
+    ratingText: '★★',
   }
 }

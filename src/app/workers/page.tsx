@@ -4,6 +4,7 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import SignOutButton from '@/components/signOutButton'
 import WorkerAvatar from '@/components/WorkerAvatar'
+import { getWorkerRank, type WorkerRank } from '@/lib/workerRank'
 import type { LucideIcon } from 'lucide-react'
 import { Briefcase, Hammer, LayoutGrid, MapPin, Phone, Scissors, Sparkles, Wrench, Zap } from 'lucide-react'
 
@@ -37,6 +38,24 @@ export default async function WorkersPage({
     },
     orderBy: { averageRating: 'desc' },
   })
+
+  const rankOrder: Record<WorkerRank['tier'], number> = {
+    diamond: 4,
+    gold: 3,
+    silver: 2,
+    bronze: 1,
+  }
+
+  const rankedWorkers = workers
+    .map((worker) => ({
+      ...worker,
+      rank: getWorkerRank(worker.totalJobs),
+    }))
+    .sort((a, b) => {
+      const tierDiff = rankOrder[b.rank.tier] - rankOrder[a.rank.tier]
+      if (tierDiff !== 0) return tierDiff
+      return b.totalJobs - a.totalJobs
+    })
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -207,13 +226,13 @@ export default async function WorkersPage({
             {/* Results count */}
             <div className="flex items-center justify-between mb-6">
               <p className="text-gray-500 text-sm">
-                <span className="font-semibold text-gray-900">{workers.length}</span> workers found
+                <span className="font-semibold text-gray-900">{rankedWorkers.length}</span> workers found
                 {resolvedSearchParams.category && <span> in <span className="font-semibold text-green-600">{resolvedSearchParams.category}</span></span>}
               </p>
             </div>
 
             {/* Workers grid */}
-            {workers.length === 0 ? (
+            {rankedWorkers.length === 0 ? (
               <div className="text-center py-20">
                 <div className="text-6xl mb-4">🔍</div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">No workers found</h3>
@@ -221,8 +240,13 @@ export default async function WorkersPage({
               </div>
             ) : (
               <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5">
-                {workers.map((worker) => (
-                  <WorkerCard key={worker.id} worker={worker} sessionExists={!!session} />
+                {rankedWorkers.map((worker) => (
+                  <WorkerCard
+                    key={worker.id}
+                    worker={worker}
+                    rank={worker.rank}
+                    sessionExists={!!session}
+                  />
                 ))}
               </div>
             )}
@@ -233,7 +257,15 @@ export default async function WorkersPage({
   )
 }
 
-function WorkerCard({ worker, sessionExists }: { worker: any; sessionExists: boolean }) {
+function WorkerCard({
+  worker,
+  rank,
+  sessionExists,
+}: {
+  worker: any
+  rank: WorkerRank
+  sessionExists: boolean
+}) {
   const bookingPath = `/workers/${worker.id}`
   const bookingHref = sessionExists
     ? bookingPath
@@ -263,6 +295,12 @@ function WorkerCard({ worker, sessionExists }: { worker: any; sessionExists: boo
                 </div>
               )}
             </div>
+            <div className="mt-1 inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2.5 py-1">
+              <span className="text-xs font-semibold text-gray-900">
+                {rank.emoji} {rank.label}
+              </span>
+              <span className="text-[10px] text-gray-500">{rank.ratingValue} stars</span>
+            </div>
             <div className="flex items-center gap-1.5 mt-0.5">
               <CategoryIcon name={worker.category.name} className="w-4 h-4 text-gray-500" />
               <span className="text-gray-500 text-sm">{worker.category.name}</span>
@@ -276,7 +314,7 @@ function WorkerCard({ worker, sessionExists }: { worker: any; sessionExists: boo
             {[1, 2, 3, 4, 5].map((star) => (
               <svg
                 key={star}
-                className={`w-4 h-4 ${star <= Math.round(worker.averageRating) ? 'text-yellow-400' : 'text-gray-200'}`}
+                className={`w-4 h-4 ${star <= rank.ratingValue ? 'text-yellow-400' : 'text-gray-200'}`}
                 fill="currentColor"
                 viewBox="0 0 24 24"
               >
@@ -284,7 +322,7 @@ function WorkerCard({ worker, sessionExists }: { worker: any; sessionExists: boo
               </svg>
             ))}
             <span className="text-sm font-semibold text-gray-900 ml-1">
-              {worker.averageRating > 0 ? worker.averageRating.toFixed(1) : 'New'}
+              {rank.ratingValue} stars
             </span>
           </div>
           <span className="text-gray-300">•</span>
