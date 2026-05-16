@@ -4,6 +4,7 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import SignOutButton from '@/components/signOutButton'
 import WorkerAvatar from '@/components/WorkerAvatar'
+import WorkersAIMatchForm from '@/components/WorkersAIMatchForm'
 import { getWorkerRank, type WorkerRank } from '@/lib/workerRank'
 import type { LucideIcon } from 'lucide-react'
 import { Briefcase, Hammer, LayoutGrid, MapPin, Phone, Scissors, Sparkles, Wrench, Zap } from 'lucide-react'
@@ -11,7 +12,7 @@ import { Briefcase, Hammer, LayoutGrid, MapPin, Phone, Scissors, Sparkles, Wrenc
 export default async function WorkersPage({
   searchParams,
 }: {
-  searchParams: Promise<{ category?: string; city?: string }>
+  searchParams: Promise<{ category?: string; city?: string; budget?: string; medal?: string }>
 }) {
   const resolvedSearchParams = await searchParams
   const session = await getServerSession(authOptions)
@@ -21,15 +22,39 @@ export default async function WorkersPage({
     where: { isActive: true },
   })
 
+  const budgetValue = resolvedSearchParams.budget
+    ? Number(resolvedSearchParams.budget)
+    : undefined
+
+  const medalRanges: Record<string, { min: number; max?: number }> = {
+    bronze: { min: 0, max: 6 },
+    silver: { min: 6, max: 21 },
+    gold: { min: 21, max: 50 },
+    diamond: { min: 50 },
+  }
+
+  const selectedMedal = resolvedSearchParams.medal
+    ? medalRanges[resolvedSearchParams.medal.toLowerCase()]
+    : undefined
+
   const workers = await prisma.worker.findMany({
     where: {
       verificationStatus: 'APPROVED',
       isAvailable: true,
-      ...(resolvedSearchParams.category && {
+      ...(resolvedSearchParams.category && resolvedSearchParams.category !== 'auto' && {
         category: { name: resolvedSearchParams.category },
       }),
       ...(resolvedSearchParams.city && {
         city: { contains: resolvedSearchParams.city, mode: 'insensitive' },
+      }),
+      ...(Number.isFinite(budgetValue) && budgetValue! > 0 && {
+        hourlyRate: { lte: budgetValue! },
+      }),
+      ...(selectedMedal && {
+        totalJobs: {
+          gte: selectedMedal.min,
+          ...(selectedMedal.max ? { lt: selectedMedal.max } : {}),
+        },
       }),
     },
     include: {
@@ -125,20 +150,13 @@ export default async function WorkersPage({
           <p className="text-teal-100 text-lg mb-8">All workers are CNIC verified and background checked</p>
 
           {/* Search bar */}
-          <form method="GET" className="flex flex-col sm:flex-row gap-3 max-w-2xl">
-            <input
-              name="city"
-              defaultValue={resolvedSearchParams.city}
-              placeholder="Enter your city..."
-              className="flex-1 px-5 py-3.5 rounded-xl border-0 focus:outline-none focus:ring-2 focus:ring-white/50 text-gray-900 placeholder-gray-400 bg-white"
-            />
-            <button
-              type="submit"
-              className="bg-gray-900 hover:bg-gray-800 text-white font-semibold px-8 py-3.5 rounded-xl transition-all"
-            >
-              Search
-            </button>
-          </form>
+          <WorkersAIMatchForm
+            categories={categories}
+            defaultCity={resolvedSearchParams.city}
+            defaultCategory={resolvedSearchParams.category}
+            defaultBudget={resolvedSearchParams.budget}
+            defaultMedal={resolvedSearchParams.medal}
+          />
         </div>
       </div>
 

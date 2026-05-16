@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 interface Worker {
@@ -23,13 +23,22 @@ interface AIResult {
 
 export default function AISearchBar() {
   const router = useRouter()
+  const inputRef = useRef<HTMLInputElement | null>(null)
   const [query, setQuery] = useState('')
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState<AIResult | null>(null)
   const [error, setError] = useState('')
 
-  async function handleSearch() {
-    if (!query.trim()) return
+  async function handleSearch(nextQuery?: string) {
+    const problem = (typeof nextQuery === 'string' ? nextQuery : query).trim()
+    if (!problem) {
+      setError('Please describe the problem so I can match the right worker.')
+      inputRef.current?.focus()
+      return
+    }
+    if (nextQuery) {
+      setQuery(nextQuery)
+    }
     setLoading(true)
     setError('')
     setResult(null)
@@ -38,7 +47,7 @@ export default function AISearchBar() {
       const res = await fetch('/api/ai/match', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ problem: query }),
+        body: JSON.stringify({ problem }),
       })
 
       const data = await res.json()
@@ -81,16 +90,20 @@ export default function AISearchBar() {
           </svg>
         </div>
         <input
+          ref={inputRef}
           type="text"
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={(e) => {
+            setQuery(e.target.value)
+            if (error) setError('')
+          }}
           onKeyDown={handleKeyDown}
           placeholder="Describe your problem... e.g. my kitchen pipe is leaking badly"
           className="w-full pl-14 pr-36 py-5 rounded-2xl border-0 bg-white/90 backdrop-blur focus:outline-none focus:ring-2 focus:ring-white/50 text-gray-900 placeholder-gray-400 shadow-xl text-base"
         />
         <button
-          onClick={handleSearch}
-          disabled={loading || !query.trim()}
+          onClick={() => handleSearch()}
+          disabled={loading}
           className="absolute right-2 top-2 bottom-2 bg-gray-900 hover:bg-gray-800 disabled:bg-gray-400 text-white font-bold px-6 rounded-xl transition-all flex items-center gap-2 text-sm"
         >
           {loading ? (
@@ -123,7 +136,7 @@ export default function AISearchBar() {
           ].map((example) => (
             <button
               key={example}
-              onClick={() => setQuery(example)}
+              onClick={() => handleSearch(example)}
               className="text-xs bg-white/20 hover:bg-white/30 text-white/80 hover:text-white px-3 py-1.5 rounded-full border border-white/20 transition-all backdrop-blur"
             >
               {example}

@@ -93,7 +93,7 @@ export default async function HomePage() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 mb-16">
-              <Link href="/workers" className="inline-flex items-center justify-center gap-2 bg-teal-500 hover:bg-teal-600 text-white font-semibold px-8 py-4 rounded-2xl transition-all shadow-xl shadow-teal-200 hover:shadow-teal-300 hover:-translate-y-1 text-lg">
+              <Link href="/workers" className="inline-flex items-center justify-center gap-2 bg-black hover:bg-gray-900 text-white font-semibold px-8 py-4 rounded-2xl transition-all shadow-xl  hover:-translate-y-1 text-lg">
                 Find a Worker Now
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -154,7 +154,7 @@ export default async function HomePage() {
                 name: 'Tailor', desc: 'Stitching at home', color: 'bg-purple-50 border-purple-100' 
               },
             ].map((service) => (
-              <Link href="/register" key={service.name} className={`${service.color} border rounded-2xl p-6 text-center hover:-translate-y-1 transition-all cursor-pointer group flex flex-col items-center`}>
+              <Link href="/workers" key={service.name} className={`${service.color} border rounded-2xl p-6 text-center hover:-translate-y-1 transition-all cursor-pointer group flex flex-col items-center`}>
                 <div className="mb-3">{service.icon}</div>
                 <p className="font-bold text-gray-900 group-hover:text-green-700 transition-colors w-full">{service.name}</p>
                 <p className="text-gray-500 text-xs mt-1 w-full">{service.desc}</p>
@@ -321,19 +321,19 @@ export default async function HomePage() {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 px-6 bg-gray-900">
+      <footer className="py-12 px-6 bg-white">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center">
               <span className="text-white font-bold">T</span>
             </div>
-            <span className="text-white font-bold">TrustHire</span>
+            <span className="text-black font-bold">TrustHire</span>
           </div>
-          <p className="text-gray-500 text-sm">© 2024 TrustHire. Built for Pakistan.</p>
+          <p className="text-black text-md">© 2024 TrustHire. Built for Pakistan.</p>
           <div className="flex gap-6">
-            <a href="#" className="text-gray-500 hover:text-white text-sm transition-colors">Privacy</a>
-            <a href="#" className="text-gray-500 hover:text-white text-sm transition-colors">Terms</a>
-            <a href="#" className="text-gray-500 hover:text-white text-sm transition-colors">Contact</a>
+            <a href="#" className="text-black hover:text-black">Privacy</a>
+            <a href="#" className="text-black hover:text-black">Terms</a>
+            <a href="#" className="text-black hover:text-black">Contact</a>
           </div>
         </div>
       </footer>
