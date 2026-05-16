@@ -43,7 +43,7 @@ export default function LoginPage() {
     <div className="min-h-screen flex">
       
       {/* Left Panel */}
-      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-green-600 via-green-700 to-emerald-800 flex-col justify-between p-12 relative overflow-hidden">
+      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-teal-600 via-teal-700 to-emerald-800 flex-col justify-between p-12 relative overflow-hidden">
         
         {/* Background circles */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2" />
@@ -52,7 +52,7 @@ export default function LoginPage() {
         <div className="relative z-10">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center">
-              <span className="text-green-700 font-bold text-lg">T</span>
+              <span className="text-teal-700 font-bold text-lg">T</span>
             </div>
             <span className="text-white font-bold text-xl">TrustHire</span>
           </div>
@@ -62,7 +62,7 @@ export default function LoginPage() {
           <h2 className="text-4xl font-bold text-white leading-tight">
             Book verified workers<br />you can actually trust
           </h2>
-          <p className="text-green-100 text-lg">
+          <p className="text-teal-100 text-lg">
             Plumbers, electricians, tailors and more — verified, rated, and at your door in 30 minutes.
           </p>
 
@@ -83,7 +83,7 @@ export default function LoginPage() {
         </div>
 
         <div className="relative z-10">
-          <p className="text-green-200 text-sm">Trusted by 10,000+ families across Pakistan</p>
+          <p className="text-teal-200 text-sm">Trusted by 10,000+ families across Pakistan</p>
         </div>
       </div>
 
@@ -93,7 +93,7 @@ export default function LoginPage() {
 
           {/* Mobile logo */}
           <div className="flex items-center gap-2 mb-8 lg:hidden">
-            <div className="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-teal-600 rounded-lg flex items-center justify-center">
               <span className="text-white font-bold">T</span>
             </div>
             <span className="text-gray-900 font-bold text-lg">TrustHire</span>
@@ -113,7 +113,7 @@ export default function LoginPage() {
                 name="email"
                 type="email"
                 required
-                className="w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-gray-900 placeholder-gray-400 transition-all"
+                className="w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent text-gray-900 placeholder-gray-400 transition-all"
                 placeholder="you@example.com"
               />
             </div>
@@ -123,7 +123,7 @@ export default function LoginPage() {
                 <label className="block text-sm font-semibold text-gray-700">
                   Password
                 </label>
-                <a href="#" className="text-sm text-green-600 hover:text-green-700 font-medium">
+                <a href="#" className="text-sm text-teal-600 hover:text-teal-700 font-medium">
                   Forgot password?
                 </a>
               </div>
@@ -131,7 +131,7 @@ export default function LoginPage() {
                 name="password"
                 type="password"
                 required
-                className="w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-gray-900 placeholder-gray-400 transition-all"
+                className="w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent text-gray-900 placeholder-gray-400 transition-all"
                 placeholder="••••••••"
               />
             </div>
@@ -145,7 +145,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white font-semibold py-3.5 rounded-xl transition-all duration-200 shadow-lg shadow-green-200 hover:shadow-green-300 hover:-translate-y-0.5 active:translate-y-0"
+              className="w-full bg-teal-600 hover:bg-teal-700 disabled:bg-teal-400 text-white font-semibold py-3.5 rounded-xl transition-all duration-200 shadow-lg shadow-teal-200 hover:shadow-teal-300 hover:-translate-y-0.5 active:translate-y-0"
             >
               {loading ? (
                 <span className="flex items-center justify-center gap-2">
@@ -162,13 +162,13 @@ export default function LoginPage() {
           <div className="mt-6 pt-6 border-t border-gray-200">
             <p className="text-center text-gray-500 text-sm">
               Don't have an account?{' '}
-              <Link href="/register" className="text-green-600 font-semibold hover:text-green-700">
+              <Link href="/register" className="text-teal-600 font-semibold hover:text-teal-700">
                 Create account
               </Link>
             </p>
             <p className="text-center text-gray-500 text-sm mt-2">
               Are you a worker?{' '}
-              <Link href="/workers/register" className="text-green-600 font-semibold hover:text-green-700">
+              <Link href="/workers/register" className="text-teal-600 font-semibold hover:text-teal-700">
                 Join as Worker
               </Link>
             </p>

@@ -46,8 +46,8 @@ export default function ReviewForm({
 
   if (success) {
     return (
-      <div className="rounded-xl border border-green-100 bg-green-50 px-4 py-3">
-        <p className="text-green-700 text-sm font-semibold">Thanks for your review!</p>
+      <div className="rounded-xl border border-teal-100 bg-teal-50 px-4 py-3">
+        <p className="text-teal-700 text-sm font-semibold">Thanks for your review!</p>
       </div>
     )
   }
@@ -69,7 +69,7 @@ export default function ReviewForm({
           rows={3}
           value={comment}
           onChange={(e) => setComment(e.target.value)}
-          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-900 placeholder-gray-400 text-sm resize-none"
+          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-teal-500 text-gray-900 placeholder-gray-400 text-sm resize-none"
           placeholder="Share your experience with this worker"
         />
       </div>
@@ -83,7 +83,7 @@ export default function ReviewForm({
       <button
         type="submit"
         disabled={loading}
-        className="bg-gray-900 hover:bg-gray-800 disabled:bg-gray-500 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-all"
+        className="bg-teal-600 hover:bg-teal-700 disabled:bg-teal-400 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition-all"
       >
         {loading ? 'Submitting...' : 'Submit Review'}
       </button>

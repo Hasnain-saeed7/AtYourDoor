@@ -52,13 +52,13 @@ export default function BookingForm({
   if (success) {
     return (
       <div className="text-center py-6">
-        <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-          <svg className="w-8 h-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div className="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg className="w-8 h-8 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
           </svg>
         </div>
         <h3 className="font-bold text-gray-900 mb-1">Booking Confirmed!</h3>
-        <p className="text-gray-500 text-sm">Redirecting to workers...</p>
+     
       </div>
     )
   }
@@ -99,7 +99,7 @@ export default function BookingForm({
           name="city"
           type="text"
           required
-          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-900 placeholder-gray-400 text-sm"
+          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-teal-500 text-gray-900 placeholder-gray-400 text-sm"
           placeholder="Karachi"
         />
       </div>
@@ -113,7 +113,7 @@ export default function BookingForm({
           type="datetime-local"
           required
           min={new Date().toISOString().slice(0, 16)}
-          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-900 text-sm"
+          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-teal-500 text-gray-900 text-sm"
         />
       </div>
 
@@ -126,7 +126,7 @@ export default function BookingForm({
       <button
         type="submit"
         disabled={loading}
-        className="w-full bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white font-semibold py-3.5 rounded-xl transition-all shadow-lg shadow-green-100 hover:-translate-y-0.5"
+        className="w-full bg-teal-600 hover:bg-teal-700 disabled:bg-teal-400 text-white font-semibold py-3.5 rounded-xl transition-all shadow-lg shadow-teal-100 hover:-translate-y-0.5"
       >
         {loading ? (
           <span className="flex items-center justify-center gap-2">

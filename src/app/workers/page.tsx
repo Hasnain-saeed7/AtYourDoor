@@ -108,8 +108,8 @@ export default async function WorkersPage({
               </>
             ) : (
               <>
-                <Link href="/login" className="text-gray-600 hover:text-gray-900 text-sm font-medium px-4 py-2">Sign in</Link>
-                <Link href="/register" className="bg-green-600 hover:bg-green-700 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-all shadow-lg shadow-green-100">
+                <Link href="/login" className="text-white  text-sm font-medium px-4 py-2 rounded-xl bg-black ">Sign in</Link>
+                <Link href="/register" className="bg-teal-600 hover:bg-teal-700 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-all shadow-lg shadow-teal-100">
                   Get Started
                 </Link>
               </>
@@ -119,10 +119,10 @@ export default async function WorkersPage({
       </nav>
 
       {/* Header */}
-      <div className="bg-gradient-to-br from-green-600 to-emerald-700 py-16 px-6">
+      <div className="bg-gradient-to-br from-teal-600 to-emerald-700 py-16 px-6">
         <div className="max-w-7xl mx-auto">
           <h1 className="text-4xl font-bold text-white mb-3">Find a Worker</h1>
-          <p className="text-green-100 text-lg mb-8">All workers are CNIC verified and background checked</p>
+          <p className="text-teal-100 text-lg mb-8">All workers are CNIC verified and background checked</p>
 
           {/* Search bar */}
           <form method="GET" className="flex flex-col sm:flex-row gap-3 max-w-2xl">
@@ -198,7 +198,7 @@ export default async function WorkersPage({
                 href="/workers"
                 className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium border transition-colors ${
                   !resolvedSearchParams.category
-                    ? 'bg-green-600 text-white border-green-600'
+                    ? 'bg-teal-600 text-white border-teal-600'
                     : 'bg-white text-gray-600 border-gray-200'
                 }`}
               >
@@ -213,7 +213,7 @@ export default async function WorkersPage({
                   href={`/workers?category=${cat.name}`}
                   className={`flex-shrink-0 flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium border transition-colors ${
                     resolvedSearchParams.category === cat.name
-                      ? 'bg-green-600 text-white border-green-600'
+                      ? 'bg-teal-600 text-white border-teal-600'
                       : 'bg-white text-gray-600 border-gray-200'
                   }`}
                 >
@@ -227,7 +227,7 @@ export default async function WorkersPage({
             <div className="flex items-center justify-between mb-6">
               <p className="text-gray-500 text-sm">
                 <span className="font-semibold text-gray-900">{rankedWorkers.length}</span> workers found
-                {resolvedSearchParams.category && <span> in <span className="font-semibold text-green-600">{resolvedSearchParams.category}</span></span>}
+                {resolvedSearchParams.category && <span> in <span className="font-semibold text-teal-600">{resolvedSearchParams.category}</span></span>}
               </p>
             </div>
 
@@ -275,9 +275,9 @@ function WorkerCard({
     <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-lg hover:shadow-gray-100 hover:-translate-y-1 transition-all duration-300">
       
       {/* Card header */}
-      <div className="p-6 pb-4">
+      <div className="p-6 pb-4  bg-beige-500">
         <div className="flex items-start gap-4">
-          <div className="w-14 h-14 rounded-2xl overflow-hidden flex-shrink-0 shadow-lg shadow-green-100 bg-green-100">
+          <div className="w-14 h-14 rounded-2xl overflow-hidden flex-shrink-0 shadow-lg shadow-teal-100 bg-teal-100">
             <WorkerAvatar
               src={worker.profileImage || worker.user.image}
               alt={worker.user.name}
@@ -288,7 +288,7 @@ function WorkerCard({
             <div className="flex items-center gap-2">
               <h3 className="font-bold text-gray-900 truncate">{worker.user.name}</h3>
               {worker.verificationStatus === 'APPROVED' && (
-                <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+                <div className="w-5 h-5 bg-teal-500 rounded-full flex items-center justify-center flex-shrink-0">
                   <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                   </svg>
@@ -299,7 +299,6 @@ function WorkerCard({
               <span className="text-xs font-semibold text-gray-900">
                 {rank.emoji} {rank.label}
               </span>
-              <span className="text-[10px] text-gray-500">{rank.ratingValue} stars</span>
             </div>
             <div className="flex items-center gap-1.5 mt-0.5">
               <CategoryIcon name={worker.category.name} className="w-4 h-4 text-gray-500" />
@@ -321,12 +320,10 @@ function WorkerCard({
                 <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
               </svg>
             ))}
-            <span className="text-sm font-semibold text-gray-900 ml-1">
-              {rank.ratingValue} stars
-            </span>
+         
           </div>
           <span className="text-gray-300">•</span>
-          <span className="text-gray-500 text-sm">{worker.totalJobs} jobs</span>
+          <span className="text-gray-500 text-sm">{worker.totalJobs} Services Completed</span>
         </div>
 
         {/* Bio */}
@@ -336,24 +333,24 @@ function WorkerCard({
       </div>
 
       {/* Card footer */}
-      <div className="px-6 py-4 bg-gray-50 border-t border-gray-100">
+      <div className="px-6 py-4 bg-pink-300 border-t border-gray-100">
         <div className="flex flex-col gap-3">
           <div className="flex items-center justify-between gap-3">
             <div>
-              <p className="text-xs text-gray-400">Starting from</p>
+              <p className="text-xs text-black">Starting from</p>
               <p className="font-bold text-gray-900">
                 Rs. {worker.hourlyRate.toLocaleString()}
-                <span className="text-gray-400 font-normal text-sm">/hr</span>
+                <span className="text-black font-normal text-sm">/hr</span>
               </p>
             </div>
             <Link
               href={bookingHref}
-              className="bg-green-600 hover:bg-green-700 text-white text-sm font-semibold px-4 py-2 rounded-xl transition-all shrink-0"
+              className="bg-black text-white text-sm font-semibold px-4 py-2 rounded-xl transition-all shrink-0"
             >
               Book Now
             </Link>
           </div>
-          <div className="flex flex-wrap items-center gap-3 text-xs text-gray-500">
+          <div className="flex flex-wrap items-center gap-3 text-xs text-black">
             <span className="flex items-center gap-1">
               <MapPin className="w-3.5 h-3.5" aria-hidden="true" />
               {worker.city}

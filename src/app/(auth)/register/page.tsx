@@ -44,14 +44,14 @@ export default function RegisterPage() {
     <div className="min-h-screen flex">
 
       {/* Left Panel */}
-      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-green-600 via-green-700 to-emerald-800 flex-col justify-between p-12 relative overflow-hidden">
+      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-teal-600 via-teal-700 to-emerald-800 flex-col justify-between p-12 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2" />
         <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2" />
 
         <div className="relative z-10">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center">
-              <span className="text-green-700 font-bold text-lg">T</span>
+              <span className="text-teal-700 font-bold text-lg">T</span>
             </div>
             <span className="text-white font-bold text-xl">TrustHire</span>
           </div>
@@ -61,7 +61,7 @@ export default function RegisterPage() {
           <h2 className="text-4xl font-bold text-white leading-tight">
             Join thousands of<br />happy customers
           </h2>
-          <p className="text-green-100 text-lg">
+          <p className="text-teal-100 text-lg">
             Get reliable home services at your doorstep. Verified workers, transparent pricing, guaranteed quality.
           </p>
 
@@ -74,14 +74,14 @@ export default function RegisterPage() {
             ].map((stat) => (
               <div key={stat.label} className="bg-white/10 rounded-xl p-4">
                 <p className="text-white font-bold text-xl">{stat.number}</p>
-                <p className="text-green-200 text-sm">{stat.label}</p>
+                <p className="text-teal-200 text-sm">{stat.label}</p>
               </div>
             ))}
           </div>
         </div>
 
         <div className="relative z-10">
-          <p className="text-green-200 text-sm">Pakistan's most trusted home services platform</p>
+          <p className="text-teal-200 text-sm">Pakistan's most trusted home services platform</p>
         </div>
       </div>
 
@@ -90,7 +90,7 @@ export default function RegisterPage() {
         <div className="w-full max-w-md">
 
           <div className="flex items-center gap-2 mb-8 lg:hidden">
-            <div className="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-teal-600 rounded-lg flex items-center justify-center">
               <span className="text-white font-bold">T</span>
             </div>
             <span className="text-gray-900 font-bold text-lg">TrustHire</span>
@@ -109,7 +109,7 @@ export default function RegisterPage() {
                   name="name"
                   type="text"
                   required
-                  className="w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-gray-900 placeholder-gray-400 transition-all"
+                  className="w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent text-gray-900 placeholder-gray-400 transition-all"
                   placeholder="Muhammad Ali"
                 />
               </div>
@@ -120,7 +120,7 @@ export default function RegisterPage() {
                   name="email"
                   type="email"
                   required
-                  className="w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-gray-900 placeholder-gray-400 transition-all"
+                  className="w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent text-gray-900 placeholder-gray-400 transition-all"
                   placeholder="you@example.com"
                 />
               </div>
@@ -130,7 +130,7 @@ export default function RegisterPage() {
                 <input
                   name="phone"
                   type="tel"
-                  className="w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-gray-900 placeholder-gray-400 transition-all"
+                  className="w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent text-gray-900 placeholder-gray-400 transition-all"
                   placeholder="03001234567"
                 />
               </div>
@@ -142,7 +142,7 @@ export default function RegisterPage() {
                   type="password"
                   required
                   minLength={6}
-                  className="w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-gray-900 placeholder-gray-400 transition-all"
+                  className="w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent text-gray-900 placeholder-gray-400 transition-all"
                   placeholder="Min. 6 characters"
                 />
               </div>
@@ -157,7 +157,7 @@ export default function RegisterPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white font-semibold py-3.5 rounded-xl transition-all duration-200 shadow-lg shadow-green-200 hover:shadow-green-300 hover:-translate-y-0.5 active:translate-y-0"
+              className="w-full bg-teal-600 hover:bg-teal-700 disabled:bg-teal-400 text-white font-semibold py-3.5 rounded-xl transition-all duration-200 shadow-lg shadow-teal-200 hover:shadow-teal-300 hover:-translate-y-0.5 active:translate-y-0"
             >
               {loading ? (
                 <span className="flex items-center justify-center gap-2">
@@ -178,7 +178,7 @@ export default function RegisterPage() {
           <div className="mt-6 pt-6 border-t border-gray-200">
             <p className="text-center text-gray-500 text-sm">
               Already have an account?{' '}
-              <Link href="/login" className="text-green-600 font-semibold hover:text-green-700">
+              <Link href="/login" className="text-teal-600 font-semibold hover:text-teal-700">
                 Sign in
               </Link>
             </p>

@@ -104,7 +104,7 @@ function BookingRow({ booking }: { booking: any }) {
     <div className="p-6 hover:bg-gray-50/50 transition-colors">
       <div className="flex items-start justify-between gap-4">
         <div className="flex items-start gap-4">
-          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center flex-shrink-0 shadow-md shadow-green-100">
+          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-teal-400 to-emerald-600 flex items-center justify-center flex-shrink-0 shadow-md shadow-teal-100">
             <span className="text-white font-bold">
               {booking.worker.user.name.charAt(0).toUpperCase()}
             </span>

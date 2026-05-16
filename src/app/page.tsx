@@ -41,7 +41,7 @@ export default async function HomePage() {
             </a>
             <a
               href="#workers"
-              className="text-sm font-semibold px-4 py-2 rounded-full bg-violet-50 text-violet-700 border border-violet-100 hover:bg-violet-100 transition-colors"
+              className="text-sm font-semibold px-4 py-2 rounded-full bg-teal-600 text-white border border-teal-100 hover:bg-teal-100 transition-colors"
             >
               For Workers
             </a>
@@ -60,7 +60,7 @@ export default async function HomePage() {
                 <Link href="/login" className="text-gray-600 hover:text-gray-900 text-sm font-medium px-4 py-2 transition-colors">
                   Sign in
                 </Link>
-                <Link href="/register" className="bg-green-600 hover:bg-green-700 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-all shadow-lg shadow-green-100 hover:shadow-green-200 hover:-translate-y-0.5">
+                <Link href="/register" className="bg-teal-500 hover:bg-teal-600 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-all shadow-lg shadow-teal-100 hover:shadow-teal-200 hover:-translate-y-0.5">
                   Get Started
                 </Link>
               </>
@@ -77,14 +77,14 @@ export default async function HomePage() {
 
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 bg-green-50 border border-green-100 rounded-full px-4 py-2 mb-6">
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-              <span className="text-green-700 text-sm font-medium">Pakistan's #1 Verified Home Services Platform</span>
+            <div className="inline-flex items-center gap-2 bg-teal-50 border border-teal-100 rounded-full px-4 py-2 mb-6">
+              <div className="w-2 h-2 bg-teal-500 rounded-full animate-pulse" />
+              <span className="text-teal-700 text-sm font-medium">Pakistan's #1 Verified Home Services Platform</span>
             </div>
 
             <h1 className="text-5xl md:text-7xl font-bold text-gray-900 leading-tight mb-6">
               Book trusted
-              <span className="text-green-600"> workers </span>
+              <span className="text-teal-600"> workers </span>
               in 30 minutes
             </h1>
 
@@ -93,7 +93,7 @@ export default async function HomePage() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 mb-16">
-              <Link href="/workers" className="inline-flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold px-8 py-4 rounded-2xl transition-all shadow-xl shadow-green-200 hover:shadow-green-300 hover:-translate-y-1 text-lg">
+              <Link href="/workers" className="inline-flex items-center justify-center gap-2 bg-teal-500 hover:bg-teal-600 text-white font-semibold px-8 py-4 rounded-2xl transition-all shadow-xl shadow-teal-200 hover:shadow-teal-300 hover:-translate-y-1 text-lg">
                 Find a Worker Now
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -173,7 +173,7 @@ export default async function HomePage() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 relative">
-            <div className="hidden md:block absolute top-12 left-1/3 right-1/3 h-0.5 bg-gradient-to-r from-green-200 to-green-200" />
+            <div className="hidden md:block absolute top-12 left-1/3 right-1/3 h-0.5 bg-white" />
 
             {[
               { 
@@ -193,7 +193,7 @@ export default async function HomePage() {
               },
             ].map((item) => (
               <div key={item.step} className="relative text-center p-8 bg-gray-50 rounded-3xl border border-gray-100">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-green-600 rounded-2xl text-2xl mb-6 shadow-lg shadow-green-200">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-teal-600 rounded-2xl text-2xl mb-6 shadow-lg shadow-teal-200">
                   {item.icon}
                 </div>
                 <div className="absolute top-6 right-6 text-6xl font-black text-gray-100">{item.step}</div>
@@ -283,7 +283,7 @@ export default async function HomePage() {
 
             <div className="grid grid-cols-2 gap-4">
               {[
-                { number: 'Rs. 80,000+', label: 'Top worker monthly earnings', color: 'bg-green-600 text-white' },
+                { number: 'Rs. 80,000+', label: 'Top worker monthly earnings', color: 'bg-teal-600 text-white' },
                 { number: '85%', label: 'You keep of every job', color: 'bg-gray-900 text-white' },
                 { number: '< 5 min', label: 'To register on platform', color: 'bg-green-50 text-gray-900 border border-green-100' },
                 { number: '10x', label: 'More jobs than before', color: 'bg-gray-50 text-gray-900 border border-gray-100' },
@@ -299,21 +299,21 @@ export default async function HomePage() {
       </section>
 
       {/* CTA */}
-      <section className="py-24 px-6 bg-green-600 relative overflow-hidden">
+      <section className="py-24 px-6 bg-teal-700 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2" />
         <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2" />
         <div className="max-w-4xl mx-auto text-center relative z-10">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
             Ready to get started?
           </h2>
-          <p className="text-green-100 text-xl mb-10">
-            Join 50,000+ families already using TrustHire across Pakistan
+          <p className="text-teal-100 text-xl mb-10">
+            Join 5,000+ families already using TrustHire across Pakistan
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/register" className="inline-flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-green-700 font-bold px-10 py-4 rounded-2xl transition-all hover:-translate-y-1 shadow-xl text-lg">
+            <Link href="/register" className="inline-flex items-center justify-center gap-2 bg-white border border-green-500 hover:bg-gray-50 text-black font-bold px-10 py-4 rounded-2xl transition-all hover:-translate-y-1 shadow-xl text-lg">
               Book a Worker
             </Link>
-            <Link href="/workers/register" className="inline-flex items-center justify-center gap-2 bg-green-700 hover:bg-green-800 text-white font-bold px-10 py-4 rounded-2xl border border-green-500 transition-all hover:-translate-y-1 text-lg">
+            <Link href="/workers/register" className="inline-flex items-center justify-center gap-2 bg-black text-white font-bold px-10 py-4 rounded-2xl border border-green-500 transition-all hover:-translate-y-1 text-lg">
               Join as Worker
             </Link>
           </div>

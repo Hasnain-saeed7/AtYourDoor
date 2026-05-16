@@ -82,7 +82,7 @@ export default async function WorkerProfilePage({
 
             {/* Profile Card */}
             <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
-              <div className="bg-amber-700 p-8">
+              <div className="bg-teal-600 p-8">
                 <div className="flex items-start gap-5">
                   <div className="w-20 h-20 rounded-2xl overflow-hidden bg-white/20 backdrop-blur flex items-center justify-center flex-shrink-0 shadow-xl">
                     <WorkerAvatar
@@ -95,7 +95,7 @@ export default async function WorkerProfilePage({
                     <div className="flex items-center gap-3 flex-wrap">
                       <h1 className="text-2xl font-bold text-white">{worker.user.name}</h1>
                       <div className="flex items-center gap-1.5 bg-white/20 rounded-full px-3 py-1">
-                        <div className="w-2 h-2 bg-green-300 rounded-full" />
+                        <div className="w-2 h-2 bg-teal-300 rounded-full" />
                         <span className="text-white text-xs font-medium">Verified</span>
                       </div>
                       <div className="flex items-center gap-1.5 bg-white/20 rounded-full px-3 py-1">
@@ -106,7 +106,7 @@ export default async function WorkerProfilePage({
                     </div>
                     <div className="flex items-center gap-2 mt-1">
                       <CategoryIcon name={worker.category.name} className="w-5 h-5 text-white" />
-                      <span className="text-green-100 font-medium">{worker.category.name}</span>
+                      <span className="text-teal-100 font-medium">{worker.category.name}</span>
                     </div>
                     <div className="flex items-center gap-4 mt-3 flex-wrap">
                       <div className="flex items-center gap-2">
@@ -116,7 +116,7 @@ export default async function WorkerProfilePage({
                         <span className="text-white/70 text-xs">{rank.ratingValue} stars</span>
                       </div>
 
-                      <span className="text-green-200 text-sm flex items-center gap-1">
+                      <span className="text-teal-200 text-sm flex items-center gap-1">
                         <MapPin className="w-4 h-4" aria-hidden="true" />
                         {worker.city}, {worker.area}
                       </span>
@@ -143,12 +143,12 @@ export default async function WorkerProfilePage({
                 <div className="grid grid-cols-3 gap-4 pt-2">
                   {[
                     { label: 'Jobs Done', value: completedJobs },
-                    { label: 'Rating', value: `${rank.ratingValue} ★` },
+                    { label: 'Rating', value: `${rank.ratingValue} ` },
                     { label: 'Rate/hr', value: `Rs. ${worker.hourlyRate.toLocaleString()}` },
                   ].map((stat) => (
-                    <div key={stat.label} className="bg-gray-50 rounded-xl p-4 text-center">
-                      <p className="font-bold text-gray-900 text-lg">{stat.value}</p>
-                      <p className="text-gray-400 text-xs mt-1">{stat.label}</p>
+                    <div key={stat.label} className="bg-olive-400 rounded-xl p-4 text-center">
+                      <p className="font-bold text-black text-lg">{stat.value}</p>
+                      <p className="text-black text-xs mt-1">{stat.label}</p>
                     </div>
                   ))}
                 </div>
@@ -207,12 +207,12 @@ export default async function WorkerProfilePage({
                     <div>
                       <p className="text-2xl font-bold mb-2 text-gray-900">
                         Rs. {worker.hourlyRate.toLocaleString()}
-                        <span className="text-gray-400 font-normal text-base">/hr</span>
+                        <span className="text-black font-normal text-base">/hr</span>
                       </p>
                       <p className="text-gray-600 text-xs font-semibold">
-                        {rank.emoji} {rank.label} · {rank.ratingValue} stars
+                        {rank.emoji} {rank.label} 
                       </p>
-                      <p className="text-green-600 text-sm font-medium mt-0.5 ">Pay after job is done</p>
+                    
                     </div>
                     <div className={`px-3 py-1.5 rounded-full text-xs font-semibold ${worker.isAvailable ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-600'}`}>
                       {worker.isAvailable ? '● Available' : '● Unavailable'}
