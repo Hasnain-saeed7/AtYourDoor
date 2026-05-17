@@ -63,30 +63,30 @@ export default function LoginPage() {
 
         <div className="relative z-10 space-y-6">
           <h2 className="text-4xl font-bold text-white leading-tight">
-            Book verified workers<br />you can actually trust
+            <T k="bookVerifiedWorkersYouCanActuallyTrust" />
           </h2>
           <p className="text-teal-100 text-lg">
-            Plumbers, electricians, tailors and more — verified, rated, and at your door in 30 minutes.
+            <T k="plumbersElectriciansTailorsAndMoreVerifiedRatedAnd" />
           </p>
 
           <div className="space-y-4 pt-4">
             {[
-              { icon: '✓', text: 'CNIC verified workers only' },
-              { icon: '✓', text: 'Pay only after job is done' },
-              { icon: '✓', text: 'Rated by real customers' },
+              { icon: '✓', key: 'cnicVerifiedWorkersOnly' },
+              { icon: '✓', key: 'payOnlyAfterJobIsDone' },
+              { icon: '✓', key: 'ratedByRealCustomers' },
             ].map((item) => (
-              <div key={item.text} className="flex items-center gap-3">
+              <div key={item.key} className="flex items-center gap-3">
                 <div className="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center">
                   <span className="text-white text-xs font-bold">{item.icon}</span>
                 </div>
-                <span className="text-green-50">{item.text}</span>
+                <span className="text-green-50"><T k={item.key} /></span>
               </div>
             ))}
           </div>
         </div>
 
         <div className="relative z-10">
-          <p className="text-teal-200 text-sm">Trusted by 10,000+ families across Pakistan</p>
+          <p className="text-teal-200 text-sm"><T k="trustedBy10000FamiliesAcrossPakistan" /></p>
         </div>
       </div>
 

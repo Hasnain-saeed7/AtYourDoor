@@ -4,6 +4,7 @@ import { prisma } from '@/lib/prisma'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import SignOutButton from '@/components/signOutButton'
+import T from '@/components/T'
 
 export default async function MyBookingsPage() {
   const session = await getServerSession(authOptions)
@@ -39,11 +40,11 @@ export default async function MyBookingsPage() {
             <div className="w-9 h-9 bg-green-600 rounded-xl flex items-center justify-center">
               <span className="text-white font-bold text-lg">T</span>
             </div>
-            <span className="text-gray-900 font-bold text-xl">TrustHire</span>
+            <span className="text-gray-900 font-bold text-xl"><T k="trusthire" /></span>
           </Link>
           <div className="flex items-center gap-3">
             <Link href="/workers" className="text-gray-600 hover:text-gray-900 text-sm font-medium">
-              Find Workers
+              <T k="findWorkers" />
             </Link>
             <SignOutButton />
           </div>
@@ -53,27 +54,27 @@ export default async function MyBookingsPage() {
       <div className="max-w-7xl mx-auto px-6 py-10">
         <div className="flex items-end justify-between flex-wrap gap-4 mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">My Bookings</h1>
-            <p className="text-gray-500 mt-1">Track your recent requests and statuses</p>
+            <h1 className="text-3xl font-bold text-gray-900"><T k="myBookings" /></h1>
+            <p className="text-gray-500 mt-1"><T k="trackYourRecentRequestsAndStatuses" /></p>
           </div>
           <Link href="/workers" className="bg-green-600 hover:bg-green-700 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-all shadow-lg shadow-green-100">
-            + Book a Worker
+            <T k="bookAWorker" />
           </Link>
         </div>
 
         <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
           <div className="p-6 border-b border-gray-50 flex items-center justify-between">
-            <h2 className="font-bold text-gray-900 text-lg">Your Bookings</h2>
-            <span className="text-sm text-gray-400">{bookings.length} total</span>
+            <h2 className="font-bold text-gray-900 text-lg"><T k="yourBookings" /></h2>
+            <span className="text-sm text-gray-400">{bookings.length} <T k="total" /></span>
           </div>
 
           {bookings.length === 0 ? (
             <div className="text-center py-20">
               <div className="text-6xl mb-4">🧰</div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">No bookings yet</h3>
-              <p className="text-gray-500 mb-6">Book your first verified worker today</p>
+              <h3 className="text-xl font-bold text-gray-900 mb-2"><T k="noBookingsYet" /></h3>
+              <p className="text-gray-500 mb-6"><T k="bookYourFirstVerifiedWorkerToday" /></p>
               <Link href="/workers" className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-xl transition-all">
-                Browse Workers
+                <T k="browseWorkers" />
               </Link>
             </div>
           ) : (
@@ -90,12 +91,12 @@ export default async function MyBookingsPage() {
 }
 
 function BookingRow({ booking }: { booking: any }) {
-  const statusConfig: Record<string, { label: string; color: string }> = {
-    PENDING: { label: 'Pending', color: 'bg-yellow-50 text-yellow-700 border border-yellow-100' },
-    ACCEPTED: { label: 'Accepted', color: 'bg-blue-50 text-blue-700 border border-blue-100' },
-    IN_PROGRESS: { label: 'In Progress', color: 'bg-purple-50 text-purple-700 border border-purple-100' },
-    COMPLETED: { label: 'Completed', color: 'bg-green-50 text-green-700 border border-green-100' },
-    CANCELLED: { label: 'Cancelled', color: 'bg-red-50 text-red-700 border border-red-100' },
+  const statusConfig: Record<string, { labelKey: string; color: string }> = {
+    PENDING: { labelKey: 'pending', color: 'bg-yellow-50 text-yellow-700 border border-yellow-100' },
+    ACCEPTED: { labelKey: 'accepted', color: 'bg-blue-50 text-blue-700 border border-blue-100' },
+    IN_PROGRESS: { labelKey: 'inProgress', color: 'bg-purple-50 text-purple-700 border border-purple-100' },
+    COMPLETED: { labelKey: 'completed', color: 'bg-green-50 text-green-700 border border-green-100' },
+    CANCELLED: { labelKey: 'cancelled', color: 'bg-red-50 text-red-700 border border-red-100' },
   }
 
   const status = statusConfig[booking.status] || statusConfig.PENDING
@@ -104,7 +105,7 @@ function BookingRow({ booking }: { booking: any }) {
     <div className="p-6 hover:bg-gray-50/50 transition-colors">
       <div className="flex items-start justify-between gap-4">
         <div className="flex items-start gap-4">
-          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-teal-400 to-emerald-600 flex items-center justify-center flex-shrink-0 shadow-md shadow-teal-100">
+          <div className="w-12 h-12 rounded-xl bg-linear-to-br from-teal-400 to-emerald-600 flex items-center justify-center shrink-0 shadow-md shadow-teal-100">
             <span className="text-white font-bold">
               {booking.worker.user.name.charAt(0).toUpperCase()}
             </span>
@@ -148,9 +149,9 @@ function BookingRow({ booking }: { booking: any }) {
             </div>
           </div>
         </div>
-        <div className="flex flex-col items-end gap-2 flex-shrink-0">
+        <div className="flex flex-col items-end gap-2 shrink-0">
           <span className={`text-xs font-semibold px-3 py-1.5 rounded-full ${status.color}`}>
-            {status.label}
+            <T k={status.labelKey} />
           </span>
           {booking.totalAmount && (
             <span className="text-sm font-bold text-gray-900">

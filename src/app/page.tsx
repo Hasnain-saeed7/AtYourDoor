@@ -27,7 +27,7 @@ export default async function HomePage() {
               <T k="pakistans1VerifiedHomeServicesPla" className="text-teal-700 text-sm font-medium" />
             </div>
 
-            <h1 className="text-5xl md:text-7xl font-bold text-gray-900 leading-tight mb-6">
+            <h1 className="text-3xl md:text-5xl font-bold text-teal-900 leading-tight mb-6">
               <T k="bookVerifiedWorkersYouCanActuallyTrust" />
             </h1>
 
@@ -49,21 +49,6 @@ export default async function HomePage() {
                 </svg>
               </Link>
             </div>
-
-            {/* Stats */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
-              <div className="mb-10">
-                <div className="inline-flex items-center gap-2 bg-white/20 border border-white/30 rounded-full px-4 py-2 mb-4 backdrop-blur">
-                  <svg className="w-4 h-4 text-green-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                  </svg>
-                  <T k="smartWorkerSearch" className="text-green-100 text-sm font-medium" />
-                </div>
-                <Link href="/workers" className="inline-flex items-center gap-2 bg-gray-900 hover:bg-gray-800 text-white font-semibold px-6 py-3 rounded-xl transition-all">
-                  <T k="searchWorkers" />
-                </Link>
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -80,29 +65,29 @@ export default async function HomePage() {
             {[
               { 
                 icon: <svg className="w-10 h-10 mx-auto text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>, 
-                name: 'Plumber', desc: 'Pipes, taps & leaks', color: 'bg-blue-50 border-blue-100' 
+                nameKey: 'plumber', descKey: 'pipesTapsLeaks', color: 'bg-blue-50 border-blue-100' 
               },
               { 
                 icon: <svg className="w-10 h-10 mx-auto text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>, 
-                name: 'Electrician', desc: 'Wiring & repairs', color: 'bg-yellow-50 border-yellow-100' 
+                nameKey: 'electrician', descKey: 'wiringRepairs', color: 'bg-yellow-50 border-yellow-100' 
               },
               { 
                 icon: <svg className="w-10 h-10 mx-auto text-orange-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5" /></svg>, 
-                name: 'Carpenter', desc: 'Furniture & woodwork', color: 'bg-orange-50 border-orange-100' 
+                nameKey: 'carpenter', descKey: 'furnitureWoodwork', color: 'bg-orange-50 border-orange-100' 
               },
               { 
                 icon: <svg className="w-10 h-10 mx-auto text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>, 
-                name: 'Cleaner', desc: 'Deep cleaning', color: 'bg-green-50 border-green-100' 
+                nameKey: 'cleaner', descKey: 'deepCleaning', color: 'bg-green-50 border-green-100' 
               },
               { 
                 icon: <svg className="w-10 h-10 mx-auto text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.879 2.879M12 12L9.121 9.121m0 5.758a3 3 0 10-4.243 4.243 3 3 0 004.243-4.243zm0-5.758a3 3 0 10-4.243-4.243 3 3 0 004.243 4.243z" /></svg>, 
-                name: 'Tailor', desc: 'Stitching at home', color: 'bg-purple-50 border-purple-100' 
+                nameKey: 'tailor', descKey: 'stitchingAtHome', color: 'bg-purple-50 border-purple-100' 
               },
             ].map((service) => (
-              <Link href="/workers" key={service.name} className={`${service.color} border rounded-2xl p-6 text-center hover:-translate-y-1 transition-all cursor-pointer group flex flex-col items-center`}>
+              <Link href="/workers" key={service.nameKey} className={`${service.color} border rounded-2xl p-6 text-center hover:-translate-y-1 transition-all cursor-pointer group flex flex-col items-center`}>
                 <div className="mb-3">{service.icon}</div>
-                <p className="font-bold text-gray-900 group-hover:text-green-700 transition-colors w-full">{service.name}</p>
-                <p className="text-gray-500 text-xs mt-1 w-full">{service.desc}</p>
+                <p className="font-bold text-gray-900 group-hover:text-green-700 transition-colors w-full"><T k={service.nameKey} /></p>
+                <p className="text-gray-500 text-xs mt-1 w-full"><T k={service.descKey} /></p>
               </Link>
             ))}
           </div>
@@ -111,42 +96,27 @@ export default async function HomePage() {
 
       {/* How it works */}
       <section id="how" className="py-24 px-6 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4"><T k="howTrustHireWorks" /></h2>
-            <p className="text-gray-500 text-lg"><T k="bookVerifiedWorkerSteps" /></p>
-          </div>
+        <div className="text-center mb-16">
+          <h2 className="text-4xl font-bold text-gray-900 mb-4"><T k="howTrustHireWorks" /></h2>
+          <p className="text-gray-500 text-lg"><T k="bookVerifiedWorkerSteps" /></p>
+        </div>
 
-          <div className="grid md:grid-cols-3 gap-8 relative">
-            <div className="hidden md:block absolute top-12 left-1/3 right-1/3 h-0.5 bg-white" />
-
-            {[
-              { 
-                step: '01', 
-                icon: <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>, 
-                title: <T k="chooseAService" />, desc: <T k="chooseAServiceDesc" /> 
-              },
-              { 
-                step: '02', 
-                icon: <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>, 
-                title: <T k="bookInstantly" />, desc: <T k="bookInstantlyDesc" /> 
-              },
-              { 
-                step: '03', 
-                icon: <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>, 
-                title: <T k="jobDonePayAfter" />, desc: <T k="jobDonePayAfterDesc" /> 
-              },
-            ].map((item) => (
-              <div key={item.step} className="relative text-center p-8 bg-gray-50 rounded-3xl border border-gray-100">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-teal-600 rounded-2xl text-2xl mb-6 shadow-lg shadow-teal-200">
-                  {item.icon}
-                </div>
-                <div className="absolute top-6 right-6 text-6xl font-black text-gray-100">{item.step}</div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">{item.title}</h3>
-                <p className="text-gray-500 leading-relaxed">{item.desc}</p>
+        <div className="grid md:grid-cols-3 gap-8 relative">
+          <div className="hidden md:block absolute top-12 left-1/3 right-1/3 h-0.5 bg-white" />
+          {[
+            { step: '01', icon: <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m4-4h.01M12 20h.01" /></svg>, title: <T k="chooseAService" />, desc: <T k="chooseAServiceDesc" /> },
+            { step: '02', icon: <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 10-8 0v4" /></svg>, title: <T k="bookInstantly" />, desc: <T k="bookInstantlyDesc" /> },
+            { step: '03', icon: <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>, title: <T k="jobDonePayAfter" />, desc: <T k="jobDonePayAfterDesc" /> },
+          ].map((item) => (
+            <div key={item.step} className="relative text-center p-8 bg-gray-50 rounded-3xl border border-gray-100">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-teal-600 rounded-2xl text-2xl mb-6 shadow-lg shadow-teal-200">
+                {item.icon}
               </div>
-            ))}
-          </div>
+              <div className="absolute top-6 right-6 text-6xl font-black text-gray-100">{item.step}</div>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">{item.title}</h3>
+              <p className="text-gray-500 leading-relaxed">{item.desc}</p>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -207,7 +177,7 @@ export default async function HomePage() {
                 ))}
               </div>
               <Link href="/workers/register" className="inline-flex items-center gap-2 bg-gray-900 hover:bg-gray-800 text-white font-semibold px-8 py-4 rounded-2xl transition-all hover:-translate-y-0.5 shadow-xl shadow-gray-200">
-                <T k="joinTrusthire" />
+                <T k="joinTrusthire"/>
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
@@ -216,16 +186,16 @@ export default async function HomePage() {
 
             <div className="grid grid-cols-2 gap-4">
               {[
-                { number: 'Rs. 80,000+', label: 'Top worker monthly earnings', color: 'bg-teal-600 text-white' },
-                { number: '85%', label: 'You keep of every job', color: 'bg-gray-900 text-white' },
-                { number: '< 5 min', label: 'To register on platform', color: 'bg-green-50 text-gray-900 border border-green-100' },
-                { number: '10x', label: 'More jobs than before', color: 'bg-gray-50 text-gray-900 border border-gray-100' },
-              ].map((card) => (
-                <div key={card.label} className={`${card.color} rounded-2xl p-6`}>
-                  <p className="text-3xl font-black mb-2">{card.number}</p>
-                  <p className="text-sm opacity-75">{card.label}</p>
-                </div>
-              ))}
+                  { numberKey: 'topWorkerMonthlyEarningsNumber', labelKey: 'topWorkerMonthlyEarnings', color: 'bg-teal-600 text-white' },
+                  { numberKey: 'youKeepOfEveryJobNumber', labelKey: 'youKeepOfEveryJobLabel', color: 'bg-gray-900 text-white' },
+                  { numberKey: 'timeToRegisterNumber', labelKey: 'timeToRegisterLabel', color: 'bg-green-50 text-gray-900 border border-green-100' },
+                  { numberKey: 'moreJobsNumber', labelKey: 'moreJobsLabel', color: 'bg-gray-50 text-gray-900 border border-gray-100' },
+                ].map((card) => (
+                  <div key={card.labelKey} className={`${card.color} rounded-2xl p-6`}>
+                    <p className="text-3xl font-black mb-2"><T k={card.numberKey} /></p>
+                    <p className="text-sm opacity-75"><T k={card.labelKey} /></p>
+                  </div>
+                ))}
             </div>
           </div>
         </div>

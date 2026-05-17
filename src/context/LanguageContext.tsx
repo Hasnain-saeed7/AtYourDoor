@@ -6,7 +6,7 @@ import { translations, Language, TranslationKey } from '@/lib/translations'
 interface LanguageContextType {
   language: Language
   setLanguage: (lang: Language) => void
-  t: (key: TranslationKey) => string
+  t: (key: string) => string
   isRTL: boolean
 }
 
@@ -40,8 +40,8 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     localStorage.setItem('trusthire-language', lang)
   }
 
-  function t(key: TranslationKey): string {
-    return translations[language][key] || translations['en'][key] || key
+  function t(key: string): string {
+    return (translations[language] as any)[key] || (translations['en'] as any)[key] || key
   }
 
   return (

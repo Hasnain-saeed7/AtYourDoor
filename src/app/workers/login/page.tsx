@@ -1,10 +1,11 @@
-'use client'
+ 'use client'
 
 import { useState, Suspense } from 'react'
 import { signIn } from 'next-auth/react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { useLanguage } from '@/context/LanguageContext'
+import { Inbox, CheckCircle, DollarSign, Star } from 'lucide-react'
 
 function WorkerLoginForm() {
   const router = useRouter()
@@ -43,7 +44,7 @@ function WorkerLoginForm() {
     <div className="min-h-screen flex">
 
       {/* Left Panel */}
-      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex-col justify-between p-12 relative overflow-hidden">
+      <div className="hidden lg:flex lg:w-1/2 bg-linear-to-br from-gray-900 via-gray-800 to-gray-900 flex-col justify-between p-12 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-96 h-96 bg-green-500/10 rounded-full -translate-y-1/2 translate-x-1/2" />
         <div className="absolute bottom-0 left-0 w-64 h-64 bg-green-500/10 rounded-full translate-y-1/2 -translate-x-1/2" />
 
@@ -60,26 +61,26 @@ function WorkerLoginForm() {
           <div>
             <div className="inline-flex items-center gap-2 bg-green-500/20 border border-green-500/30 rounded-full px-4 py-2 mb-4">
               <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-              <span className="text-green-400 text-sm font-medium">Worker Portal</span>
+              <span className="text-green-400 text-sm font-medium">{t('workerPortal')}</span>
             </div>
             <h2 className="text-4xl font-black text-white leading-tight">
-              Welcome back,<br />rockstar worker 👷
+              {t('welcomeBack')}
             </h2>
             <p className="text-gray-400 mt-4 leading-relaxed">
-              Sign in to see your job requests, manage bookings, and track your earnings.
+              {t('accessYourWorkerDashboard')}
             </p>
           </div>
 
           <div className="space-y-3">
             {[
-              { icon: '📥', textKey: 'seeNewJobRequests' },
-              { icon: '✅', textKey: 'acceptOrDeclineJobs' },
-              { icon: '💰', textKey: 'trackYourEarnings' },
-              { icon: '⭐', textKey: 'viewYourRatings' },
+              { icon: <Inbox className="w-5 h-5 text-green-300" />, textKey: 'seeNewJobRequests' },
+              { icon: <CheckCircle className="w-5 h-5 text-green-300" />, textKey: 'acceptOrDeclineJobs' },
+              { icon: <DollarSign className="w-5 h-5 text-green-300" />, textKey: 'trackYourEarnings' },
+              { icon: <Star className="w-5 h-5 text-green-300" />, textKey: 'viewYourRatings' },
             ].map((item) => (
               <div key={item.textKey} className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <span>{item.icon}</span>
+                <div className="w-8 h-8 bg-white/6 rounded-lg flex items-center justify-center shrink-0">
+                  {item.icon}
                 </div>
                 <span className="text-gray-300 text-sm">{t(item.textKey)}</span>
               </div>
@@ -87,14 +88,7 @@ function WorkerLoginForm() {
           </div>
         </div>
 
-        <div className="relative z-10">
-          <p className="text-gray-500 text-sm">
-            Not a worker yet?{' '}
-            <Link href="/workers/register" className="text-green-400 font-semibold hover:text-green-300">
-              Join TrustHire →
-            </Link>
-          </p>
-        </div>
+      
       </div>
 
       {/* Right Panel */}
@@ -113,7 +107,7 @@ function WorkerLoginForm() {
           {isNewWorker && (
             <div className="bg-green-50 border border-green-100 rounded-2xl px-5 py-4 mb-6">
               <div className="flex items-start gap-3">
-                <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center shrink-0 mt-0.5">
                   <svg className="w-4 h-4 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                   </svg>

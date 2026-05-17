@@ -62,29 +62,29 @@ export default function RegisterPage() {
 
         <div className="relative z-10 space-y-6">
           <h2 className="text-4xl font-bold text-white leading-tight">
-            Join thousands of<br />happy customers
+            <T k="joinThousandsOfHappyCustomers" />
           </h2>
           <p className="text-teal-100 text-lg">
-            Get reliable home services at your doorstep. Verified workers, transparent pricing, guaranteed quality.
+            <T k="getReliableHomeServicesAtYourDoorstepVerifiedWorke" />
           </p>
 
           <div className="grid grid-cols-2 gap-4 pt-4">
             {[
-              { number: '5,000+', label: 'Verified Workers' },
-              { number: '50,000+', label: 'Jobs Completed' },
-              { number: '4.8★', label: 'Average Rating' },
-              { number: '30 min', label: 'Average Arrival' },
+              { number: '5,000+', labelKey: 'verifiedWorkers' },
+              { number: '50,000+', labelKey: 'jobsCompleted' },
+              { number: '4.8★', labelKey: 'averageRating' },
+              { number: '30 min', labelKey: 'averageArrival' },
             ].map((stat) => (
-              <div key={stat.label} className="bg-white/10 rounded-xl p-4">
+              <div key={stat.labelKey} className="bg-white/10 rounded-xl p-4">
                 <p className="text-white font-bold text-xl">{stat.number}</p>
-                <p className="text-teal-200 text-sm">{stat.label}</p>
+                <p className="text-teal-200 text-sm"><T k={stat.labelKey} /></p>
               </div>
             ))}
           </div>
         </div>
 
         <div className="relative z-10">
-          <p className="text-teal-200 text-sm">Pakistan's most trusted home services platform</p>
+          <p className="text-teal-200 text-sm"><T k="pakistansMostTrustedHomeServicesPlatform" /></p>
         </div>
       </div>
 

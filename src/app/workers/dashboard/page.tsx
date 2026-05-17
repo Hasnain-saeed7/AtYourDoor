@@ -5,6 +5,8 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import SignOutButton from '@/components/signOutButton'
 import T from '@/components/T'
+import Counted from '@/components/Counted'
+import DeleteHistoryButton from '@/components/DeleteHistoryButton'
 import WorkerBookingActions from '@/components/worker/WorkerBookingActions'
 import { getWorkerRank } from '@/lib/workerRank'
 import { 
@@ -119,7 +121,7 @@ export default async function WorkerDashboardPage() {
 
   const pendingBookings = bookings.filter((b) => b.status === 'PENDING')
   const activeBookings = bookings.filter((b) => ['ACCEPTED', 'IN_PROGRESS'].includes(b.status))
-  const pastBookings = bookings.filter((b) => ['COMPLETED', 'CANCELLED'].includes(b.status))
+  const pastBookings = bookings.filter((b) => ['COMPLETED', 'CANCELLED'].includes(b.status) && !b.hiddenFromWorker)
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -250,7 +252,7 @@ export default async function WorkerDashboardPage() {
               </div>
               <div>
                 <h2 className="font-bold text-gray-900"><T k="newJobRequests" /></h2>
-                <p className="text-yellow-700 text-sm">{pendingBookings.length} <T k="requestsWaitingForYourResponse" /></p>
+                <p className="text-yellow-700 text-sm"><Counted k="pendingRequestsWithCount" count={pendingBookings.length} /></p>
               </div>
             </div>
             <div className="divide-y divide-gray-50">
@@ -280,11 +282,12 @@ export default async function WorkerDashboardPage() {
 
         {/* Past Jobs */}
         <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm">
-          <div className="p-6 border-b border-gray-50 flex items-center gap-3">
+          <div className="p-6 border-b border-gray-50 flex items-center gap-3 justify-between">
             <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
               <ClipboardList className="w-5 h-5 text-gray-600" />
             </div>
             <h2 className="font-bold text-gray-900"><T k="jobHistory" /></h2>
+            {pastBookings.length > 0 && <DeleteHistoryButton />}
           </div>
           {pastBookings.length === 0 ? (
             <div className="text-center py-16">
