@@ -4,6 +4,7 @@ import { useState, Suspense } from 'react'
 import { signIn } from 'next-auth/react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
+import { useLanguage } from '@/context/LanguageContext'
 
 function WorkerLoginForm() {
   const router = useRouter()
@@ -11,6 +12,7 @@ function WorkerLoginForm() {
   const isNewWorker = searchParams.get('registered') === 'worker'
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const { t } = useLanguage()
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -28,7 +30,7 @@ function WorkerLoginForm() {
     })
 
     if (result?.error) {
-      setError('Invalid email or password')
+      setError(t('invalidEmailOrPassword'))
       setLoading(false)
       return
     }
@@ -70,16 +72,16 @@ function WorkerLoginForm() {
 
           <div className="space-y-3">
             {[
-              { icon: '📥', text: 'See new job requests' },
-              { icon: '✅', text: 'Accept or decline jobs' },
-              { icon: '💰', text: 'Track your earnings' },
-              { icon: '⭐', text: 'View your ratings' },
+              { icon: '📥', textKey: 'seeNewJobRequests' },
+              { icon: '✅', textKey: 'acceptOrDeclineJobs' },
+              { icon: '💰', textKey: 'trackYourEarnings' },
+              { icon: '⭐', textKey: 'viewYourRatings' },
             ].map((item) => (
-              <div key={item.text} className="flex items-center gap-3">
+              <div key={item.textKey} className="flex items-center gap-3">
                 <div className="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center flex-shrink-0">
                   <span>{item.icon}</span>
                 </div>
-                <span className="text-gray-300 text-sm">{item.text}</span>
+                <span className="text-gray-300 text-sm">{t(item.textKey)}</span>
               </div>
             ))}
           </div>
@@ -117,18 +119,16 @@ function WorkerLoginForm() {
                   </svg>
                 </div>
                 <div>
-                  <p className="text-green-800 font-bold text-sm">Application submitted successfully! 🎉</p>
-                  <p className="text-green-600 text-xs mt-1 leading-relaxed">
-                    Sign in to track your verification status. We review applications within 24 hours.
-                  </p>
+                  <p className="text-green-800 font-bold text-sm">{t('applicationSubmittedSuccessfully')}</p>
+                  <p className="text-green-600 text-xs mt-1 leading-relaxed">{t('signInToTrackVerificationStatus')}</p>
                 </div>
               </div>
             </div>
           )}
 
           <div className="mb-8">
-            <h1 className="text-3xl font-black text-gray-900">Worker Sign In</h1>
-            <p className="text-gray-500 mt-2">Access your worker dashboard</p>
+            <h1 className="text-3xl font-black text-gray-900">{t('workerSignIn')}</h1>
+            <p className="text-gray-500 mt-2">{t('accessYourWorkerDashboard')}</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
@@ -175,11 +175,11 @@ function WorkerLoginForm() {
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
                   </svg>
-                  Signing in...
+                  {t('signingIn')}
                 </>
               ) : (
                 <>
-                  Sign In to Dashboard
+                  {t('signInToDashboard')}
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
@@ -189,17 +189,11 @@ function WorkerLoginForm() {
           </form>
 
           <div className="mt-6 pt-6 border-t border-gray-200 space-y-3">
-            <p className="text-center text-gray-500 text-sm">
-              Not registered yet?{' '}
-              <Link href="/workers/register" className="text-green-600 font-bold hover:text-green-700">
-                Join as Worker
-              </Link>
+            <p className="text-center text-gray-500 text-sm">{t('notAWorkerYet')}{' '}
+              <Link href="/workers/register" className="text-green-600 font-bold hover:text-green-700">{t('joinAsWorker')}</Link>
             </p>
-            <p className="text-center text-gray-500 text-sm">
-              Are you a customer?{' '}
-              <Link href="/login" className="text-gray-600 font-semibold hover:text-gray-900">
-                Customer Login 
-              </Link>
+            <p className="text-center text-gray-500 text-sm">{t('areYouACustomer')}{' '}
+              <Link href="/login" className="text-gray-600 font-semibold hover:text-gray-900">{t('customerLogin')}</Link>
             </p>
           </div>
 

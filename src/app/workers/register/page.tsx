@@ -3,22 +3,24 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { useLanguage } from '@/context/LanguageContext'
 import { 
   Wrench, Zap, Hammer, Sparkles, Scissors, 
   Banknote, Target, Star, ShieldCheck, User, MapPin 
 } from 'lucide-react'
 
 const CATEGORIES = [
-  { id: 'plumber', name: 'Plumber', icon: <Wrench className="w-6 h-6" />, desc: 'Pipes, taps & leaks' },
-  { id: 'electrician', name: 'Electrician', icon: <Zap className="w-6 h-6" />, desc: 'Wiring & repairs' },
-  { id: 'carpenter', name: 'Carpenter', icon: <Hammer className="w-6 h-6" />, desc: 'Furniture & woodwork' },
-  { id: 'cleaner', name: 'Cleaner', icon: <Sparkles className="w-6 h-6" />, desc: 'Deep cleaning' },
-  { id: 'tailor', name: 'Tailor', icon: <Scissors className="w-6 h-6" />, desc: 'Stitching at home' },
+  { id: 'plumber', icon: <Wrench className="w-6 h-6" />, descKey: 'pipesTapsLeaks' },
+  { id: 'electrician', icon: <Zap className="w-6 h-6" />, descKey: 'wiringRepairs' },
+  { id: 'carpenter', icon: <Hammer className="w-6 h-6" />, descKey: 'furnitureWoodwork' },
+  { id: 'cleaner', icon: <Sparkles className="w-6 h-6" />, descKey: 'deepCleaning' },
+  { id: 'tailor', icon: <Scissors className="w-6 h-6" />, descKey: 'stitchingAtHome' },
 ]
 
 export default function WorkerRegisterPage() {
   const router = useRouter()
   const mapboxToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN
+  const { t } = useLanguage()
   const [step, setStep] = useState(1)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -213,30 +215,28 @@ export default function WorkerRegisterPage() {
         <div className="relative z-10 space-y-8">
           <div>
             <div className="inline-flex items-center gap-2 bg-green-500/20 border border-green-500/30 rounded-full px-4 py-2 mb-4">
-              <span className="text-green-400 text-sm font-medium">For Skilled Workers</span>
+              <span className="text-green-400 text-sm font-medium">{t('forSkilledWorkers')}</span>
             </div>
             <h2 className="text-4xl font-black text-white leading-tight">
-              Turn your skills<br />into steady income
+              {t('turnYourSkillsIntoSteadyIncome')}
             </h2>
-            <p className="text-gray-400 mt-4 leading-relaxed">
-              Join Pakistan's most trusted home services platform and get verified jobs delivered to your doorstep.
-            </p>
+            <p className="text-gray-400 mt-4 leading-relaxed">{t('joinTrusthirePitch')}</p>
           </div>
 
           <div className="space-y-4">
             {[
-              { icon: <Banknote className="w-5 h-5" />, title: 'Earn Rs. 80,000+/month', desc: 'Top workers on our platform' },
-              { icon: <Target className="w-5 h-5" />, title: 'Jobs come to you', desc: 'No need to search for clients' },
-              { icon: <Star className="w-5 h-5" />, title: 'Build your reputation', desc: 'Reviews that grow your business' },
-              { icon: <ShieldCheck className="w-5 h-5" />, title: 'Guaranteed payment', desc: 'Get paid after every job' },
+              { icon: <Banknote className="w-5 h-5" />, titleKey: 'earnRs80000PerMonth', descKey: 'topWorkersOnOurPlatform' },
+              { icon: <Target className="w-5 h-5" />, titleKey: 'jobsComeToYou', descKey: 'noNeedToSearchForClients' },
+              { icon: <Star className="w-5 h-5" />, titleKey: 'buildYourReputation', descKey: 'reviewsThatGrowYourBusiness' },
+              { icon: <ShieldCheck className="w-5 h-5" />, titleKey: 'guaranteedPayment', descKey: 'getPaidAfterEveryJob' },
             ].map((item) => (
-              <div key={item.title} className="flex items-center gap-4">
+              <div key={item.titleKey} className="flex items-center gap-4">
                 <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center shrink-0 text-green-400">
                   {item.icon}
                 </div>
                 <div>
-                  <p className="text-white font-semibold text-sm">{item.title}</p>
-                  <p className="text-gray-400 text-xs">{item.desc}</p>
+                  <p className="text-white font-semibold text-sm">{t(item.titleKey)}</p>
+                  <p className="text-gray-400 text-xs">{t(item.descKey)}</p>
                 </div>
               </div>
             ))}
@@ -263,8 +263,8 @@ export default function WorkerRegisterPage() {
           {/* Progress */}
           <div className="mb-8">
             <div className="flex items-center justify-between mb-3">
-              <h1 className="text-2xl font-black text-gray-900">Join as a Worker</h1>
-              <span className="text-sm font-semibold text-gray-400">Step {step} of 3</span>
+              <h1 className="text-2xl font-black text-gray-900">{t('joinAsWorker')}</h1>
+              <span className="text-sm font-semibold text-gray-400">{t('step')} {step} {t('of')} 3</span>
             </div>
             <div className="flex gap-2">
               {[1, 2, 3].map((s) => (
@@ -277,9 +277,9 @@ export default function WorkerRegisterPage() {
               ))}
             </div>
             <p className="text-gray-400 text-sm mt-2">
-              {step === 1 && 'Personal information'}
-              {step === 2 && 'Choose your skill'}
-              {step === 3 && 'Work details'}
+              {step === 1 && t('personalInformation')}
+              {step === 2 && t('chooseYourSkill')}
+              {step === 3 && t('workDetails')}
             </p>
           </div>
 
@@ -288,7 +288,7 @@ export default function WorkerRegisterPage() {
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div className="col-span-2">
-                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">Full Name</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">{t('fullName')}</label>
                   <input
                     type="text"
                     value={formData.name}
@@ -298,7 +298,7 @@ export default function WorkerRegisterPage() {
                   />
                 </div>
                 <div className="col-span-2">
-                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">Email Address</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">{t('emailAddress')}</label>
                   <input
                     type="email"
                     value={formData.email}
@@ -308,7 +308,7 @@ export default function WorkerRegisterPage() {
                   />
                 </div>
                 <div className="col-span-2">
-                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">Phone Number</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">{t('phoneNumber')}</label>
                   <input
                     type="tel"
                     value={formData.phone}
@@ -316,10 +316,10 @@ export default function WorkerRegisterPage() {
                     className="w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-900 placeholder-gray-400"
                     placeholder="03001234567"
                   />
-                  <p className="text-xs text-gray-500 mt-1">Must be exactly 11 digits.</p>
+                  <p className="text-xs text-gray-500 mt-1">{t('mustBeExactly11Digits')}</p>
                 </div>
                 <div className="col-span-2">
-                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">Password</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">{t('password')}</label>
                   <input
                     type="password"
                     value={formData.password}
@@ -333,11 +333,11 @@ export default function WorkerRegisterPage() {
                 type="button"
                 onClick={() => {
                   if (!formData.name || !formData.email || !formData.password || !formData.phone) {
-                    setError('Please fill all fields')
+                    setError(t('pleaseFillAllFields'))
                     return
                   }
                   if (!/^\d{11}$/.test(formData.phone)) {
-                    setError('Phone number must be exactly 11 digits')
+                    setError(t('phoneMustBe11Digits'))
                     return
                   }
                   setError('')
@@ -345,7 +345,7 @@ export default function WorkerRegisterPage() {
                 }}
                 className="w-full bg-gray-900 hover:bg-gray-800 text-white font-bold py-4 rounded-xl transition-all hover:-translate-y-0.5 shadow-xl shadow-gray-200 flex items-center justify-center gap-2"
               >
-                Continue
+                {t('continue')}
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
@@ -356,30 +356,30 @@ export default function WorkerRegisterPage() {
           {/* Step 2 — Choose Category */}
           {step === 2 && (
             <div className="space-y-4">
-              <p className="text-gray-500 text-sm">Select your primary skill. You can add more later.</p>
+              <p className="text-gray-500 text-sm">{t('selectYourPrimarySkill')}</p>
               <div className="grid grid-cols-1 gap-3">
                 {CATEGORIES.map((cat) => (
                   <button
-                    key={cat.name}
-                    onClick={() => setSelectedCategory(cat.name)}
+                    key={cat.id}
+                    onClick={() => setSelectedCategory(cat.id)}
                     className={`flex items-center gap-4 p-4 rounded-xl border-2 transition-all text-left ${
-                      selectedCategory === cat.name
+                      selectedCategory === cat.id
                         ? 'border-green-500 bg-green-50'
                         : 'border-gray-100 bg-white hover:border-gray-200 hover:bg-gray-50'
                     }`}
                   >
                     <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-2xl shrink-0 ${
-                      selectedCategory === cat.name ? 'bg-green-100' : 'bg-gray-100'
+                      selectedCategory === cat.id ? 'bg-green-100' : 'bg-gray-100'
                     }`}>
                       {cat.icon}
                     </div>
                     <div className="flex-1">
-                      <p className={`font-bold ${selectedCategory === cat.name ? 'text-green-700' : 'text-gray-900'}`}>
-                        {cat.name}
+                      <p className={`font-bold ${selectedCategory === cat.id ? 'text-green-700' : 'text-gray-900'}`}>
+                        {t(cat.id)}
                       </p>
-                      <p className="text-gray-400 text-sm">{cat.desc}</p>
+                      <p className="text-gray-400 text-sm">{t(cat.descKey)}</p>
                     </div>
-                    {selectedCategory === cat.name && (
+                    {selectedCategory === cat.id && (
                       <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center shrink-0">
                         <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
@@ -394,12 +394,12 @@ export default function WorkerRegisterPage() {
                   onClick={() => setStep(1)}
                   className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-4 rounded-xl transition-all"
                 >
-                  Back
+                  {t('back')}
                 </button>
                 <button
                   onClick={() => {
                     if (!selectedCategory) {
-                      setError('Please select a category')
+                      setError(t('pleaseSelectCategory'))
                       return
                     }
                     setError('')
@@ -407,7 +407,7 @@ export default function WorkerRegisterPage() {
                   }}
                   className="grow-2 bg-gray-900 hover:bg-gray-800 text-white font-bold py-4 rounded-xl transition-all hover:-translate-y-0.5 flex items-center justify-center gap-2"
                 >
-                  Continue
+                  {t('continue')}
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
@@ -421,22 +421,22 @@ export default function WorkerRegisterPage() {
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div className="col-span-2">
-                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">Profile Photo (From Gallery)</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">{t('profilePhotoFromGallery')}</label>
                   <label 
                     htmlFor="profile-upload"
                     className="w-full flex items-center justify-center p-6 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:border-green-500 hover:bg-green-50 transition-all"
                   >
                     {formData.profileImage ? (
                       <div className="flex flex-col items-center">
-                        <img src={formData.profileImage} alt="Profile" className="w-20 h-20 rounded-full object-cover mb-2" />
-                        <span className="text-sm text-green-600 font-semibold">Ready! Click to change</span>
+                        <img src={formData.profileImage} alt={t('profile')} className="w-20 h-20 rounded-full object-cover mb-2" />
+                        <span className="text-sm text-green-600 font-semibold">{t('readyClickToChange')}</span>
                       </div>
                     ) : (
                       <div className="flex flex-col items-center">
                         <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mb-2">
                           <User className="w-6 h-6 text-gray-400" />
                         </div>
-                        <span className="text-sm font-medium text-gray-600">Select photo from gallery</span>
+                        <span className="text-sm font-medium text-gray-600">{t('selectPhotoFromGallery')}</span>
                       </div>
                     )}
                     <input 
@@ -458,25 +458,25 @@ export default function WorkerRegisterPage() {
                   </label>
                 </div>
                 <div className="col-span-2">
-                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">CNIC Number</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">{t('cnicNumber')}</label>
                   <input
                     type="text"
                     value={formData.cnicNumber}
                     onChange={(e) => updateForm('cnicNumber', e.target.value.replace(/\D/g, '').slice(0, 13))}
                     className="w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-900 placeholder-gray-400"
-                    placeholder="13 Digit CNIC (e.g. 4210112345671)"
+                    placeholder={t('cnicPlaceholder')}
                   />
-                  <p className="text-xs text-gray-500 mt-1">Must be exactly 13 digits.</p>
+                  <p className="text-xs text-gray-500 mt-1">{t('mustBeExactly13Digits')}</p>
                 </div>
                 <div className="col-span-2">
-                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">City via Maps</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">{t('cityViaMaps')}</label>
                   <input
                     type="text"
                     list="register-city-suggestions"
                     value={formData.city}
                     onChange={(e) => updateForm('city', e.target.value)}
                     className="w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-900 placeholder-gray-400 mb-2"
-                    placeholder="Search city from Mapbox..."
+                    placeholder={t('searchCityFromMapbox')}
                   />
                   <datalist id="register-city-suggestions">
                     {citySuggestions.map((cityItem) => (
@@ -485,7 +485,7 @@ export default function WorkerRegisterPage() {
                   </datalist>
                 </div>
                 <div className="col-span-2">
-                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">Real-time Location / Area</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">{t('realTimeLocationArea')}</label>
                   <div className="flex gap-2">
                     <input
                       type="text"
@@ -493,7 +493,7 @@ export default function WorkerRegisterPage() {
                       value={formData.area}
                       onChange={(e) => updateForm('area', e.target.value)}
                       className="w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-900 placeholder-gray-400"
-                      placeholder="Search your area from Mapbox..."
+                      placeholder={t('searchYourAreaFromMapbox')}
                     />
                     <datalist id="register-area-suggestions">
                       {areaSuggestions.map((areaItem) => (
@@ -506,43 +506,43 @@ export default function WorkerRegisterPage() {
                       className="px-4 py-3.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl transition-all border border-gray-200 flex items-center justify-center gap-2 font-semibold whitespace-nowrap shadow-sm hover:shadow"
                     >
                       <MapPin className="w-5 h-5" />
-                      Locate Me
+                      {t('locateMe')}
                     </button>
                   </div>
                   {formData.city && (
                     <p className="text-sm font-medium text-green-600 mt-2">
-                      📍 Selected City: <span className="font-bold">{formData.city}</span>
+                      📍 {t('selectedCity')}: <span className="font-bold">{formData.city}</span>
                     </p>
                   )}
                 </div>
                 <div className="col-span-2">
-                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">Hourly Rate (Rs.)</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">{t('hourlyRateRs')}</label>
                   <input
                     type="number"
                     value={formData.hourlyRate}
                     onChange={(e) => updateForm('hourlyRate', e.target.value)}
                     className="w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-900 placeholder-gray-400"
-                    placeholder="e.g. 1500"
+                    placeholder={t('hourlyRatePlaceholder')}
                   />
                 </div>
                 <div className="col-span-2">
-                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">Years of Experience</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">{t('experienceInYears')}</label>
                   <input
                     type="text"
                     value={formData.experience}
                     onChange={(e) => updateForm('experience', e.target.value)}
                     className="w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-900 placeholder-gray-400"
-                    placeholder="e.g. 5 years experience in residential plumbing"
+                    placeholder={t('experiencePlaceholder')}
                   />
                 </div>
                 <div className="col-span-2">
-                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">About You</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">{t('aboutYou')}</label>
                   <textarea
                     value={formData.bio}
                     onChange={(e) => updateForm('bio', e.target.value)}
                     rows={3}
                     className="w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-900 placeholder-gray-400 resize-none"
-                    placeholder="Tell customers about your skills and experience..."
+                    placeholder={t('aboutPlaceholder')}
                   />
                 </div>
               </div>
@@ -558,16 +558,16 @@ export default function WorkerRegisterPage() {
                   onClick={() => setStep(2)}
                   className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-4 rounded-xl transition-all"
                 >
-                  Back
+                  {t('back')}
                 </button>
                 <button
                   onClick={() => {
                     if (formData.cnicNumber.length !== 13) {
-                      setError('CNIC must be exactly 13 digits')
+                      setError(t('cnicMustBe13Digits'))
                       return
                     }
                     if (!formData.profileImage) {
-                      setError('Please upload a profile photo')
+                      setError(t('pleaseUploadProfilePhoto'))
                       return
                     }
                     handleSubmit()
@@ -581,11 +581,11 @@ export default function WorkerRegisterPage() {
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
                       </svg>
-                      Submitting...
+                      {t('submitting')}
                     </>
                   ) : (
                     <>
-                      Submit Application
+                      {t('submitApplication')}
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                       </svg>
@@ -594,9 +594,7 @@ export default function WorkerRegisterPage() {
                 </button>
               </div>
 
-              <p className="text-xs text-gray-400 text-center">
-                Your application will be reviewed within 24 hours
-              </p>
+              <p className="text-xs text-gray-400 text-center">{t('applicationWillBeReviewedWithin24Hours')}</p>
             </div>
           )}
 
