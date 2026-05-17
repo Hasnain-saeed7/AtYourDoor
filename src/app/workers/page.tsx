@@ -5,6 +5,7 @@ import { authOptions } from '@/lib/auth'
 import SignOutButton from '@/components/signOutButton'
 import WorkerAvatar from '@/components/WorkerAvatar'
 import WorkersAIMatchForm from '@/components/WorkersAIMatchForm'
+import T from '@/components/T'
 import { getWorkerRank, type WorkerRank } from '@/lib/workerRank'
 import type { LucideIcon } from 'lucide-react'
 import { Briefcase, Hammer, LayoutGrid, MapPin, Phone, Scissors, Sparkles, Wrench, Zap } from 'lucide-react'
@@ -23,7 +24,7 @@ export default async function WorkersPage({
   })
 
   const budgetValue = resolvedSearchParams.budget
-    ? Number(resolvedSearchParams.budget)
+    ? Number(resolvedSearchParams.budget.replace(/[^\d]/g, ''))
     : undefined
 
   const medalRanges: Record<string, { min: number; max?: number }> = {
@@ -99,27 +100,27 @@ export default async function WorkersPage({
               href="/workers"
               className="text-sm font-semibold px-4 py-2 rounded-full bg-emerald-600 text-white shadow-sm hover:bg-emerald-700 transition-colors"
             >
-              Find Workers
+              <T k="findWorkers" />
             </Link>
             {session?.user?.role === 'CUSTOMER' && (
               <Link
                 href="/bookings"
                 className="text-sm font-semibold px-4 py-2 rounded-full bg-slate-900 text-white shadow-sm hover:bg-slate-800 transition-colors"
               >
-                My Bookings
+                <T k="myBookings" />
               </Link>
             )}
             <a
               href="/#services"
               className="text-sm font-semibold px-4 py-2 rounded-full bg-blue-50 text-blue-700 border border-blue-100 hover:bg-blue-100 transition-colors"
             >
-              Services
+              <T k="services" />
             </a>
             <a
               href="/#how"
               className="text-sm font-semibold px-4 py-2 rounded-full bg-amber-50 text-amber-700 border border-amber-100 hover:bg-amber-100 transition-colors"
             >
-              How it works
+              <T k="howItWorks" />
             </a>
           </div>
           <div className="flex items-center gap-3">
@@ -133,9 +134,9 @@ export default async function WorkersPage({
               </>
             ) : (
               <>
-                <Link href="/login" className="text-white  text-sm font-medium px-4 py-2 rounded-xl bg-black ">Sign in</Link>
+                <Link href="/login" className="text-white  text-sm font-medium px-4 py-2 rounded-xl bg-black "><T k="signIn" /></Link>
                 <Link href="/register" className="bg-teal-600 hover:bg-teal-700 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-all shadow-lg shadow-teal-100">
-                  Get Started
+                  <T k="getStarted" />
                 </Link>
               </>
             )}
@@ -144,10 +145,10 @@ export default async function WorkersPage({
       </nav>
 
       {/* Header */}
-      <div className="bg-gradient-to-br from-teal-600 to-emerald-700 py-16 px-6">
+      <div className="bg-linear-to-br from-teal-600 to-emerald-700 py-16 px-6">
         <div className="max-w-7xl mx-auto">
-          <h1 className="text-4xl font-bold text-white mb-3">Find a Worker</h1>
-          <p className="text-teal-100 text-lg mb-8">All workers are CNIC verified and background checked</p>
+          <h1 className="text-4xl font-bold text-white mb-3"><T k="findAWorker" /></h1>
+          <p className="text-teal-100 text-lg mb-8"><T k="allWorkersCnicVerified" /></p>
 
           {/* Search bar */}
           <WorkersAIMatchForm
@@ -164,9 +165,9 @@ export default async function WorkersPage({
         <div className="flex gap-8">
 
           {/* Sidebar */}
-          <div className="hidden lg:block w-64 flex-shrink-0">
+          <div className="hidden lg:block w-64 shrink-0">
             <div className="bg-white rounded-2xl border border-gray-100 p-6 sticky top-24">
-              <h3 className="font-bold text-gray-900 mb-4">Categories</h3>
+              <h3 className="font-bold text-gray-900 mb-4"><T k="categories" /></h3>
               <div className="space-y-1">
                 <Link
                   href="/workers"
@@ -182,7 +183,7 @@ export default async function WorkersPage({
                     }`}
                     aria-hidden="true"
                   />
-                  All Services
+                  <T k="allServices" />
                 </Link>
                 {categories.map((cat) => (
                   <Link
@@ -214,7 +215,7 @@ export default async function WorkersPage({
             <div className="flex gap-2 overflow-x-auto pb-4 lg:hidden">
               <Link
                 href="/workers"
-                className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium border transition-colors ${
+                className={`shrink-0 px-4 py-2 rounded-full text-sm font-medium border transition-colors ${
                   !resolvedSearchParams.category
                     ? 'bg-teal-600 text-white border-teal-600'
                     : 'bg-white text-gray-600 border-gray-200'
@@ -222,14 +223,14 @@ export default async function WorkersPage({
               >
                 <span className="inline-flex items-center gap-1.5">
                   <LayoutGrid className="w-4 h-4" aria-hidden="true" />
-                  All
+                  <T k="all" />
                 </span>
               </Link>
               {categories.map((cat) => (
                 <Link
                   key={cat.id}
                   href={`/workers?category=${cat.name}`}
-                  className={`flex-shrink-0 flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium border transition-colors ${
+                  className={`shrink-0 flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium border transition-colors ${
                     resolvedSearchParams.category === cat.name
                       ? 'bg-teal-600 text-white border-teal-600'
                       : 'bg-white text-gray-600 border-gray-200'
@@ -244,8 +245,8 @@ export default async function WorkersPage({
             {/* Results count */}
             <div className="flex items-center justify-between mb-6">
               <p className="text-gray-500 text-sm">
-                <span className="font-semibold text-gray-900">{rankedWorkers.length}</span> workers found
-                {resolvedSearchParams.category && <span> in <span className="font-semibold text-teal-600">{resolvedSearchParams.category}</span></span>}
+                <span className="font-semibold text-gray-900">{rankedWorkers.length}</span> <T k="workersFound" />
+                {resolvedSearchParams.category && <span> <T k="in" /> <span className="font-semibold text-teal-600">{resolvedSearchParams.category}</span></span>}
               </p>
             </div>
 
@@ -253,8 +254,8 @@ export default async function WorkersPage({
             {rankedWorkers.length === 0 ? (
               <div className="text-center py-20">
                 <div className="text-6xl mb-4">🔍</div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">No workers found</h3>
-                <p className="text-gray-500">Try a different category or city</p>
+                <h3 className="text-xl font-bold text-gray-900 mb-2"><T k="noWorkersFound" /></h3>
+                <p className="text-gray-500"><T k="tryDifferentCategoryOrCity" /></p>
               </div>
             ) : (
               <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5">
@@ -295,7 +296,7 @@ function WorkerCard({
       {/* Card header */}
       <div className="p-6 pb-4  bg-beige-500">
         <div className="flex items-start gap-4">
-          <div className="w-14 h-14 rounded-2xl overflow-hidden flex-shrink-0 shadow-lg shadow-teal-100 bg-teal-100">
+          <div className="w-14 h-14 rounded-2xl overflow-hidden shrink-0 shadow-lg shadow-teal-100 bg-teal-100">
             <WorkerAvatar
               src={worker.profileImage || worker.user.image}
               alt={worker.user.name}
@@ -306,7 +307,7 @@ function WorkerCard({
             <div className="flex items-center gap-2">
               <h3 className="font-bold text-gray-900 truncate">{worker.user.name}</h3>
               {worker.verificationStatus === 'APPROVED' && (
-                <div className="w-5 h-5 bg-teal-500 rounded-full flex items-center justify-center flex-shrink-0">
+                <div className="w-5 h-5 bg-teal-500 rounded-full flex items-center justify-center shrink-0">
                   <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                   </svg>
@@ -341,7 +342,7 @@ function WorkerCard({
          
           </div>
           <span className="text-gray-300">•</span>
-          <span className="text-gray-500 text-sm">{worker.totalJobs} Services Completed</span>
+          <span className="text-gray-500 text-sm">{worker.totalJobs} <T k="jobsCompleted" /></span>
         </div>
 
         {/* Bio */}
@@ -355,17 +356,17 @@ function WorkerCard({
         <div className="flex flex-col gap-3">
           <div className="flex items-center justify-between gap-3">
             <div>
-              <p className="text-xs text-black">Starting from</p>
+              <p className="text-xs text-black"><T k="startingFrom" /></p>
               <p className="font-bold text-gray-900">
                 Rs. {worker.hourlyRate.toLocaleString()}
-                <span className="text-black font-normal text-sm">/hr</span>
+                <span className="text-black font-normal text-sm"><T k="perHour" /></span>
               </p>
             </div>
             <Link
               href={bookingHref}
               className="bg-black text-white text-sm font-semibold px-4 py-2 rounded-xl transition-all shrink-0"
             >
-              Book Now
+              <T k="bookNow" />
             </Link>
           </div>
           <div className="flex flex-wrap items-center gap-3 text-xs text-black">

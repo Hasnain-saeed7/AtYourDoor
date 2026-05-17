@@ -1,9 +1,8 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { setOptions, importLibrary } from '@googlemaps/js-api-loader'
 import { 
   Wrench, Zap, Hammer, Sparkles, Scissors, 
   Banknote, Target, Star, ShieldCheck, User, MapPin 
@@ -17,13 +16,14 @@ const CATEGORIES = [
   { id: 'tailor', name: 'Tailor', icon: <Scissors className="w-6 h-6" />, desc: 'Stitching at home' },
 ]
 
-const CITIES = ['Karachi', 'Lahore', 'Islamabad', 'Rawalpindi', 'Faisalabad', 'Multan', 'Peshawar', 'Quetta']
-
 export default function WorkerRegisterPage() {
   const router = useRouter()
+  const mapboxToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN
   const [step, setStep] = useState(1)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [citySuggestions, setCitySuggestions] = useState<string[]>([])
+  const [areaSuggestions, setAreaSuggestions] = useState<string[]>([])
   const [selectedCategory, setSelectedCategory] = useState('')
   const [formData, setFormData] = useState({
     name: '', email: '', password: '', phone: '',
@@ -32,55 +32,98 @@ export default function WorkerRegisterPage() {
     profileImage: '',
   })
 
-  // Location logic
-  const autocompleteRef = useRef<HTMLInputElement>(null)
+  useEffect(() => {
+    if (step !== 3 || !mapboxToken || formData.city.trim().length < 2) {
+      setCitySuggestions([])
+      return
+    }
+
+    const timeoutId = setTimeout(async () => {
+      try {
+        const endpoint = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(formData.city)}.json?access_token=${mapboxToken}&types=place&country=PK&limit=5`
+        const response = await fetch(endpoint)
+        if (!response.ok) {
+          setCitySuggestions([])
+          return
+        }
+
+        const data = await response.json() as { features?: Array<{ text?: string }> }
+        const suggestions = (data.features || [])
+          .map((feature) => feature.text)
+          .filter((item): item is string => Boolean(item))
+        setCitySuggestions([...new Set(suggestions)])
+      } catch {
+        setCitySuggestions([])
+      }
+    }, 250)
+
+    return () => clearTimeout(timeoutId)
+  }, [formData.city, mapboxToken, step])
 
   useEffect(() => {
-    if (step === 3 && typeof window !== 'undefined') {
-      try {
-        setOptions({
-          apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "",
-          version: "weekly"
-        });
-
-        importLibrary("places").then(() => {
-          if (autocompleteRef.current) {
-            const autocomplete = new window.google.maps.places.Autocomplete(autocompleteRef.current, {
-              componentRestrictions: { country: "pk" },
-              fields: ["address_components", "name"],
-            })
-            autocomplete.addListener("place_changed", () => {
-              const place = autocomplete.getPlace()
-              updateForm('area', place.name || "")
-              const cityObj = place.address_components?.find(c => c.types.includes("locality") || c.types.includes("administrative_area_level_2"))
-              if (cityObj) {
-                updateForm('city', cityObj.long_name)
-              }
-            })
-          }
-        }).catch(e => console.log("Google Maps API skipped or not configured", e));
-      } catch (error) {
-        console.error("Initial Map Load Error", error);
-      }
+    if (step !== 3 || !mapboxToken || formData.area.trim().length < 2) {
+      setAreaSuggestions([])
+      return
     }
-  }, [step])
+
+    const query = formData.city.trim()
+      ? `${formData.area.trim()} ${formData.city.trim()}`
+      : formData.area.trim()
+
+    const timeoutId = setTimeout(async () => {
+      try {
+        const endpoint = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(query)}.json?access_token=${mapboxToken}&types=locality,neighborhood,address&country=PK&limit=5`
+        const response = await fetch(endpoint)
+        if (!response.ok) {
+          setAreaSuggestions([])
+          return
+        }
+
+        const data = await response.json() as { features?: Array<{ place_name?: string; text?: string }> }
+        const suggestions = (data.features || [])
+          .map((feature) => feature.place_name || feature.text)
+          .filter((item): item is string => Boolean(item))
+        setAreaSuggestions([...new Set(suggestions)])
+      } catch {
+        setAreaSuggestions([])
+      }
+    }, 250)
+
+    return () => clearTimeout(timeoutId)
+  }, [formData.area, formData.city, mapboxToken, step])
 
   const handleGetLocation = () => {
+    if (!mapboxToken) {
+      setError('Mapbox token missing. Set NEXT_PUBLIC_MAPBOX_TOKEN in .env')
+      return
+    }
+
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(async (position) => {
-        const { latitude, longitude } = position.coords;
+        const { latitude, longitude } = position.coords
         try {
-          const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
+          const endpoint = `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?access_token=${mapboxToken}&types=place,locality,neighborhood,address&country=PK&limit=6`
+          const res = await fetch(endpoint)
           if (res.ok) {
-            const data = await res.json();
-            const address = data.address;
-            const city = address.city || address.town || address.state || "";
-            if (city) updateForm('city', city);
-            const area = address.suburb || address.neighbourhood || address.road || data.display_name;
-            updateForm('area', area);
+            const data = await res.json() as {
+              features?: Array<{ place_type?: string[]; text?: string; place_name?: string }>
+            }
+
+            const cityFeature = data.features?.find((feature) => feature.place_type?.includes('place'))
+            const areaFeature = data.features?.find(
+              (feature) =>
+                feature.place_type?.includes('locality') ||
+                feature.place_type?.includes('neighborhood') ||
+                feature.place_type?.includes('address')
+            )
+
+            if (cityFeature?.text) updateForm('city', cityFeature.text)
+            if (areaFeature?.place_name || areaFeature?.text) {
+              updateForm('area', areaFeature.place_name || areaFeature.text || '')
+            }
           }
         } catch (err) {
-          console.error("Location error:", err);
+          console.error("Location error:", err)
         }
       })
     } else {
@@ -154,7 +197,7 @@ export default function WorkerRegisterPage() {
     <div className="min-h-screen bg-gray-50 flex">
 
       {/* Left Panel */}
-      <div className="hidden lg:flex lg:w-5/12 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex-col justify-between p-12 relative overflow-hidden">
+      <div className="hidden lg:flex lg:w-5/12 bg-linear-to-br from-gray-900 via-gray-800 to-gray-900 flex-col justify-between p-12 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-80 h-80 bg-green-500/10 rounded-full -translate-y-1/2 translate-x-1/2" />
         <div className="absolute bottom-0 left-0 w-64 h-64 bg-green-500/10 rounded-full translate-y-1/2 -translate-x-1/2" />
 
@@ -188,7 +231,7 @@ export default function WorkerRegisterPage() {
               { icon: <ShieldCheck className="w-5 h-5" />, title: 'Guaranteed payment', desc: 'Get paid after every job' },
             ].map((item) => (
               <div key={item.title} className="flex items-center gap-4">
-                <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center flex-shrink-0 text-green-400">
+                <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center shrink-0 text-green-400">
                   {item.icon}
                 </div>
                 <div>
@@ -325,7 +368,7 @@ export default function WorkerRegisterPage() {
                         : 'border-gray-100 bg-white hover:border-gray-200 hover:bg-gray-50'
                     }`}
                   >
-                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-2xl flex-shrink-0 ${
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-2xl shrink-0 ${
                       selectedCategory === cat.name ? 'bg-green-100' : 'bg-gray-100'
                     }`}>
                       {cat.icon}
@@ -337,7 +380,7 @@ export default function WorkerRegisterPage() {
                       <p className="text-gray-400 text-sm">{cat.desc}</p>
                     </div>
                     {selectedCategory === cat.name && (
-                      <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+                      <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center shrink-0">
                         <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                         </svg>
@@ -362,7 +405,7 @@ export default function WorkerRegisterPage() {
                     setError('')
                     setStep(3)
                   }}
-                  className="flex-2 flex-grow-[2] bg-gray-900 hover:bg-gray-800 text-white font-bold py-4 rounded-xl transition-all hover:-translate-y-0.5 flex items-center justify-center gap-2"
+                  className="grow-2 bg-gray-900 hover:bg-gray-800 text-white font-bold py-4 rounded-xl transition-all hover:-translate-y-0.5 flex items-center justify-center gap-2"
                 >
                   Continue
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -426,16 +469,37 @@ export default function WorkerRegisterPage() {
                   <p className="text-xs text-gray-500 mt-1">Must be exactly 13 digits.</p>
                 </div>
                 <div className="col-span-2">
-                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">Real-time Location</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">City via Maps</label>
+                  <input
+                    type="text"
+                    list="register-city-suggestions"
+                    value={formData.city}
+                    onChange={(e) => updateForm('city', e.target.value)}
+                    className="w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-900 placeholder-gray-400 mb-2"
+                    placeholder="Search city from Mapbox..."
+                  />
+                  <datalist id="register-city-suggestions">
+                    {citySuggestions.map((cityItem) => (
+                      <option key={cityItem} value={cityItem} />
+                    ))}
+                  </datalist>
+                </div>
+                <div className="col-span-2">
+                  <label className="block text-sm font-semibold text-gray-700 mb-1.5">Real-time Location / Area</label>
                   <div className="flex gap-2">
                     <input
-                      ref={autocompleteRef}
                       type="text"
+                      list="register-area-suggestions"
                       value={formData.area}
                       onChange={(e) => updateForm('area', e.target.value)}
                       className="w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-900 placeholder-gray-400"
-                      placeholder="Search your area or Google Map location..."
+                      placeholder="Search your area from Mapbox..."
                     />
+                    <datalist id="register-area-suggestions">
+                      {areaSuggestions.map((areaItem) => (
+                        <option key={areaItem} value={areaItem} />
+                      ))}
+                    </datalist>
                     <button
                       type="button"
                       onClick={handleGetLocation}
@@ -509,7 +573,7 @@ export default function WorkerRegisterPage() {
                     handleSubmit()
                   }}
                   disabled={loading}
-                  className="flex-grow-[2] bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white font-bold py-4 rounded-xl transition-all hover:-translate-y-0.5 shadow-xl shadow-green-100 flex items-center justify-center gap-2"
+                  className="grow-2 bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white font-bold py-4 rounded-xl transition-all hover:-translate-y-0.5 shadow-xl shadow-green-100 flex items-center justify-center gap-2"
                 >
                   {loading ? (
                     <>

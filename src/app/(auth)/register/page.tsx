@@ -1,10 +1,13 @@
-'use client'
+ 'use client'
 
 import { useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
+import T from '@/components/T'
+import { useLanguage } from '@/context/LanguageContext'
 
 export default function RegisterPage() {
+  const { t } = useLanguage()
   const router = useRouter()
   const searchParams = useSearchParams()
   const callbackUrl = searchParams.get('callbackUrl') || ''
@@ -31,7 +34,7 @@ export default function RegisterPage() {
     const data = await res.json()
 
     if (!res.ok) {
-      setError(data.error || 'Something went wrong')
+      setError(data.error || t('somethingWentWrong'))
       setLoading(false)
       return
     }
@@ -97,14 +100,14 @@ export default function RegisterPage() {
           </div>
 
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900">Create account</h1>
-            <p className="text-gray-500 mt-2">Book trusted workers in minutes</p>
+            <h1 className="text-3xl font-bold text-gray-900"><T k="createAccountHeading" /></h1>
+            <p className="text-gray-500 mt-2"><T k="bookTrustedWorkersInMinutes" /></p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div className="col-span-2">
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Full Name</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2"><T k="fullName" /></label>
                 <input
                   name="name"
                   type="text"
@@ -115,7 +118,7 @@ export default function RegisterPage() {
               </div>
 
               <div className="col-span-2">
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Email address</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2"><T k="emailAddress" /></label>
                 <input
                   name="email"
                   type="email"
@@ -126,7 +129,7 @@ export default function RegisterPage() {
               </div>
 
               <div className="col-span-2">
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Phone Number</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2"><T k="phoneNumber" /></label>
                 <input
                   name="phone"
                   type="tel"
@@ -136,7 +139,7 @@ export default function RegisterPage() {
               </div>
 
               <div className="col-span-2">
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Password</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2"><T k="password" /></label>
                 <input
                   name="password"
                   type="password"
@@ -165,21 +168,21 @@ export default function RegisterPage() {
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
                   </svg>
-                  Creating account...
+                  <T k="creatingAccount" />
                 </span>
-              ) : 'Create Account'}
+              ) : <T k="createAccountHeading" />}
             </button>
 
             <p className="text-xs text-gray-400 text-center">
-              By creating an account you agree to our Terms of Service and Privacy Policy
+              <T k="byCreatingAccountAgreeToTerms" />
             </p>
           </form>
 
           <div className="mt-6 pt-6 border-t border-gray-200">
             <p className="text-center text-gray-500 text-sm">
-              Already have an account?{' '}
+              <T k="alreadyHaveAnAccount" />{' '}
               <Link href="/login" className="text-teal-600 font-semibold hover:text-teal-700">
-                Sign in
+                <T k="signIn" />
               </Link>
             </p>
           </div>

@@ -1,10 +1,11 @@
-'use client'
+"use client"
 
 import { useEffect, useState } from 'react'
+import { useLanguage } from '@/context/LanguageContext'
 
 type WorkerAvatarProps = {
   src?: string | null
-  alt: string
+  alt?: string
   className?: string
   fallbackSrc?: string
 }
@@ -15,6 +16,7 @@ export default function WorkerAvatar({
   className,
   fallbackSrc = '/default-avatar.svg',
 }: WorkerAvatarProps) {
+  const { t } = useLanguage()
   const normalizeSrc = (value?: string | null) => {
     if (!value) return ''
     return value.replace(/^http:\/\//i, 'https://')
@@ -29,7 +31,7 @@ export default function WorkerAvatar({
   return (
     <img
       src={imageSrc}
-      alt={alt}
+      alt={alt || t('workerAvatar')}
       className={className}
       loading="lazy"
       onError={() => {

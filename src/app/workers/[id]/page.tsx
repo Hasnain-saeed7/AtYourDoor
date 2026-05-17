@@ -6,6 +6,7 @@ import Link from 'next/link'
 import BookingForm from './BookingForm'
 import ReviewForm from './ReviewForm'
 import WorkerAvatar from '@/components/WorkerAvatar'
+import T from '@/components/T'
 import { getWorkerRank } from '@/lib/workerRank'
 import type { LucideIcon } from 'lucide-react'
 import { ArrowLeft, Briefcase, Hammer, MapPin, Scissors, Sparkles, Wrench, Zap } from 'lucide-react'
@@ -69,7 +70,7 @@ export default async function WorkerProfilePage({
           </Link>
           <Link href="/workers" className="text-gray-500 hover:text-gray-900 text-sm font-medium flex items-center gap-1">
             <ArrowLeft className="w-4 h-4" aria-hidden="true" />
-            Back to Workers
+            <T k="backToWorkers" />
           </Link>
         </div>
       </nav>
@@ -96,7 +97,7 @@ export default async function WorkerProfilePage({
                       <h1 className="text-2xl font-bold text-white">{worker.user.name}</h1>
                       <div className="flex items-center gap-1.5 bg-white/20 rounded-full px-3 py-1">
                         <div className="w-2 h-2 bg-teal-300 rounded-full" />
-                        <span className="text-white text-xs font-medium">Verified</span>
+                        <span className="text-white text-xs font-medium"><T k="verified" /></span>
                       </div>
                       <div className="flex items-center gap-1.5 bg-white/20 rounded-full px-3 py-1">
                         <span className="text-white text-xs font-semibold">
@@ -113,7 +114,7 @@ export default async function WorkerProfilePage({
                         <span className="text-white font-semibold text-sm">
                           {rank.ratingText}
                         </span>
-                        <span className="text-white/70 text-xs">{rank.ratingValue} stars</span>
+                        <span className="text-white/70 text-xs">{rank.ratingValue} <T k="stars" /></span>
                       </div>
 
                       <span className="text-teal-200 text-sm flex items-center gap-1">
@@ -128,27 +129,27 @@ export default async function WorkerProfilePage({
               <div className="p-6 space-y-5">
                 {worker.bio && (
                   <div>
-                    <h3 className="font-bold text-gray-900 mb-2">About :</h3>
+                    <h3 className="font-bold text-gray-900 mb-2"><T k="about" /></h3>
                     <p className="text-gray-500 leading-relaxed">{worker.bio}</p>
                   </div>
                 )}
 
                 {worker.experience && (
                   <div>
-                    <h3 className="font-bold text-gray-900 mb-2">Experience in Years :</h3>
+                    <h3 className="font-bold text-gray-900 mb-2"><T k="experienceInYears" /></h3>
                     <p className="text-gray-500 leading-relaxed">{worker.experience}</p>
                   </div>
                 )}
 
                 <div className="grid grid-cols-3 gap-4 pt-2">
                   {[
-                    { label: 'Jobs Done', value: completedJobs },
-                    { label: 'Rating', value: `${rank.ratingValue} ` },
-                    { label: 'Rate/hr', value: `Rs. ${worker.hourlyRate.toLocaleString()}` },
+                    { labelKey: 'jobsCompleted', value: completedJobs },
+                    { labelKey: 'ratingLabel', value: `${rank.ratingValue} ` },
+                    { labelKey: 'ratePerHour', value: `Rs. ${worker.hourlyRate.toLocaleString()}` },
                   ].map((stat) => (
-                    <div key={stat.label} className="bg-olive-400 rounded-xl p-4 text-center">
+                    <div key={stat.labelKey} className="bg-olive-400 rounded-xl p-4 text-center">
                       <p className="font-bold text-black text-lg">{stat.value}</p>
-                      <p className="text-black text-xs mt-1">{stat.label}</p>
+                      <p className="text-black text-xs mt-1"><T k={stat.labelKey} /></p>
                     </div>
                   ))}
                 </div>
@@ -158,21 +159,21 @@ export default async function WorkerProfilePage({
             {/* Reviews */}
             <div className="bg-white rounded-2xl border border-gray-100 p-6">
               <h3 className="font-bold text-gray-900 mb-5">
-                Customer Reviews
+                <T k="customerReviews" />
                 <span className="text-gray-400 font-normal text-sm ml-2">({worker.reviews.length})</span>
               </h3>
 
               {session?.user?.role === 'CUSTOMER' && eligibleBooking && (
                 <div className="mb-6 rounded-2xl border border-gray-100 bg-gray-50 p-4">
-                  <p className="text-sm font-semibold text-gray-900 mb-3">Leave a review</p>
+                  <p className="text-sm font-semibold text-gray-900 mb-3"><T k="leaveAReview" /></p>
                   <ReviewForm workerId={worker.id} bookingId={eligibleBooking.id} />
                 </div>
               )}
 
-              {worker.reviews.length === 0 ? (
+                {worker.reviews.length === 0 ? (
                 <div className="text-center py-10">
                   <p className="text-4xl mb-3">⭐</p>
-                  <p className="text-gray-500">No reviews yet. Be the first!</p>
+                  <p className="text-gray-500"><T k="noReviewsYetBeTheFirst" /></p>
                 </div>
               ) : (
                 <div className="space-y-4">
@@ -206,16 +207,16 @@ export default async function WorkerProfilePage({
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-2xl font-bold mb-2 text-gray-900">
-                        Rs. {worker.hourlyRate.toLocaleString()}
-                        <span className="text-black font-normal text-base">/hr</span>
-                      </p>
-                      <p className="text-gray-600 text-xs font-semibold">
-                        {rank.emoji} {rank.label} 
-                      </p>
+                          Rs. {worker.hourlyRate.toLocaleString()}
+                          <span className="text-black font-normal text-base"><T k="perHour" /></span>
+                        </p>
+                        <p className="text-gray-600 text-xs font-semibold">
+                          {rank.emoji} {rank.label}
+                        </p>
                     
                     </div>
                     <div className={`px-3 py-1.5 rounded-full text-xs font-semibold ${worker.isAvailable ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-600'}`}>
-                      {worker.isAvailable ? '● Available' : '● Unavailable'}
+                      {worker.isAvailable ? <>● <T k="available" /></> : <>● <T k="unavailable" /></>}
                     </div>
                   </div>
                 </div>
@@ -223,14 +224,14 @@ export default async function WorkerProfilePage({
                 <div className="p-6">
                   {!session ? (
                     <div className="text-center py-4">
-                      <p className="text-gray-500 text-sm mb-4">Sign in to book this worker</p>
+                      <p className="text-gray-500 text-sm mb-4"><T k="signInToBookThisWorker" /></p>
                       <Link href={`/login?callbackUrl=${encodeURIComponent(bookingPath)}`} className="w-full inline-block bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-xl transition-all text-center">
-                        Sign In to Book
+                        <T k="signInToBookButton" />
                       </Link>
                     </div>
                   ) : !worker.isAvailable ? (
                     <div className="text-center py-4">
-                      <p className="text-gray-500 text-sm">This worker is currently unavailable</p>
+                      <p className="text-gray-500 text-sm"><T k="workerCurrentlyUnavailable" /></p>
                     </div>
                   ) : (
                     <BookingForm

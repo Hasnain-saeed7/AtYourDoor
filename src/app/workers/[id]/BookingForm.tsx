@@ -2,6 +2,8 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import T from '@/components/T'
+import { useLanguage } from '@/context/LanguageContext'
 
 export default function BookingForm({
   workerId,
@@ -13,6 +15,7 @@ export default function BookingForm({
   workerName: string
 }) {
   const router = useRouter()
+  const { t } = useLanguage()
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState('')
@@ -40,7 +43,7 @@ export default function BookingForm({
     const data = await res.json()
 
     if (!res.ok) {
-      setError(data.error || 'Something went wrong')
+      setError(data.error || t('somethingWentWrong'))
       setLoading(false)
       return
     }
@@ -57,8 +60,8 @@ export default function BookingForm({
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
           </svg>
         </div>
-        <h3 className="font-bold text-gray-900 mb-1">Booking Confirmed!</h3>
-     
+        <h3 className="font-bold text-gray-900 mb-1"><T k="bookingConfirmed" /></h3>
+        <p className="text-gray-500">{t('payOnlyAfterJobIsDone')}</p>
       </div>
     )
   }
@@ -67,46 +70,46 @@ export default function BookingForm({
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
         <label className="block text-sm font-semibold text-gray-700 mb-1.5">
-          Describe your problem
+          <T k="describeYourProblem" />
         </label>
         <textarea
           name="description"
           required
           rows={3}
           className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-900 placeholder-gray-400 text-sm resize-none"
-          placeholder="e.g. Kitchen tap is leaking badly..."
+          placeholder={t('describeYourProblemPlaceholder')}
         />
       </div>
 
       <div>
         <label className="block text-sm font-semibold text-gray-700 mb-1.5">
-          Your Address
+          <T k="yourAddress" />
         </label>
         <input
           name="address"
           type="text"
           required
           className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-900 placeholder-gray-400 text-sm"
-          placeholder="House no, street, area"
+          placeholder={t('addressPlaceholder')}
         />
       </div>
 
       <div>
         <label className="block text-sm font-semibold text-gray-700 mb-1.5">
-          City
+          <T k="city" />
         </label>
         <input
           name="city"
           type="text"
           required
           className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-teal-500 text-gray-900 placeholder-gray-400 text-sm"
-          placeholder="Karachi"
+          placeholder={t('cityExample')}
         />
       </div>
 
       <div>
         <label className="block text-sm font-semibold text-gray-700 mb-1.5">
-          Preferred Date & Time
+          <T k="preferredDateTime" />
         </label>
         <input
           name="scheduledAt"
@@ -119,7 +122,7 @@ export default function BookingForm({
 
       {error && (
         <div className="bg-red-50 border border-red-200 rounded-xl px-4 py-3">
-          <p className="text-red-600 text-sm">{error}</p>
+            <p className="text-red-600 text-sm">{error}</p>
         </div>
       )}
 
@@ -128,7 +131,7 @@ export default function BookingForm({
         disabled={loading}
         className="w-full bg-teal-600 hover:bg-teal-700 disabled:bg-teal-400 text-white font-semibold py-3.5 rounded-xl transition-all shadow-lg shadow-teal-100 hover:-translate-y-0.5"
       >
-        {loading ? (
+            {loading ? (
           <span className="flex items-center justify-center gap-2">
             <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
@@ -136,11 +139,11 @@ export default function BookingForm({
             </svg>
             Booking...
           </span>
-        ) : `Book ${workerName.split(' ')[0]}`}
+            ) : <>{t('book')} {workerName.split(' ')[0]}</>}
       </button>
 
       <p className="text-xs text-gray-400 text-center">
-        You will only be charged after the job is completed
+        {t('payOnlyAfterJobIsDone')}
       </p>
     </form>
   )
