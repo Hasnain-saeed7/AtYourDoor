@@ -49,18 +49,15 @@ export default async function WorkerProfilePage({
       })
     : null
 
-  if (!worker || worker.verificationStatus !== 'APPROVED') notFound()
-
-
+  if (!worker || worker.verificationStatus !== 'APPROVED') {
+    notFound()
+  }
 
   const completedJobs = await prisma.booking.count({
     where: { workerId: worker.id, status: 'COMPLETED' },
   })
 
   const rank = getWorkerRank(completedJobs)
-
-
-}
 
   return (
     <div className="min-h-screen bg-gray-50">
