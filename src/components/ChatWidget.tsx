@@ -1,6 +1,7 @@
-'use client'
+"use client"
 
 import { useState, useRef, useEffect } from 'react'
+import { useLanguage } from '@/context/LanguageContext'
 
 interface Message {
   role: 'user' | 'assistant'
@@ -8,20 +9,22 @@ interface Message {
   timestamp: Date
 }
 
-const QUICK_REPLIES = [
-  'How do I book a worker?',
-  'How does payment work?',
-  'What if I am not satisfied?',
-  'How to become a worker?',
+const QUICK_REPLY_KEYS = [
+  'howDoIBookAWorker',
+  'howDoesPaymentWork',
+  'whatIfIAmNotSatisfied',
+  'howToBecomeAWorker',
 ]
 
 export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false)
   const [isMinimized, setIsMinimized] = useState(false)
+  const { t, language } = useLanguage()
+
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'assistant',
-      content: "Hi! 👋 I'm TrustHire's AI assistant. I can help you with bookings, payments, worker verification, and anything else about our platform. How can I help you today?",
+      content: t('hiImTrusthiresAiAssistantICanHelpYouWithBookingsPa'),
       timestamp: new Date(),
     },
   ])
@@ -36,6 +39,17 @@ export default function ChatWidget() {
       messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
     }
   }, [messages, isOpen, isMinimized])
+
+  // Update initial assistant message when language changes
+  useEffect(() => {
+    setMessages((prev) => {
+      if (!prev || prev.length === 0) return [{ role: 'assistant', content: t('hiImTrusthiresAiAssistantICanHelpYouWithBookingsPa'), timestamp: new Date() }]
+      if (prev[0].role === 'assistant' && prev.length === 1) {
+        return [{ ...prev[0], content: t('hiImTrusthiresAiAssistantICanHelpYouWithBookingsPa') }]
+      }
+      return prev
+    })
+  }, [language])
 
   useEffect(() => {
     if (isOpen && !isMinimized) {
@@ -117,7 +131,7 @@ export default function ChatWidget() {
         <div className={`fixed bottom-24 right-6 z-50 w-96 bg-white rounded-3xl shadow-2xl shadow-gray-200/80 border border-gray-100 overflow-hidden transition-all duration-300 ${isMinimized ? 'h-16' : 'h-[580px]'} flex flex-col`}>
 
           {/* Header */}
-          <div className="bg-gradient-to-r from-green-600 to-emerald-600 p-4 flex items-center justify-between flex-shrink-0">
+          <div className="bg-amber-600 p-4 flex items-center justify-between flex-shrink-0">
             <div className="flex items-center gap-3">
               <div className="relative">
                 <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
@@ -130,7 +144,7 @@ export default function ChatWidget() {
               <div>
                 <p className="text-white font-bold text-sm">TrustHire Assistant</p>
                 <p className="text-green-100 text-xs flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 bg-green-300 rounded-full inline-block" />
+                  <span className="w-1.5 h-1.5 border-be-gray-900 rounded-full inline-block" />
                   Always online · Replies instantly
                 </p>
               </div>
@@ -210,17 +224,17 @@ export default function ChatWidget() {
               {/* Quick Replies */}
               {messages.length === 1 && (
                 <div className="px-4 py-2 bg-white border-t border-gray-50">
-                  <p className="text-xs text-gray-400 mb-2 font-medium">Quick questions:</p>
+                      <p className="text-xs text-gray-400 mb-2 font-medium">{t('quickQuestions')}</p>
                   <div className="flex flex-wrap gap-2">
-                    {QUICK_REPLIES.map((reply) => (
-                      <button
-                        key={reply}
-                        onClick={() => sendMessage(reply)}
-                        className="text-xs bg-green-50 hover:bg-green-100 text-green-700 border border-green-100 px-3 py-1.5 rounded-full transition-colors font-medium"
-                      >
-                        {reply}
-                      </button>
-                    ))}
+                          {QUICK_REPLY_KEYS.map((key) => (
+                            <button
+                              key={key}
+                              onClick={() => sendMessage(t(key))}
+                              className="text-xs bg-green-50 hover:bg-green-100 text-green-700 border border-green-100 px-3 py-1.5 rounded-full transition-colors font-medium"
+                            >
+                              {t(key)}
+                            </button>
+                          ))}
                   </div>
                 </div>
               )}
@@ -234,7 +248,7 @@ export default function ChatWidget() {
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyDown={handleKeyDown}
-                    placeholder="Type your message..."
+                    placeholder={t('typeYourMessagePlaceholder')}
                     disabled={loading}
                     className="flex-1 bg-transparent text-sm text-gray-900 placeholder-gray-400 focus:outline-none disabled:opacity-50"
                   />
@@ -255,7 +269,7 @@ export default function ChatWidget() {
                     )}
                   </button>
                 </div>
-                <p className="text-center text-xs text-gray-300 mt-2">Powered by TrustHire AI</p>
+                <p className="text-center text-xs text-gray-300 mt-2">{t('poweredByTrustHireAI')}</p>
               </div>
             </>
           )}

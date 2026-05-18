@@ -27,12 +27,15 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ hidden: 0 })
     }
 
-    // Soft-hide the bookings from the worker view by setting `hiddenFromWorker`.
-    // This preserves the rows for aggregates (earnings, total jobs) while removing them
-    // from the worker's Past Jobs list.
-    const result = await prisma.booking.updateMany({
-      where: { id: { in: bookingIds } },
-      data: { hiddenFromWorker: true },
+    // Record hidden history rows instead of modifying bookings.
+    // This preserves the booking rows for earnings and totals while removing them
+    // from the worker's Past Jobs list in the UI.
+    await prisma.hiddenBookingHistory.deleteMany({
+      where: { workerId, bookingId: { in: bookingIds } },
+    })
+
+    const result = await prisma.hiddenBookingHistory.createMany({
+      data: bookingIds.map((bookingId) => ({ bookingId, workerId })),
     })
 
     console.log('hidden bookings:', result.count)

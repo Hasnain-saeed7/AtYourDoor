@@ -94,8 +94,8 @@ model Booking {
   scheduledAt  DateTime
   status       BookingStatus @default(PENDING)
   totalAmount  Float?
-  isPaid       Boolean       @default(false)
-  hiddenFromWorker Boolean    @default(false)
+  isPaid       Boolean       @default(false) 
+  hiddenFromWorker  Boolean  @default(false)
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
 
@@ -103,6 +103,13 @@ model Booking {
   worker    Worker   @relation(fields: [workerId], references: [id])
   category  Category @relation(fields: [categoryId], references: [id])
   review    Review?
+}
+
+model HiddenBookingHistory {
+  id        String   @id @default(cuid())
+  workerId  String
+  bookingId String
+  createdAt  DateTime @default(now())
 }
 
 model Review {
