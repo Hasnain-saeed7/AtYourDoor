@@ -1,12 +1,12 @@
  'use client'
 
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import T from '@/components/T'
 import { useLanguage } from '@/context/LanguageContext'
 
-export default function RegisterPage() {
+function RegisterForm() {
   const { t } = useLanguage()
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -190,5 +190,15 @@ export default function RegisterPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function RegisterPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="animate-spin w-8 h-8 border-4 border-teal-600 border-t-transparent rounded-full" />
+    </div>}>
+      <RegisterForm />
+    </Suspense>
   )
 }
