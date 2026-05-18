@@ -121,13 +121,7 @@ export default async function WorkerDashboardPage() {
 
   const pendingBookings = bookings.filter((b) => b.status === 'PENDING')
   const activeBookings = bookings.filter((b) => ['ACCEPTED', 'IN_PROGRESS'].includes(b.status))
-  const hiddenHistory = await prisma.$queryRaw<{ bookingId: string }[]>`
-    SELECT "bookingId"
-    FROM "HiddenBookingHistory"
-    WHERE "workerId" = ${worker.id}
-  `
-  const hiddenBookingIds = new Set(hiddenHistory.map((entry) => entry.bookingId))
-  const pastBookings = bookings.filter((b) => ['COMPLETED', 'CANCELLED'].includes(b.status) && !hiddenBookingIds.has(b.id))
+  const pastBookings = bookings.filter((b) => ['COMPLETED', 'CANCELLED'].includes(b.status) && !b.hiddenFromWorker)
 
   return (
     <div className="min-h-screen bg-gray-50">

@@ -14,7 +14,7 @@ export default function Footer() {
           </div>
           <span className="text-black font-bold">{t('trusthire')}</span>
         </div>
-        <p className="text-black text-md">© 2024 {t('trusthire')}. Built for Pakistan.</p>
+        <p className="text-black text-md">© 2026 {t('trusthire')}. Built for Pakistan.</p>
         <div className="flex gap-6">
           <a href="#" className="text-black hover:text-black">Privacy</a>
           <a href="#" className="text-black hover:text-black">Terms</a>
