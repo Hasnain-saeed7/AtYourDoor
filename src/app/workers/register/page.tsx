@@ -206,9 +206,9 @@ export default function WorkerRegisterPage() {
         <div className="relative z-10">
           <Link href="/" className="flex items-center gap-3">
             <div className="w-10 h-10 bg-green-600 rounded-xl flex items-center justify-center shadow-lg shadow-green-900/50">
-              <span className="text-white font-black text-lg">T</span>
+              <span className="text-white font-black text-lg">A</span>
             </div>
-            <span className="text-white font-bold text-xl">TrustHire</span>
+            <span className="text-white font-bold text-xl">AtYourDoor</span>
           </Link>
         </div>
 

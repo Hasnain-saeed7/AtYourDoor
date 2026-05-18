@@ -43,7 +43,7 @@ export default async function HomePage() {
                 </svg>
               </Link>
               <Link href="/workers/register" className="inline-flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-gray-700 font-semibold px-8 py-4 rounded-2xl border border-gray-200 transition-all hover:-translate-y-1 text-lg">
-                <T k="joinTrusthire" />
+                <T k="joinAtYourDoor" />
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
@@ -97,7 +97,7 @@ export default async function HomePage() {
       {/* How it works */}
       <section id="how" className="py-24 px-6 bg-white">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4"><T k="howTrustHireWorks" /></h2>
+          <h2 className="text-4xl font-bold text-gray-900 mb-4"><T k="howAtYourDoorWorks" /></h2>
           <p className="text-gray-500 text-lg"><T k="bookVerifiedWorkerSteps" /></p>
         </div>
 
@@ -157,7 +157,7 @@ export default async function HomePage() {
                 <T k="doubleIncome" />
               </h2>
               <p className="text-gray-500 text-lg mb-8 leading-relaxed">
-                <T k="joinTrusthirePitch" />
+                <T k="joinAtYourDoorPitch" />
               </p>
               <div className="space-y-4 mb-10">
                 {[
@@ -177,7 +177,7 @@ export default async function HomePage() {
                 ))}
               </div>
               <Link href="/workers/register" className="inline-flex items-center gap-2 bg-gray-900 hover:bg-gray-800 text-white font-semibold px-8 py-4 rounded-2xl transition-all hover:-translate-y-0.5 shadow-xl shadow-gray-200">
-                <T k="joinTrusthire"/>
+                <T k="joinAtYourDoor"/>
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
@@ -217,7 +217,7 @@ export default async function HomePage() {
                 <T k="bookAWorker" />
               </Link>
               <Link href="/workers/register" className="inline-flex items-center justify-center gap-2 bg-black text-white font-bold px-10 py-4 rounded-2xl border border-green-500 transition-all hover:-translate-y-1 text-lg">
-                <T k="joinTrusthire" />
+                <T k="joinAtYourDoor" />
               </Link>
             </div>
           </div>

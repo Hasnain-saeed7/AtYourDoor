@@ -27,6 +27,7 @@ function WorkerLoginForm() {
     const result = await signIn('credentials', {
       email,
       password,
+      expectedRole: 'WORKER',
       redirect: false,
     })
 
@@ -51,9 +52,9 @@ function WorkerLoginForm() {
         <div className="relative z-10">
           <Link href="/" className="flex items-center gap-3">
             <div className="w-10 h-10 bg-green-600 rounded-xl flex items-center justify-center shadow-lg shadow-green-900/50">
-              <span className="text-white font-black text-lg">T</span>
+              <span className="text-white font-black text-lg">A</span>
             </div>
-            <span className="text-white font-bold text-xl">TrustHire</span>
+            <span className="text-white font-bold text-xl">AtYourDoor</span>
           </Link>
         </div>
 
@@ -98,9 +99,9 @@ function WorkerLoginForm() {
           {/* Mobile logo */}
           <Link href="/" className="flex items-center gap-2 mb-8 lg:hidden">
             <div className="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold">T</span>
+              <span className="text-white font-bold">A</span>
             </div>
-            <span className="text-gray-900 font-bold text-lg">TrustHire</span>
+            <span className="text-gray-900 font-bold text-lg">AtYourDoor</span>
           </Link>
 
           {/* Success message for new worker */}

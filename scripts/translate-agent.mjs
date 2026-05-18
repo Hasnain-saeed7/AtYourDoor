@@ -147,9 +147,6 @@ async function buildTranslationsFile(allTranslations) {
   const enObj = {}
   const urObj = {}
 
-  const normalizeUr = (value) =>
-    typeof value === 'string' ? value.replace(/مزدور/g, 'ورکر') : value
-
   Object.entries(allTranslations).forEach(([en, ur]) => {
     const key = en
       .toLowerCase()
@@ -163,7 +160,7 @@ async function buildTranslationsFile(allTranslations) {
 
     if (key && key.length > 1) {
       enObj[key] = en
-      urObj[key] = normalizeUr(ur)
+      urObj[key] = ur
     }
   })
 

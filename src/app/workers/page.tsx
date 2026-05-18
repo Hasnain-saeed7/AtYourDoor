@@ -91,9 +91,9 @@ export default async function WorkersPage({
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
             <div className="w-9 h-9 bg-green-600 rounded-xl flex items-center justify-center">
-              <span className="text-white font-bold text-lg">T</span>
+              <span className="text-white font-bold text-lg">A</span>
             </div>
-            <span className="text-gray-900 font-bold text-xl">TrustHire</span>
+            <span className="text-gray-900 font-bold text-xl">AtYourDoor</span>
           </Link>
           <div className="hidden md:flex items-center gap-3">
             <Link

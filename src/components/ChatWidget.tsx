@@ -282,7 +282,7 @@ export default function ChatWidget() {
           setIsOpen(!isOpen)
           setIsMinimized(false)
         }}
-        className="fixed bottom-6 right-6 z-50 w-16 h-16 bg-gradient-to-br from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 rounded-2xl shadow-2xl shadow-green-200 flex items-center justify-center transition-all hover:-translate-y-1 hover:scale-105 active:scale-95"
+        className="fixed bottom-6 right-6 z-50 w-16 h-16  bg-teal-500 hover:from-teal-700 hover:to-teal-700 rounded-2xl shadow-2xl shadow-green-200 flex items-center justify-center transition-all hover:-translate-y-1 hover:scale-105 active:scale-95"
       >
         {isOpen ? (
           <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">

@@ -63,10 +63,10 @@ export default async function WorkerProfilePage({
       <nav className="bg-white border-b border-gray-100 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-9 h-9 bg-green-600 rounded-xl flex items-center justify-center">
-              <span className="text-white font-bold text-lg">T</span>
+            <div className="w-9 h-9 bg-teal-600 rounded-xl flex items-center justify-center">
+              <span className="text-white font-bold text-lg">A</span>
             </div>
-            <span className="text-gray-900 font-bold text-xl">TrustHire</span>
+            <span className="text-gray-900 font-bold text-xl"><T k="atYourDoor" /></span>
           </Link>
           <Link href="/workers" className="text-gray-500 hover:text-gray-900 text-sm font-medium flex items-center gap-1">
             <ArrowLeft className="w-4 h-4" aria-hidden="true" />

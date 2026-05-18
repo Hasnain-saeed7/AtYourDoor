@@ -6,7 +6,7 @@ export type Language = 'en' | 'ur'
 
 export const translations = {
   en: {
-  "trusthire": "TrustHire",
+  "atYourDoor": "AtYourDoor",
   "findWorkers": "Find Workers",
   "services": "Services",
   "howItWorks": "How it works",
@@ -24,7 +24,7 @@ export const translations = {
   "carpenter": "Carpenter",
   "cleaner": "Cleaner",
   "tailor": "Tailor",
-  "howTrustHireWorks": "How TrustHire works",
+  "howAtYourDoorWorks": "How AtYourDoor works",
   "bookVerifiedWorkerSteps": "Book a verified worker in 3 simple steps",
   "chooseAService": "Choose a service",
   "chooseAServiceDesc": "Browse our 5 categories and find the expert you need. Filter by location and availability.",
@@ -44,7 +44,7 @@ export const translations = {
   "jobGuaranteeDesc": "Not happy? We send another worker or give you a full refund. No questions.",
   "forSkilledWorkers": "For Skilled Workers",
   "doubleIncome": "Double your income. Work on your terms.",
-  "joinTrusthirePitch": "Join TrustHire and get a steady flow of verified job requests. No middleman, no commission — you keep 85% of every job.",
+  "joinAtYourDoorPitch": "Join AtYourDoor and get a steady flow of verified job requests. No middleman, no commission — you keep 85% of every job.",
   "getJobsNearYou": "Get jobs near you instantly",
   "buildReputation": "Build your reputation with reviews",
   "getPaidDirect": "Get paid directly to Easypaisa or JazzCash",
@@ -172,7 +172,7 @@ export const translations = {
   "trackYourEarnings": "Track your earnings",
   "viewYourRatings": "View your ratings",
   "notAWorkerYet": "Not a worker yet?",
-  "joinTrusthire": "Join TrustHire →",
+  "joinAtYourDoor": "Join AtYourDoor →",
   "pipesTapsLeaks": "Pipes, taps & leaks",
   "wiringRepairs": "Wiring & repairs",
   "furnitureWoodwork": "Furniture & woodwork",
@@ -271,7 +271,7 @@ export const translations = {
   "en": "EN"
 },
   ur: {
-  "trusthire": "TrustHire",
+  "atYourDoor": "AtYourDoor",
   "findWorkers": "ورکر تلاش کریں",
   "services": "خدمات",
   "howItWorks": "یہ کیسے کام کرتا ہے",
@@ -289,7 +289,7 @@ export const translations = {
   "carpenter": "کارپنٹر",
   "cleaner": "کلینر",
   "tailor": "درزی",
-  "howTrustHireWorks": "ٹرسٹ ہائر کیسے کام کرتا ہے",
+  "howAtYourDoorWorks": "ٹرسٹ ہائر کیسے کام کرتا ہے",
   "bookVerifiedWorkerSteps": "تین آسان مراحل میں ایک تصدیق شدہ ورکر بک کریں",
   "chooseAService": "ایک سروس منتخب کریں",
   "chooseAServiceDesc": "ہماری 5 زمروں میں براؤز کریں اور مطلوبہ ماہر تلاش کریں۔ مقام اور دستیابی کے ذریعے فلٹر کریں۔",
@@ -309,7 +309,7 @@ export const translations = {
   "jobGuaranteeDesc": "خوش نہیں؟ ہم دوسرا ورکر بھیجتے ہیں یا آپ کو مکمل رقم واپس کرتے ہیں۔ کوئی سوال نہیں۔",
   "forSkilledWorkers": "ماہر ورکرز کے لیے",
   "doubleIncome": "اپنی آمدنی دگنی کریں۔ اپنے شرائط پر کام کریں۔",
-  "joinTrusthirePitch": "TrustHire میں شامل ہوں اور تصدیق شدہ نوکریوں کا مستقل سلسلہ پائیں۔ کوئی بیچولا نہیں، کوئی کمیشن چوری نہیں — آپ ہر نوکری کا 85% رکھیں۔",
+  "joinAtYourDoorPitch": "TrustHire میں شامل ہوں اور تصدیق شدہ نوکریوں کا مستقل سلسلہ پائیں۔ کوئی بیچولا نہیں، کوئی کمیشن چوری نہیں — آپ ہر نوکری کا 85% رکھیں۔",
   "getJobsNearYou": "فوری طور پر اپنے نزدیک نوکریاں حاصل کریں",
   "buildReputation": "جائزوں کے ساتھ اپنی شہرت بنائیں",
   "getPaidDirect": "Easypaisa یا JazzCash پر براہِ راست ادائیگی حاصل کریں",

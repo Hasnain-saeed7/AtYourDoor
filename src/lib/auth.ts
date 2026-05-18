@@ -16,6 +16,7 @@ export const authOptions: NextAuthOptions = {
       credentials: {
         email: { label: 'Email', type: 'email' },
         password: { label: 'Password', type: 'password' },
+        expectedRole: { label: 'Expected Role', type: 'text' },
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null
@@ -25,6 +26,11 @@ export const authOptions: NextAuthOptions = {
         })
 
         if (!user) return null
+
+        if (credentials.expectedRole && credentials.expectedRole !== user.role && credentials.expectedRole !== 'ANY') {
+          // Prevent customer from logging in as worker, and vice versa
+          return null
+        }
 
         const passwordMatch = await bcrypt.compare(
           credentials.password,

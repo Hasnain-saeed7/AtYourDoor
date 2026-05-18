@@ -37,10 +37,10 @@ export default async function MyBookingsPage() {
       <nav className="bg-white border-b border-gray-100 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-9 h-9 bg-green-600 rounded-xl flex items-center justify-center">
-              <span className="text-white font-bold text-lg">T</span>
+            <div className="w-9 h-9 bg-teal-600 rounded-xl flex items-center justify-center">
+              <span className="text-white font-bold text-lg">A</span>
             </div>
-            <span className="text-gray-900 font-bold text-xl"><T k="trusthire" /></span>
+            <span className="text-gray-900 font-bold text-xl"><T k="atYourDoor" /></span>
           </Link>
           <div className="flex items-center gap-3">
             <Link href="/workers" className="text-gray-600 hover:text-gray-900 text-sm font-medium">
@@ -57,7 +57,7 @@ export default async function MyBookingsPage() {
             <h1 className="text-3xl font-bold text-gray-900"><T k="myBookings" /></h1>
             <p className="text-gray-500 mt-1"><T k="trackYourRecentRequestsAndStatuses" /></p>
           </div>
-          <Link href="/workers" className="bg-green-600 hover:bg-green-700 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-all shadow-lg shadow-green-100">
+          <Link href="/workers" className="bg-teal-600 hover:bg-teal-700 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-all shadow-lg shadow-teal-100">
             <T k="bookAWorker" />
           </Link>
         </div>
@@ -73,7 +73,7 @@ export default async function MyBookingsPage() {
               <div className="text-6xl mb-4">🧰</div>
               <h3 className="text-xl font-bold text-gray-900 mb-2"><T k="noBookingsYet" /></h3>
               <p className="text-gray-500 mb-6"><T k="bookYourFirstVerifiedWorkerToday" /></p>
-              <Link href="/workers" className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-xl transition-all">
+              <Link href="/workers" className="inline-flex items-center gap-2 bg-teal-600 hover:bg-teal-700 text-white font-semibold px-6 py-3 rounded-xl transition-all">
                 <T k="browseWorkers" />
               </Link>
             </div>

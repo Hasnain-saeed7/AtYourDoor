@@ -56,10 +56,7 @@ export default function ReviewForm({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-3">
-      <div className="rounded-xl border border-gray-100 bg-gray-50 px-4 py-3">
-        <p className="text-sm font-semibold text-gray-900">{t('ratingIsAssignedAutomatically')}</p>
-        <p className="text-xs text-gray-500 mt-1">{t('workerRatingsAreBasedOnCompletedJobsAndRank')}</p>
-      </div>
+     
 
       <div>
         <label className="block text-sm font-semibold text-gray-700 mb-1.5">{t('commentOptional')}</label>

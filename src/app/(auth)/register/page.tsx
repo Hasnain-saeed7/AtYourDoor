@@ -54,9 +54,9 @@ export default function RegisterPage() {
         <div className="relative z-10">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center">
-              <span className="text-teal-700 font-bold text-lg">T</span>
+              <span className="text-teal-700 font-bold text-lg">A</span>
             </div>
-            <span className="text-white font-bold text-xl">TrustHire</span>
+            <span className="text-white font-bold text-xl">AtYourDoor</span>
           </div>
         </div>
 
