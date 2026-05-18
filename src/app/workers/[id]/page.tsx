@@ -32,6 +32,7 @@ export default async function WorkerProfilePage({
     },
   })
 
+
   const customer = session?.user?.email
     ? await prisma.user.findUnique({ where: { email: session.user.email } })
     : null
@@ -50,11 +51,16 @@ export default async function WorkerProfilePage({
 
   if (!worker || worker.verificationStatus !== 'APPROVED') notFound()
 
+
+
   const completedJobs = await prisma.booking.count({
     where: { workerId: worker.id, status: 'COMPLETED' },
   })
 
   const rank = getWorkerRank(completedJobs)
+
+
+}
 
   return (
     <div className="min-h-screen bg-gray-50">
