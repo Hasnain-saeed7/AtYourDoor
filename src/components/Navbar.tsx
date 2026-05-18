@@ -25,20 +25,20 @@ export default function Navbar({ session, displayName }: { session: any; display
           <a href="#how" className="text-sm font-semibold px-4 py-2 rounded-full bg-amber-50 text-amber-700 border border-amber-100 hover:bg-amber-100 transition-colors">{t('howItWorks')}</a>
           <a href="#workers" className="text-sm font-semibold px-4 py-2 rounded-full bg-teal-600 text-white border border-teal-100 hover:bg-teal-100 transition-colors">{t('forWorkers')}</a>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
           {session ? (
             <>
-              <div className="flex items-center gap-2 bg-white/80 border border-gray-200 px-4 py-2 rounded-full text-sm font-semibold text-gray-700 shadow-sm">
+              <div className="flex items-center gap-2 bg-white/80 border border-gray-200 px-3 md:px-4 py-2 rounded-full text-xs md:text-sm font-semibold text-gray-700 shadow-sm">
                 <span className="w-2 h-2 bg-teal-500 rounded-full" />
-                {displayName}
+                <span className="hidden sm:inline-block">{displayName}</span>
               </div>
               <SignOutButton />
             </>
           ) : (
             <>
               <LanguageToggle />
-              <Link href="/login" className="text-gray-600 hover:text-gray-900 text-sm font-medium px-4 py-2 transition-colors">{t('signIn')}</Link>
-              <Link href="/register" className="bg-teal-500 hover:bg-teal-600 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-all shadow-lg shadow-teal-100 hover:shadow-teal-200 hover:-translate-y-0.5">{t('getStarted')}</Link>
+              <Link href="/login" className="hidden sm:inline-flex text-gray-600 hover:text-gray-900 text-sm font-medium px-4 py-2 transition-colors">{t('signIn')}</Link>
+              <Link href="/register" className="bg-teal-500 hover:bg-teal-600 text-white text-xs md:text-sm font-semibold px-3 md:px-5 py-2 md:py-2.5 rounded-xl transition-all shadow-lg shadow-teal-100 hover:shadow-teal-200 hover:-translate-y-0.5 whitespace-nowrap">{t('getStarted')}</Link>
             </>
           )}
         </div>
