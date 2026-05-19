@@ -8,8 +8,8 @@ export async function POST(req: NextRequest) {
       cnicNumber, cnicImage, profileImage, city, area, hourlyRate,
     } = await req.json()
 
-    const category = await prisma.category.findUnique({
-      where: { name: categoryName },
+    const category = await prisma.category.findFirst({
+      where: { name: { equals: categoryName, mode: 'insensitive' } },
     })
 
     if (!category) {
