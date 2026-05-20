@@ -166,7 +166,7 @@ export default async function WorkerDashboardPage() {
                 <T k="welcomeBack" />, {user.name.split(' ')[0]} <HardHat className="w-8 h-8 text-yellow-500" />
               </h1>
               <p className="text-gray-500 mt-1 flex items-center gap-2">
-                <span>{worker.category.name}</span>
+                <span><T k={worker.category.name.toLowerCase()} /></span>
                 <span className="text-gray-300">•</span>
                 <span>{worker.city}, {worker.area}</span>
               </p>
@@ -230,7 +230,7 @@ export default async function WorkerDashboardPage() {
                     <div>
                       <p className="font-semibold text-gray-900">{entry.worker.user.name}</p>
                       <p className="text-xs text-gray-500">
-                        {entry.worker.category.name} · {entry.completedJobs} <T k="jobs" />
+                        <T k={entry.worker.category.name.toLowerCase()} /> · {entry.completedJobs} <T k="jobs" />
                       </p>
                     </div>
                   </div>

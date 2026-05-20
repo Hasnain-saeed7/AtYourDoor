@@ -88,7 +88,7 @@ export default async function WorkerProfilePage({
             <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
               <div className="bg-teal-600 p-8">
                 <div className="flex items-start gap-5">
-                  <div className="w-20 h-20 rounded-2xl overflow-hidden bg-white/20 backdrop-blur flex items-center justify-center flex-shrink-0 shadow-xl">
+                  <div className="w-20 h-20 rounded-2xl overflow-hidden bg-white/20 backdrop-blur flex items-center justify-center shrink-0 shadow-xl">
                     <WorkerAvatar
                       src={worker.profileImage || worker.user.image}
                       alt={worker.user.name}
@@ -110,7 +110,7 @@ export default async function WorkerProfilePage({
                     </div>
                     <div className="flex items-center gap-2 mt-1">
                       <CategoryIcon name={worker.category.name} className="w-5 h-5 text-white" />
-                      <span className="text-teal-100 font-medium">{worker.category.name}</span>
+                      <span className="text-teal-100 font-medium"><T k={worker.category.name.toLowerCase()} /></span>
                     </div>
                     <div className="flex items-center gap-4 mt-3 flex-wrap">
                       <div className="flex items-center gap-2">
@@ -202,6 +202,10 @@ export default async function WorkerProfilePage({
             </div>
           </div>
 
+
+
+
+
           {/* Right — Booking Form */}
           <div className="lg:col-span-1">
             <div className="sticky top-24">
@@ -223,6 +227,8 @@ export default async function WorkerProfilePage({
                     </div>
                   </div>
                 </div>
+
+
 
                 <div className="p-6">
                   {!session ? (
@@ -247,7 +253,6 @@ export default async function WorkerProfilePage({
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>
@@ -268,3 +273,5 @@ function CategoryIcon({ name, className }: { name: string; className?: string })
 
   return <Icon className={className ?? 'w-4 h-4'} aria-hidden="true" />
 }
+
+

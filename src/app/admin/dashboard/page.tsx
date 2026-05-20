@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import SignOutButton from '@/components/signOutButton'
 import AdminWorkerActions from '@/components/admin/AdminWorkerActions'
+import T from '@/components/T'
 import { Users, UserRound, HardHat, ClipboardList, Search, PartyPopper, ArrowLeft, MapPin, IdCard, Banknote, Wallet } from 'lucide-react'
 
 export default async function AdminDashboardPage(props: any) {
@@ -205,7 +206,7 @@ export default async function AdminDashboardPage(props: any) {
                           <p className="text-gray-400 text-sm mt-0.5">{worker.user.email}</p>
                           <div className="flex items-center gap-3 mt-2 flex-wrap">
                             <span className="text-xs text-gray-500 flex items-center gap-1">
-                              {worker.category.name}
+                              <T k={worker.category.name.toLowerCase()} />
                             </span>
                             <span className="text-gray-300">•</span>
                             <span className="text-xs text-gray-500 flex items-center gap-1">
@@ -298,7 +299,7 @@ export default async function AdminDashboardPage(props: any) {
                         </td>
                         <td className="px-6 py-4">
                           <span className="text-sm text-gray-600 flex items-center gap-1">
-                            {booking.worker.category.icon} {booking.worker.category.name}
+                            {booking.worker.category.icon} <T k={booking.worker.category.name.toLowerCase()} />
                           </span>
                         </td>
                         <td className="px-6 py-4">
@@ -422,7 +423,7 @@ export default async function AdminDashboardPage(props: any) {
                       <div>
                         <p className="font-bold text-gray-900 text-base">{worker.user.name}</p>
                         <p className="text-gray-400 text-sm mt-0.5">
-                          {worker.category.name} · {worker.user.email}
+                          <T k={worker.category.name.toLowerCase()} /> · {worker.user.email}
                         </p>
                       </div>
                     </div>
@@ -545,7 +546,7 @@ export default async function AdminDashboardPage(props: any) {
                           </span>
                         </div>
                         <p className="text-gray-400 text-sm mt-0.5">
-                          {worker.category.name} · {worker.city} · {worker.user.email}
+                          <T k={worker.category.name.toLowerCase()} /> · {worker.city} · {worker.user.email}
                         </p>
                       </div>
                     </div>

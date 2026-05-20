@@ -115,7 +115,7 @@ function BookingRow({ booking }: { booking: any }) {
               <h3 className="font-bold text-gray-900">{booking.worker.user.name}</h3>
               <span className="text-gray-300">•</span>
               <span className="text-gray-500 text-sm flex items-center gap-1">
-                {booking.worker.category.icon} {booking.worker.category.name}
+                {booking.worker.category.icon} <T k={booking.worker.category.name.toLowerCase()} />
               </span>
             </div>
             <p className="text-gray-500 text-sm mt-1 line-clamp-1">{booking.description}</p>

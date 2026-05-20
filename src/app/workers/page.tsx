@@ -201,7 +201,7 @@ export default async function WorkersPage({
                         resolvedSearchParams.category === cat.name ? 'text-green-700' : 'text-gray-500'
                       }`}
                     />
-                    {cat.name}
+                    <T k={cat.name.toLowerCase()} />
                   </Link>
                 ))}
               </div>
@@ -237,7 +237,7 @@ export default async function WorkersPage({
                   }`}
                 >
                   <CategoryIcon name={cat.name} className="w-4 h-4" />
-                  {cat.name}
+                  <T k={cat.name.toLowerCase()} />
                 </Link>
               ))}
             </div>
@@ -321,7 +321,7 @@ function WorkerCard({
             </div>
             <div className="flex items-center gap-1.5 mt-0.5">
               <CategoryIcon name={worker.category.name} className="w-4 h-4 text-gray-500" />
-              <span className="text-gray-500 text-sm">{worker.category.name}</span>
+              <span className="text-gray-500 text-sm"><T k={worker.category.name.toLowerCase()} /></span>
             </div>
           </div>
         </div>
