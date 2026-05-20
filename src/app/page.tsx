@@ -4,6 +4,7 @@ import { authOptions } from '@/lib/auth'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import T from '@/components/T'
+import LoadingLink from '@/components/LoadingLink'
  
 export default async function HomePage() {
   const session = await getServerSession(authOptions)
@@ -36,18 +37,18 @@ export default async function HomePage() {
             </p> 
 
             <div className="flex flex-col sm:flex-row gap-4 mb-16">
-              <Link href="/workers" className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-black hover:bg-gray-900 text-white font-semibold px-8 py-4 rounded-2xl transition-all shadow-xl  hover:-translate-y-1 text-lg">
+              <LoadingLink href="/workers" className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-black hover:bg-gray-900 text-white font-semibold px-8 py-4 rounded-2xl transition-all shadow-xl hover:-translate-y-1 text-lg">
                 <T k="findWorkers" />
-                <svg className="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-5 h-5 flex-shrink-0 mb-[-2px] ml-[-2px]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
-              </Link>
-              <Link href="/workers/register" className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-gray-700 font-semibold px-8 py-4 rounded-2xl border border-gray-200 transition-all hover:-translate-y-1 text-lg">
+              </LoadingLink>
+              <LoadingLink href="/workers/register" className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-gray-700 font-semibold px-8 py-4 rounded-2xl border border-gray-200 transition-all hover:-translate-y-1 text-lg">
                 <T k="joinAtYourDoor" />
-                <svg className="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-5 h-5 flex-shrink-0 mb-[-2px] ml-[-2px]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
-              </Link>
+              </LoadingLink>
             </div>
           </div>
         </div>
@@ -84,11 +85,11 @@ export default async function HomePage() {
                 nameKey: 'tailor', descKey: 'stitchingAtHome', color: 'bg-purple-50 border-purple-100' 
               },
             ].map((service) => (
-              <Link href="/workers" key={service.nameKey} className={`${service.color} border rounded-2xl p-6 text-center hover:-translate-y-1 transition-all cursor-pointer group flex flex-col items-center`}>
+              <LoadingLink href="/workers" key={service.nameKey} className={`${service.color} border rounded-2xl p-6 text-center hover:-translate-y-1 transition-all cursor-pointer group flex flex-col items-center`}>
                 <div className="mb-3">{service.icon}</div>
                 <p className="font-bold text-gray-900 group-hover:text-green-700 transition-colors w-full"><T k={service.nameKey} /></p>
                 <p className="text-gray-500 text-xs mt-1 w-full"><T k={service.descKey} /></p>
-              </Link>
+              </LoadingLink>
             ))}
           </div>
         </div>
@@ -176,12 +177,12 @@ export default async function HomePage() {
                   </div>
                 ))}
               </div>
-              <Link href="/workers/register" className="inline-flex items-center justify-center gap-2 bg-gray-900 hover:bg-gray-800 text-white font-semibold px-8 py-4 rounded-2xl transition-all hover:-translate-y-0.5 shadow-xl shadow-gray-200 w-full sm:w-auto">
+              <LoadingLink href="/workers/register" className="inline-flex items-center justify-center gap-2 bg-gray-900 hover:bg-gray-800 text-white font-semibold px-8 py-4 rounded-2xl transition-all hover:-translate-y-0.5 shadow-xl shadow-gray-200 w-full sm:w-auto">
                 <T k="joinAtYourDoor"/>
-                <svg className="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-5 h-5 flex-shrink-0 mb-[-2px] ml-[-2px]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
-              </Link>
+              </LoadingLink>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
@@ -213,12 +214,12 @@ export default async function HomePage() {
               <T k="joinFamilies" />
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/register" className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white border border-green-500 hover:bg-gray-50 text-black font-bold px-10 py-4 rounded-2xl transition-all hover:-translate-y-1 shadow-xl text-lg">
+              <LoadingLink href="/register" className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white border border-green-500 hover:bg-gray-50 text-black font-bold px-10 py-4 rounded-2xl transition-all hover:-translate-y-1 shadow-xl text-lg">
                 <T k="bookAWorker" />
-              </Link>
-              <Link href="/workers/register" className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-black text-white font-bold px-10 py-4 rounded-2xl border border-green-500 transition-all hover:-translate-y-1 text-lg">
+              </LoadingLink>
+              <LoadingLink href="/workers/register" className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-black text-white font-bold px-10 py-4 rounded-2xl border border-green-500 transition-all hover:-translate-y-1 text-lg">
                 <T k="joinAtYourDoor" />
-              </Link>
+              </LoadingLink>
             </div>
           </div>
       </section>

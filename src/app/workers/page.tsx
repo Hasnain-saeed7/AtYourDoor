@@ -6,6 +6,7 @@ import SignOutButton from '@/components/signOutButton'
 import WorkerAvatar from '@/components/WorkerAvatar'
 import WorkersAIMatchForm from '@/components/WorkersAIMatchForm'
 import T from '@/components/T'
+import LoadingLink from '@/components/LoadingLink'
 import { getWorkerRank, type WorkerRank } from '@/lib/workerRank'
 import type { LucideIcon } from 'lucide-react'
 import { Briefcase, Hammer, LayoutGrid, MapPin, Phone, Scissors, Sparkles, Wrench, Zap } from 'lucide-react'
@@ -96,32 +97,32 @@ export default async function WorkersPage({
             <span className="text-gray-900 font-bold text-xl">AtYourDoor</span>
           </Link>
           <div className="hidden md:flex items-center gap-3">
-            <Link
+            <LoadingLink
               href="/workers"
               className="text-sm font-semibold px-4 py-2 rounded-full bg-emerald-600 text-white shadow-sm hover:bg-emerald-700 transition-colors"
             >
               <T k="findWorkers" />
-            </Link>
+            </LoadingLink>
             {session?.user?.role === 'CUSTOMER' && (
-              <Link
+              <LoadingLink
                 href="/bookings"
                 className="text-sm font-semibold px-4 py-2 rounded-full bg-slate-900 text-white shadow-sm hover:bg-slate-800 transition-colors"
               >
                 <T k="myBookings" />
-              </Link>
+              </LoadingLink>
             )}
-            <a
+            <LoadingLink
               href="/#services"
               className="text-sm font-semibold px-4 py-2 rounded-full bg-blue-50 text-blue-700 border border-blue-100 hover:bg-blue-100 transition-colors"
             >
               <T k="services" />
-            </a>
-            <a
+            </LoadingLink>
+            <LoadingLink
               href="/#how"
               className="text-sm font-semibold px-4 py-2 rounded-full bg-amber-50 text-amber-700 border border-amber-100 hover:bg-amber-100 transition-colors"
             >
               <T k="howItWorks" />
-            </a>
+            </LoadingLink>
           </div>
           <div className="flex items-center gap-3">
             {session ? (
@@ -134,10 +135,10 @@ export default async function WorkersPage({
               </>
             ) : (
               <>
-                <Link href="/login" className="text-white  text-sm font-medium px-4 py-2 rounded-xl bg-black "><T k="signIn" /></Link>
-                <Link href="/register" className="bg-teal-600 hover:bg-teal-700 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-all shadow-lg shadow-teal-100">
+                <LoadingLink href="/login" className="text-white  text-sm font-medium px-4 py-2 rounded-xl bg-black "><T k="signIn" /></LoadingLink>
+                <LoadingLink href="/register" className="bg-teal-600 hover:bg-teal-700 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-all shadow-lg shadow-teal-100">
                   <T k="getStarted" />
-                </Link>
+                </LoadingLink>
               </>
             )}
           </div>
@@ -169,7 +170,7 @@ export default async function WorkersPage({
             <div className="bg-white rounded-2xl border border-gray-100 p-6 sticky top-24">
               <h3 className="font-bold text-gray-900 mb-4"><T k="categories" /></h3>
               <div className="space-y-1">
-                <Link
+                <LoadingLink
                   href="/workers"
                   className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${
                     !resolvedSearchParams.category
@@ -178,15 +179,15 @@ export default async function WorkersPage({
                   }`}
                 >
                   <LayoutGrid
-                    className={`w-4 h-4 ${
+                    className={`w-4 h-4 flex-shrink-0 ${
                       !resolvedSearchParams.category ? 'text-green-700' : 'text-gray-500'
                     }`}
                     aria-hidden="true"
                   />
                   <T k="allServices" />
-                </Link>
+                </LoadingLink>
                 {categories.map((cat) => (
-                  <Link
+                  <LoadingLink
                     key={cat.id}
                     href={`/workers?category=${cat.name}`}
                     className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${
@@ -197,12 +198,12 @@ export default async function WorkersPage({
                   >
                     <CategoryIcon
                       name={cat.name}
-                      className={`w-4 h-4 ${
+                      className={`w-4 h-4 flex-shrink-0 ${
                         resolvedSearchParams.category === cat.name ? 'text-green-700' : 'text-gray-500'
                       }`}
                     />
                     {cat.name}
-                  </Link>
+                  </LoadingLink>
                 ))}
               </div>
             </div>
@@ -213,7 +214,7 @@ export default async function WorkersPage({
 
             {/* Mobile categories */}
             <div className="flex gap-2 overflow-x-auto pb-4 lg:hidden">
-              <Link
+              <LoadingLink
                 href="/workers"
                 className={`shrink-0 px-4 py-2 rounded-full text-sm font-medium border transition-colors ${
                   !resolvedSearchParams.category
@@ -222,12 +223,12 @@ export default async function WorkersPage({
                 }`}
               >
                 <span className="inline-flex items-center gap-1.5">
-                  <LayoutGrid className="w-4 h-4" aria-hidden="true" />
+                  <LayoutGrid className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
                   <T k="all" />
                 </span>
-              </Link>
+              </LoadingLink>
               {categories.map((cat) => (
-                <Link
+                <LoadingLink
                   key={cat.id}
                   href={`/workers?category=${cat.name}`}
                   className={`shrink-0 flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium border transition-colors ${
@@ -236,9 +237,9 @@ export default async function WorkersPage({
                       : 'bg-white text-gray-600 border-gray-200'
                   }`}
                 >
-                  <CategoryIcon name={cat.name} className="w-4 h-4" />
+                  <CategoryIcon name={cat.name} className="w-4 h-4 flex-shrink-0" />
                   {cat.name}
-                </Link>
+                </LoadingLink>
               ))}
             </div>
 
@@ -362,12 +363,12 @@ function WorkerCard({
                 <span className="text-black font-normal text-sm"><T k="perHour" /></span>
               </p>
             </div>
-            <Link
+            <LoadingLink
               href={bookingHref}
               className="bg-black text-white text-sm font-semibold px-4 py-2 rounded-xl transition-all shrink-0"
             >
               <T k="bookNow" />
-            </Link>
+            </LoadingLink>
           </div>
           <div className="flex flex-wrap items-center gap-3 text-xs text-black">
             <span className="flex items-center gap-1">
