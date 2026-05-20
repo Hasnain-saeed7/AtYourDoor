@@ -85,11 +85,11 @@ export default async function HomePage() {
                 nameKey: 'tailor', descKey: 'stitchingAtHome', color: 'bg-purple-50 border-purple-100' 
               },
             ].map((service) => (
-              <LoadingLink href="/workers" key={service.nameKey} className={`${service.color} border rounded-2xl p-6 text-center hover:-translate-y-1 transition-all cursor-pointer group flex flex-col items-center`}>
+              <Link href="/workers" key={service.nameKey} className={`${service.color} border rounded-2xl p-6 text-center hover:-translate-y-1 transition-all cursor-pointer group flex flex-col items-center`}>
                 <div className="mb-3">{service.icon}</div>
                 <p className="font-bold text-gray-900 group-hover:text-green-700 transition-colors w-full"><T k={service.nameKey} /></p>
                 <p className="text-gray-500 text-xs mt-1 w-full"><T k={service.descKey} /></p>
-              </LoadingLink>
+              </Link>
             ))}
           </div>
         </div>
@@ -177,12 +177,12 @@ export default async function HomePage() {
                   </div>
                 ))}
               </div>
-              <LoadingLink href="/workers/register" className="inline-flex items-center justify-center gap-2 bg-gray-900 hover:bg-gray-800 text-white font-semibold px-8 py-4 rounded-2xl transition-all hover:-translate-y-0.5 shadow-xl shadow-gray-200 w-full sm:w-auto">
+              <Link href="/workers/register" className="inline-flex items-center justify-center gap-2 bg-gray-900 hover:bg-gray-800 text-white font-semibold px-8 py-4 rounded-2xl transition-all hover:-translate-y-0.5 shadow-xl shadow-gray-200 w-full sm:w-auto">
                 <T k="joinAtYourDoor"/>
-                <svg className="w-5 h-5 flex-shrink-0 mb-[-2px] ml-[-2px]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
-              </LoadingLink>
+              </Link>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
@@ -214,12 +214,12 @@ export default async function HomePage() {
               <T k="joinFamilies" />
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <LoadingLink href="/register" className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white border border-green-500 hover:bg-gray-50 text-black font-bold px-10 py-4 rounded-2xl transition-all hover:-translate-y-1 shadow-xl text-lg">
+              <Link href="/register" className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white border border-green-500 hover:bg-gray-50 text-black font-bold px-10 py-4 rounded-2xl transition-all hover:-translate-y-1 shadow-xl text-lg">
                 <T k="bookAWorker" />
-              </LoadingLink>
-              <LoadingLink href="/workers/register" className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-black text-white font-bold px-10 py-4 rounded-2xl border border-green-500 transition-all hover:-translate-y-1 text-lg">
+              </Link>
+              <Link href="/workers/register" className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-black text-white font-bold px-10 py-4 rounded-2xl border border-green-500 transition-all hover:-translate-y-1 text-lg">
                 <T k="joinAtYourDoor" />
-              </LoadingLink>
+              </Link>
             </div>
           </div>
       </section>

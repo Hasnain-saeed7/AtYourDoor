@@ -13,26 +13,30 @@ interface LoadingLinkProps {
 
 export default function LoadingLink({ href, children, className = '', onClick, ...props }: LoadingLinkProps) {
   const [loading, setLoading] = useState(false)
+  const hrefValue = typeof href === 'string' ? href : ''
+  const isHashLink = hrefValue.startsWith('#') || hrefValue.startsWith('/#')
 
   const handleClick = (e: any) => {
+    if (isHashLink) {
+      if (onClick) onClick(e)
+      return
+    }
+
     setLoading(true)
     if (onClick) onClick(e)
-    setTimeout(() => {
-      setLoading(false)
-    }, 800)
   }
 
   return (
-    <Link 
-      href={href as any} 
-      onClick={handleClick} 
-      className={`${className} flex items-center justify-center gap-2`} 
+    <Link
+      href={href as any}
+      onClick={handleClick}
+      className={`${className} flex items-center justify-center gap-2`}
       {...props}
     >
-      {loading && (
+      {loading && !isHashLink && (
         <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
-          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
-          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
         </svg>
       )}
       {children}
