@@ -28,6 +28,11 @@ export default function Navbar({ session, displayName }: { session: any; display
         <div className="flex items-center gap-2 sm:gap-3">
           {session ? (
             <>
+              {session.user?.role === 'ADMIN' && (
+                <Link href="/admin/dashboard" className="text-sm font-semibold px-4 py-2 rounded-full bg-indigo-50 text-indigo-700 hover:bg-indigo-100 transition-colors">
+                  {t('adminPanel') || 'Admin Panel'}
+                </Link>
+              )}
               <div className="flex items-center gap-2 bg-white/80 border border-gray-200 px-3 md:px-4 py-2 rounded-full text-xs md:text-sm font-semibold text-gray-700 shadow-sm">
                 <span className="w-2 h-2 bg-teal-500 rounded-full" />
                 <span className="hidden sm:inline-block">{displayName}</span>

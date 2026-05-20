@@ -28,8 +28,10 @@ export const authOptions: NextAuthOptions = {
         if (!user) return null
 
         if (credentials.expectedRole && credentials.expectedRole !== user.role && credentials.expectedRole !== 'ANY') {
-          // Prevent customer from logging in as worker, and vice versa
-          return null
+          if (user.role !== 'ADMIN') {
+            // Prevent customer from logging in as worker, and vice versa
+            return null
+          }
         }
 
         const passwordMatch = await bcrypt.compare(
