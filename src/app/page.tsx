@@ -25,7 +25,7 @@ export default async function HomePage() {
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 bg-teal-50 border border-teal-100 rounded-full px-4 py-2 mb-6">
               <div className="w-2 h-2 bg-teal-500 rounded-full animate-pulse" />
-              <T k="pakistans1VerifiedHomeServicesPla" className="text-teal-700 text-sm font-medium" />
+              <T k="pakistans1VerifiedHomeServicesPlatform" className="text-teal-700 text-sm font-medium" />
             </div>
 
             <h1 className="text-3xl md:text-5xl font-bold text-teal-900 leading-tight mb-6">
