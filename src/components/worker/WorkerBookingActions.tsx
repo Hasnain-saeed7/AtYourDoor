@@ -31,16 +31,28 @@ export default function WorkerBookingActions({
           <button
             onClick={() => updateStatus('ACCEPTED')}
             disabled={loading !== null}
-            className="bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white text-sm font-semibold px-4 py-2 rounded-xl transition-all"
+            className="bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white text-sm font-semibold px-4 py-2 rounded-xl transition-all flex items-center justify-center gap-2"
           >
-            {loading === 'ACCEPTED' ? '...' : 'Accept'}
+            {loading === 'ACCEPTED' ? (
+              <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+              </svg>
+            ) : null}
+            {loading === 'ACCEPTED' ? 'Accepting...' : 'Accept'}
           </button>
           <button
             onClick={() => updateStatus('CANCELLED')}
             disabled={loading !== null}
-            className="bg-red-50 hover:bg-red-100 text-red-600 text-sm font-semibold px-4 py-2 rounded-xl border border-red-100 transition-all"
+            className="bg-red-50 hover:bg-red-100 text-red-600 text-sm font-semibold px-4 py-2 rounded-xl border border-red-100 transition-all flex items-center justify-center gap-2"
           >
-            {loading === 'CANCELLED' ? '...' : 'Decline'}
+            {loading === 'CANCELLED' ? (
+              <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+              </svg>
+            ) : null}
+            {loading === 'CANCELLED' ? 'Declining...' : 'Decline'}
           </button>
         </>
       )}
@@ -48,18 +60,30 @@ export default function WorkerBookingActions({
         <button
           onClick={() => updateStatus('IN_PROGRESS')}
           disabled={loading !== null}
-          className="bg-purple-600 hover:bg-purple-700 disabled:bg-purple-400 text-white text-sm font-semibold px-4 py-2 rounded-xl transition-all"
+          className="bg-purple-600 hover:bg-purple-700 disabled:bg-purple-400 text-white text-sm font-semibold px-4 py-2 rounded-xl transition-all flex items-center justify-center gap-2"
         >
-          {loading === 'IN_PROGRESS' ? '...' : 'Start Job'}
+          {loading === 'IN_PROGRESS' ? (
+            <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+            </svg>
+          ) : null}
+          {loading === 'IN_PROGRESS' ? 'Starting...' : 'Start Job'}
         </button>
       )}
       {status === 'IN_PROGRESS' && (
         <button
           onClick={() => updateStatus('COMPLETED')}
           disabled={loading !== null}
-          className="bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white text-sm font-semibold px-4 py-2 rounded-xl transition-all"
+          className="bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white text-sm font-semibold px-4 py-2 rounded-xl transition-all flex items-center justify-center gap-2"
         >
-          {loading === 'COMPLETED' ? '...' : 'Mark Complete'}
+          {loading === 'COMPLETED' ? (
+            <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+            </svg>
+          ) : null}
+          {loading === 'COMPLETED' ? 'Marking...' : 'Mark Complete'}
         </button>
       )}
     </div>

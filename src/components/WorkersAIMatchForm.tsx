@@ -32,6 +32,7 @@ export default function WorkersAIMatchForm({
   const [category, setCategory] = useState(defaultCategory ?? '')
   const [budget, setBudget] = useState(defaultBudget ?? '')
   const [medal, setMedal] = useState(defaultMedal ?? '')
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     if (!mapboxToken || city.trim().length < 2) {
@@ -81,8 +82,11 @@ export default function WorkersAIMatchForm({
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    setLoading(true)
     const params = buildSearchParams(category)
     router.push(`/workers?${params.toString()}`)
+    // Reset loading state after a slight delay to allow navigation to start
+    setTimeout(() => setLoading(false), 500)
   }
 
   return (
@@ -159,8 +163,15 @@ export default function WorkersAIMatchForm({
         <div className="md:col-span-1 md:ml-2">
           <button
             type="submit"
-            className="w-full h-full bg-teal-600 hover:bg-teal-700 text-white font-semibold px-4 py-3 rounded-lg transition-colors"
+            disabled={loading}
+            className="w-full h-full bg-teal-600 hover:bg-teal-700 disabled:bg-teal-400 text-white font-semibold px-4 py-3 rounded-lg transition-colors flex items-center justify-center gap-2"
           >
+            {loading ? (
+              <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+              </svg>
+            ) : null}
             {t('search')}
           </button>
         </div>
